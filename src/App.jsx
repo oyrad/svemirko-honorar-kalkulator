@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import "./App.css";
 import PersonCard from "./components/PersonCard";
-import Expense from "./components/Expense";
 import ExpensesTable from "./components/ExpensesTable";
+import InputField from "./components/InputField";
 
 const MARKO_RATE = 0.45;
 const TALI_RATE = 0.275;
@@ -47,32 +47,36 @@ export default function App() {
 
   return (
     <>
-      <p>svemirko honorar kalkulator</p>
-      <input
-        name="totalPay"
-        type="number"
-        value={totalPay}
-        onChange={(e) => setTotalPay(e.target.value)}
-      />
-      <input
-        type="checkbox"
-        checked={isThereBookingFee}
-        onChange={() => setIsThereBookingFee(!isThereBookingFee)}
-      />
+      <div className="flex flex-col bg-white rounded-md shadow-lg p-4">
+        <InputField
+          name="totalPay"
+          type="number"
+          placeholder="Ukupni honorar"
+          value={totalPay}
+          onChange={(e) => setTotalPay(e.target.value)}
+        />
+        <div className="flex space-x-2">
+          <input
+            name="isThereBookingFee"
+            type="checkbox"
+            checked={isThereBookingFee}
+            onChange={() => setIsThereBookingFee(!isThereBookingFee)}
+          />
+          <label htmlFor="isThereBookingFee">Booker fee</label>
+        </div>
+      </div>
       <button onClick={addExpense} disabled={!totalPay}>
         Dodaj trošak
       </button>
       <ExpensesTable expenses={expenses} setExpenses={setExpenses} />
       <div className="flex flex-col space-y-2">
-        {isThereBookingFee && (
-          <PersonCard name="Bojan" pay={totalPay * 0.1} expenses={[]} />
-        )}
         <PersonCard
           name="Marko"
           bandFee={bandFee}
           rate={MARKO_RATE}
           pay={calculatePay(MARKO_RATE, "1")}
           expenses={expenses.filter((expense) => expense.whoPaid === "1")}
+          bgColor="bg-fuchsia-200"
         />
         <PersonCard
           name="Tali"
@@ -80,6 +84,7 @@ export default function App() {
           rate={TALI_RATE}
           pay={calculatePay(TALI_RATE, "2")}
           expenses={expenses.filter((expense) => expense.whoPaid === "2")}
+          bgColor="bg-amber-200"
         />
         <PersonCard
           name="Dario"
@@ -87,7 +92,17 @@ export default function App() {
           rate={DARIO_RATE}
           pay={calculatePay(DARIO_RATE, "3")}
           expenses={expenses.filter((expense) => expense.whoPaid === "3")}
+          bgColor="bg-cyan-200"
         />
+        {isThereBookingFee && (
+          <PersonCard
+            name="Bojan"
+            pay={totalPay * 0.1}
+            expenses={[]}
+            bookerCard
+            bgColor="bg-red-200"
+          />
+        )}
       </div>
     </>
   );
