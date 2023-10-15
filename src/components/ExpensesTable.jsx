@@ -20,12 +20,16 @@ export default function ExpensesTable({ expenses, setExpenses }) {
     );
   }
 
-  return expenses.map((expense) => (
-    <Expense
-      key={expense.id}
-      expense={expense}
-      updateExpense={updateExpense}
-      removeExpense={removeExpense}
-    />
-  ));
+  return (
+    <div className="flex flex-col space-y-1">
+      {expenses.map((expense) => (
+        <Expense
+          key={expense.id}
+          expense={expense}
+          updateExpense={updateExpense}
+          removeExpense={removeExpense}
+        />
+      ))}
+    </div>
+  );
 }

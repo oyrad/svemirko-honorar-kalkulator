@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import "./App.css";
 import PersonCard from "./components/PersonCard";
 import ExpensesTable from "./components/ExpensesTable";
-import InputField from "./components/InputField";
+import PayForm from "./components/PayForm";
+import PlusIcon from "./icons/PlusIcon";
 
 const MARKO_RATE = 0.45;
 const TALI_RATE = 0.275;
@@ -46,29 +46,29 @@ export default function App() {
   }
 
   return (
-    <>
-      <div className="flex flex-col bg-white rounded-md shadow-lg p-4">
-        <InputField
-          name="totalPay"
-          type="number"
-          placeholder="Ukupni honorar"
-          value={totalPay}
-          onChange={(e) => setTotalPay(e.target.value)}
-        />
-        <div className="flex space-x-2">
-          <input
-            name="isThereBookingFee"
-            type="checkbox"
-            checked={isThereBookingFee}
-            onChange={() => setIsThereBookingFee(!isThereBookingFee)}
-          />
-          <label htmlFor="isThereBookingFee">Booker fee</label>
+    <div className="space-y-4">
+      <PayForm
+        totalPay={totalPay}
+        setTotalPay={setTotalPay}
+        isThereBookingFee={isThereBookingFee}
+        setIsThereBookingFee={setIsThereBookingFee}
+      />
+      <div className="bg-white p-4 shadow-lg rounded-md space-y-4">
+        <div className="flex justify-between items-center">
+          <p className="font-semibold">Troškovi</p>
+          <button
+            onClick={addExpense}
+            disabled={!totalPay}
+            className="flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow"
+          >
+            <PlusIcon />
+            <p className="text-sm font-semibold">Dodaj</p>
+          </button>
         </div>
+        {expenses.length > 0 && (
+          <ExpensesTable expenses={expenses} setExpenses={setExpenses} />
+        )}
       </div>
-      <button onClick={addExpense} disabled={!totalPay}>
-        Dodaj trošak
-      </button>
-      <ExpensesTable expenses={expenses} setExpenses={setExpenses} />
       <div className="flex flex-col space-y-2">
         <PersonCard
           name="Marko"
@@ -76,7 +76,7 @@ export default function App() {
           rate={MARKO_RATE}
           pay={calculatePay(MARKO_RATE, "1")}
           expenses={expenses.filter((expense) => expense.whoPaid === "1")}
-          bgColor="bg-fuchsia-200"
+          bgColor="bg-emerald-100"
         />
         <PersonCard
           name="Tali"
@@ -84,7 +84,7 @@ export default function App() {
           rate={TALI_RATE}
           pay={calculatePay(TALI_RATE, "2")}
           expenses={expenses.filter((expense) => expense.whoPaid === "2")}
-          bgColor="bg-amber-200"
+          bgColor="bg-teal-100"
         />
         <PersonCard
           name="Dario"
@@ -92,7 +92,7 @@ export default function App() {
           rate={DARIO_RATE}
           pay={calculatePay(DARIO_RATE, "3")}
           expenses={expenses.filter((expense) => expense.whoPaid === "3")}
-          bgColor="bg-cyan-200"
+          bgColor="bg-cyan-100"
         />
         {isThereBookingFee && (
           <PersonCard
@@ -100,10 +100,10 @@ export default function App() {
             pay={totalPay * 0.1}
             expenses={[]}
             bookerCard
-            bgColor="bg-red-200"
+            bgColor="bg-sky-100"
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
