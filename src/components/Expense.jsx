@@ -21,7 +21,7 @@ export default function Expense({ expense, updateExpense, removeExpense }) {
       <select
         value={expense.whoPaid}
         onChange={(e) => updateExpense(expense.id, "whoPaid", e.target.value)}
-        className="border border-gray-200 rounded-md shadow px-2 py-0.5 text-sm"
+        className="border border-gray-200 rounded-md shadow px-2 py-0.5 text-sm outline-none"
       >
         <option value={1}>Marko</option>
         <option value={2}>Tali</option>
