@@ -4,7 +4,6 @@ import ExpensesTable from "./components/ExpensesTable";
 import PayForm from "./components/PayForm";
 import PlusIcon from "./icons/PlusIcon";
 import Card from "./atoms/Card";
-import Title from "./components/Title";
 
 const MARKO_RATE = 0.45;
 const TALI_RATE = 0.275;
@@ -49,13 +48,30 @@ export default function App() {
 
   return (
     <div className="space-y-4">
-      <Title />
       <PayForm
         totalPay={totalPay}
         setTotalPay={setTotalPay}
         isThereBookingFee={isThereBookingFee}
         setIsThereBookingFee={setIsThereBookingFee}
       />
+      <Card className="flex justify-between py-2">
+        <div className="flex items-center space-x-2">
+          <input
+            name="isThereBookingFee"
+            type="checkbox"
+            checked={isThereBookingFee}
+            onChange={() => setIsThereBookingFee(!isThereBookingFee)}
+          />
+          <label htmlFor="isThereBookingFee" className="text-sm">
+            Booking fee
+          </label>
+        </div>
+        {isThereBookingFee ? (
+          <p className="font-semibold">{(totalPay * 0.1).toFixed(2)}</p>
+        ) : (
+          <p className="font-semibold">-</p>
+        )}
+      </Card>
       <Card className="space-y-3">
         <div className="flex justify-between items-center">
           <p className="font-semibold">Troškovi</p>
@@ -85,7 +101,7 @@ export default function App() {
           rate={MARKO_RATE}
           pay={calculatePay(MARKO_RATE, "1")}
           expenses={expenses.filter((expense) => expense.whoPaid === "1")}
-          bgColor="bg-emerald-100"
+          bgColor="bg-green-100"
         />
         <PersonCard
           name="Tali"
@@ -101,17 +117,8 @@ export default function App() {
           rate={DARIO_RATE}
           pay={calculatePay(DARIO_RATE, "3")}
           expenses={expenses.filter((expense) => expense.whoPaid === "3")}
-          bgColor="bg-cyan-100"
+          bgColor="bg-sky-100"
         />
-        {isThereBookingFee && (
-          <PersonCard
-            name="Bojan"
-            pay={totalPay * 0.1}
-            expenses={[]}
-            bookerCard
-            bgColor="bg-sky-100"
-          />
-        )}
       </Card>
     </div>
   );

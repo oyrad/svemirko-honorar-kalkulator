@@ -21,17 +21,6 @@ export default function PayForm({
           onChange={(e) => setTotalPay(e.target.value)}
         />
       </div>
-      <div className="flex space-x-2">
-        <input
-          name="isThereBookingFee"
-          type="checkbox"
-          checked={isThereBookingFee}
-          onChange={() => setIsThereBookingFee(!isThereBookingFee)}
-        />
-        <label htmlFor="isThereBookingFee" className="text-sm">
-          Booking fee
-        </label>
-      </div>
     </Card>
   );
 }
