@@ -15,9 +15,9 @@ export default function PersonCard({
   return (
     <div className={`rounded-lg py-2 px-4 shadow-lg ${bgColor}`}>
       <div className="flex justify-between items-center">
-        <p className="text-slate-900 font-medium">{name}</p>
+        <p className="text-slate-900 text-sm">{name}</p>
         <div className="flex space-x-2 items-center">
-          <p className="font-semibold text-lg">{pay.toFixed(2)}€</p>
+          <p className="font-semibold">{pay.toFixed(2)}</p>
           {!bookerCard && (
             <div
               onClick={() => setIsExpanded(!isExpanded)}

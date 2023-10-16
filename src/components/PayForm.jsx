@@ -27,7 +27,7 @@ export default function PayForm({
           checked={isThereBookingFee}
           onChange={() => setIsThereBookingFee(!isThereBookingFee)}
         />
-        <label htmlFor="isThereBookingFee" className="text-sm font-semibold">
+        <label htmlFor="isThereBookingFee" className="text-sm">
           Booking fee
         </label>
       </div>

@@ -69,7 +69,11 @@ export default function App() {
           <ExpensesTable expenses={expenses} setExpenses={setExpenses} />
         )}
       </div>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2 bg-white shadow-lg rounded-md p-4">
+        <div className=" flex justify-between items-center">
+          <p className="font-semibold">Zarada</p>
+          <p className="font-semibold">{bandFee.toFixed(2)}</p>
+        </div>
         <PersonCard
           name="Marko"
           bandFee={bandFee}
