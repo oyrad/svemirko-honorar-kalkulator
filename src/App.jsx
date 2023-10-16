@@ -1,13 +1,8 @@
 import { useState, useMemo } from "react";
-import PersonCard from "./components/PersonCard";
-import ExpensesTable from "./components/ExpensesTable";
-import PayForm from "./components/PayForm";
-import PlusIcon from "./icons/PlusIcon";
-import Card from "./atoms/Card";
-
-const MARKO_RATE = 0.45;
-const TALI_RATE = 0.275;
-const DARIO_RATE = 0.275;
+import TotalPayCard from "./components/TotalPayCard";
+import BookingFeeCard from "./components/BookingFeeCard";
+import EarningsCard from "./components/EarningsCard";
+import ExpensesCard from "./components/ExpensesCard";
 
 export default function App() {
   const [totalPay, setTotalPay] = useState("");
@@ -24,102 +19,25 @@ export default function App() {
     return totalBandFee;
   }, [totalPay, isThereBookingFee, expenses]);
 
-  function addExpense() {
-    setExpenses((prevExpenses) => [
-      ...prevExpenses,
-      {
-        id: Date.now(),
-        name: "",
-        amount: "",
-        whoPaid: "1",
-      },
-    ]);
-  }
-
-  function calculatePay(rate, index) {
-    let totalPayWithExpenses = bandFee * rate;
-    expenses.forEach((expense) => {
-      if (expense.whoPaid === index && expense.amount) {
-        totalPayWithExpenses += parseInt(expense.amount);
-      }
-    });
-    return totalPayWithExpenses;
-  }
-
   return (
     <div className="space-y-4">
-      <PayForm
+      <TotalPayCard
         totalPay={totalPay}
         setTotalPay={setTotalPay}
         isThereBookingFee={isThereBookingFee}
         setIsThereBookingFee={setIsThereBookingFee}
       />
-      <Card className="flex justify-between py-2">
-        <div className="flex items-center space-x-2">
-          <input
-            name="isThereBookingFee"
-            type="checkbox"
-            checked={isThereBookingFee}
-            onChange={() => setIsThereBookingFee(!isThereBookingFee)}
-          />
-          <label htmlFor="isThereBookingFee" className="text-sm">
-            Booking fee
-          </label>
-        </div>
-        {isThereBookingFee ? (
-          <p className="font-semibold">{(totalPay * 0.1).toFixed(2)}</p>
-        ) : (
-          <p className="font-semibold">-</p>
-        )}
-      </Card>
-      <Card className="space-y-3">
-        <div className="flex justify-between items-center">
-          <p className="font-semibold">Troškovi</p>
-          <button
-            onClick={addExpense}
-            disabled={!totalPay}
-            className={`flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow ${
-              !totalPay && "opacity-50 bg-red-500"
-            }}`}
-          >
-            <PlusIcon />
-            <p className="text-sm font-semibold">Dodaj</p>
-          </button>
-        </div>
-        {expenses.length > 0 && (
-          <ExpensesTable expenses={expenses} setExpenses={setExpenses} />
-        )}
-      </Card>
-      <Card className="flex flex-col space-y-2">
-        <div className=" flex justify-between items-center">
-          <p className="font-semibold">Zarada</p>
-          <p className="font-semibold">{bandFee.toFixed(2)}</p>
-        </div>
-        <PersonCard
-          name="Marko"
-          bandFee={bandFee}
-          rate={MARKO_RATE}
-          pay={calculatePay(MARKO_RATE, "1")}
-          expenses={expenses.filter((expense) => expense.whoPaid === "1")}
-          bgColor="bg-green-100"
-        />
-        <PersonCard
-          name="Tali"
-          bandFee={bandFee}
-          rate={TALI_RATE}
-          pay={calculatePay(TALI_RATE, "2")}
-          expenses={expenses.filter((expense) => expense.whoPaid === "2")}
-          bgColor="bg-teal-100"
-        />
-        <PersonCard
-          name="Dario"
-          bandFee={bandFee}
-          rate={DARIO_RATE}
-          pay={calculatePay(DARIO_RATE, "3")}
-          expenses={expenses.filter((expense) => expense.whoPaid === "3")}
-          bgColor="bg-sky-100"
-        />
-      </Card>
+      <BookingFeeCard
+        totalPay={totalPay}
+        isThereBookingFee={isThereBookingFee}
+        setIsThereBookingFee={setIsThereBookingFee}
+      />
+      <ExpensesCard
+        totalPay={totalPay}
+        expenses={expenses}
+        setExpenses={setExpenses}
+      />
+      <EarningsCard bandFee={bandFee} expenses={expenses} />
     </div>
   );
 }

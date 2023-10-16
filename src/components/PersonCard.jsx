@@ -39,7 +39,7 @@ export default function PersonCard({
           {expenses.map((expense) => {
             if (expense.amount) {
               return (
-                <p>
+                <p key={expense.id}>
                   + {expense.amount} {expense.name}
                 </p>
               );

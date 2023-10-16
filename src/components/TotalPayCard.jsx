@@ -2,12 +2,7 @@ import React from "react";
 import InputField from "../atoms/InputField";
 import Card from "../atoms/Card";
 
-export default function PayForm({
-  totalPay,
-  setTotalPay,
-  isThereBookingFee,
-  setIsThereBookingFee,
-}) {
+export default function TotalPayCard({ totalPay, setTotalPay }) {
   return (
     <Card className="flex flex-col space-y-2">
       <div className="flex flex-col space-y-1">
