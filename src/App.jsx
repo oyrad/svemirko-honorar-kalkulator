@@ -53,7 +53,7 @@ export default function App() {
         isThereBookingFee={isThereBookingFee}
         setIsThereBookingFee={setIsThereBookingFee}
       />
-      <div className="bg-white p-4 shadow-lg rounded-md space-y-4">
+      <div className="bg-white p-4 shadow-lg rounded-md space-y-3">
         <div className="flex justify-between items-center">
           <p className="font-semibold">Troškovi</p>
           <button

@@ -14,6 +14,7 @@ export default function Expense({ expense, updateExpense, removeExpense }) {
       <InputField
         name="expenseAmount"
         placeholder="Iznos"
+        type="number"
         value={expense.amount}
         onChange={(e) => updateExpense(expense.id, "amount", e.target.value)}
       />

@@ -13,7 +13,7 @@ export default function PersonCard({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className={`rounded-lg py-2 px-4 shadow-lg ${bgColor}`}>
+    <div className={`rounded-lg py-2 px-4 shadow ${bgColor}`}>
       <div className="flex justify-between items-center">
         <p className="text-slate-900 text-sm">{name}</p>
         <div className="flex space-x-2 items-center">
