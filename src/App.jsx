@@ -3,6 +3,8 @@ import PersonCard from "./components/PersonCard";
 import ExpensesTable from "./components/ExpensesTable";
 import PayForm from "./components/PayForm";
 import PlusIcon from "./icons/PlusIcon";
+import Card from "./atoms/Card";
+import Title from "./components/Title";
 
 const MARKO_RATE = 0.45;
 const TALI_RATE = 0.275;
@@ -47,13 +49,14 @@ export default function App() {
 
   return (
     <div className="space-y-4">
+      <Title />
       <PayForm
         totalPay={totalPay}
         setTotalPay={setTotalPay}
         isThereBookingFee={isThereBookingFee}
         setIsThereBookingFee={setIsThereBookingFee}
       />
-      <div className="bg-white p-4 shadow-lg rounded-md space-y-3">
+      <Card className="space-y-3">
         <div className="flex justify-between items-center">
           <p className="font-semibold">Troškovi</p>
           <button
@@ -70,8 +73,8 @@ export default function App() {
         {expenses.length > 0 && (
           <ExpensesTable expenses={expenses} setExpenses={setExpenses} />
         )}
-      </div>
-      <div className="flex flex-col space-y-2 bg-white shadow-lg rounded-md p-4">
+      </Card>
+      <Card className="flex flex-col space-y-2">
         <div className=" flex justify-between items-center">
           <p className="font-semibold">Zarada</p>
           <p className="font-semibold">{bandFee.toFixed(2)}</p>
@@ -109,7 +112,7 @@ export default function App() {
             bgColor="bg-sky-100"
           />
         )}
-      </div>
+      </Card>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import InputField from "../atoms/InputField";
+import Card from "../atoms/Card";
 
 export default function PayForm({
   totalPay,
@@ -8,7 +9,7 @@ export default function PayForm({
   setIsThereBookingFee,
 }) {
   return (
-    <div className="flex flex-col bg-white rounded-md shadow-lg p-4 space-y-2">
+    <Card className="flex flex-col space-y-2">
       <div className="flex flex-col space-y-1">
         <label htmlFor="totalPay" className="font-semibold">
           Honorar
@@ -31,6 +32,6 @@ export default function PayForm({
           Booking fee
         </label>
       </div>
-    </div>
+    </Card>
   );
 }
