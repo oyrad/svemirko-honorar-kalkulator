@@ -59,7 +59,9 @@ export default function App() {
           <button
             onClick={addExpense}
             disabled={!totalPay}
-            className="flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow"
+            className={`flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow ${
+              !totalPay && "opacity-50 bg-red-500"
+            }}`}
           >
             <PlusIcon />
             <p className="text-sm font-semibold">Dodaj</p>
