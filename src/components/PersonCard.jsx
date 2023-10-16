@@ -31,7 +31,7 @@ export default function PersonCard({
         </div>
       </div>
       {isExpanded && (
-        <div className="text-right text-sm">
+        <div className="text-right text-xs">
           <p>
             {bandFee} * {(rate * 100).toFixed(1)}% ={" "}
             {(bandFee * rate).toFixed(2)}
