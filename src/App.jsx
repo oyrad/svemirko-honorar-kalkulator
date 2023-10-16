@@ -14,7 +14,7 @@ export default function App() {
   const [expenses, setExpenses] = useState([]);
 
   const bandFee = useMemo(() => {
-    let totalBandFee = parseInt(totalPay) || 0;
+    let totalBandFee = parseFloat(totalPay) || 0;
     if (isThereBookingFee) {
       totalBandFee = totalPay * 0.9;
     }
