@@ -8,7 +8,7 @@ export default function DeleteIcon({ onClick }) {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="w-20 h-6 ml-1 text-red-600"
+      class="w-12 h-6 text-red-600"
       onClick={onClick}
     >
       <path

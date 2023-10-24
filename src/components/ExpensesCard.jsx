@@ -48,9 +48,10 @@ export default function ExpensesCard({ totalPay, expenses, setExpenses }) {
       </div>
       {expenses.length > 0 && (
         <div className="flex flex-col space-y-1">
-          {expenses.map((expense) => (
+          {expenses.map((expense, index) => (
             <Expense
               key={expense.id}
+              expenseIndex={index}
               expense={expense}
               updateExpense={updateExpense}
               removeExpense={removeExpense}
