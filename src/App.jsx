@@ -20,7 +20,7 @@ export default function App() {
   }, [totalPay, isThereBookingFee, expenses]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 2xl:px-96 xl:px-[24rem] lg:px-[20rem] md:px-[16rem]">
       <TotalPayCard
         totalPay={totalPay}
         setTotalPay={setTotalPay}
