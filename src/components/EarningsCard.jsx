@@ -2,11 +2,21 @@ import React from "react";
 import Card from "../atoms/Card";
 import PersonCard from "../components/PersonCard";
 
-const MARKO_RATE = 0.45;
-const TALI_RATE = 0.275;
-const DARIO_RATE = 0.275;
+export default function EarningsCard({ bandFee, expenses, split }) {
+  let MARKO_RATE;
+  let TALI_RATE;
+  let DARIO_RATE;
 
-export default function EarningsCard({ bandFee, expenses }) {
+  if (split === "equal") {
+    MARKO_RATE = 1 / 3;
+    TALI_RATE = 1 / 3;
+    DARIO_RATE = 1 / 3;
+  } else if (split === "deal") {
+    MARKO_RATE = 0.45;
+    TALI_RATE = 0.275;
+    DARIO_RATE = 0.275;
+  }
+
   function calculatePay(rate, index) {
     let totalPayWithExpenses = bandFee * rate;
     expenses.forEach((expense) => {

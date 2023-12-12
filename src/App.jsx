@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import TotalPayCard from "./components/TotalPayCard";
-import BookingFeeCard from "./components/BookingFeeCard";
+import SettingsCard from "./components/SettingsCard";
 import EarningsCard from "./components/EarningsCard";
 import ExpensesCard from "./components/ExpensesCard";
 
@@ -8,6 +8,7 @@ export default function App() {
   const [totalPay, setTotalPay] = useState("");
   const [isThereBookingFee, setIsThereBookingFee] = useState(true);
   const [expenses, setExpenses] = useState([]);
+  const [split, setSplit] = useState("deal");
 
   const bandFee = useMemo(() => {
     let totalBandFee = parseFloat(totalPay) || 0;
@@ -27,17 +28,19 @@ export default function App() {
         isThereBookingFee={isThereBookingFee}
         setIsThereBookingFee={setIsThereBookingFee}
       />
-      <BookingFeeCard
+      <SettingsCard
         totalPay={totalPay}
         isThereBookingFee={isThereBookingFee}
         setIsThereBookingFee={setIsThereBookingFee}
+        split={split}
+        setSplit={setSplit}
       />
       <ExpensesCard
         totalPay={totalPay}
         expenses={expenses}
         setExpenses={setExpenses}
       />
-      <EarningsCard bandFee={bandFee} expenses={expenses} />
+      <EarningsCard bandFee={bandFee} expenses={expenses} split={split} />
     </div>
   );
 }
