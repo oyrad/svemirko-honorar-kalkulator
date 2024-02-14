@@ -32,7 +32,7 @@ export default function Expense({
         <select
           value={expense.whoPaid}
           onChange={(e) => updateExpense(expense.id, "whoPaid", e.target.value)}
-          className="border border-gray-200 rounded-md shadow px-2 py-0.5 text-sm outline-none"
+          className="border border-gray-200 rounded-md shadow px-2 py-0.5 text-sm outline-none cursor-pointer"
         >
           <option value={1}>Marko</option>
           <option value={2}>Tali</option>
