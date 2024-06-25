@@ -17,7 +17,7 @@ export default function BasicInfo() {
   useEffect(() => {
     let totalBandFee = parseFloat(grossRoyalties) || 0;
     if (isThereBookingFee) {
-      totalBandFee = parseFloat(grossRoyalties) * 0.9;
+      totalBandFee = (parseFloat(grossRoyalties) || 0) * 0.9;
     }
 
     expenses.forEach(
