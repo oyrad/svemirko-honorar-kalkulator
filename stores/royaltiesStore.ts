@@ -1,7 +1,24 @@
 import { create } from 'zustand';
 import { Expense, Split } from '@/types/types';
 
-export const useRoyaltiesStore = create((set) => ({
+type RoyaltiesStore = {
+  grossRoyalties: string;
+  setGrossRoyalties: (value: string) => void;
+
+  isThereBookingFee: boolean;
+  setIsThereBookingFee: (value: boolean) => void;
+
+  split: Split;
+  setSplit: (value: Split) => void;
+
+  expenses: Expense[];
+  setExpenses: (expenses: Expense[]) => void;
+
+  netBandPay: number;
+  setNetBandPay: (value: number) => void;
+};
+
+export const useRoyaltiesStore = create<RoyaltiesStore>((set) => ({
   grossRoyalties: '',
   setGrossRoyalties: (value: string) => set({ grossRoyalties: value }),
 
