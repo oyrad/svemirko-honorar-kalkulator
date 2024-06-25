@@ -16,7 +16,7 @@ export default function Expense({
   removeExpense,
 }: ExpenseProps) {
   return (
-    <div className="flex space-x-1.5 items-end">
+    <div className="flex space-x-2 items-end">
       <div className="flex flex-col space-y-1 text-xs text-gray-700">
         {index === 0 && <label>Naziv</label>}
         <Input

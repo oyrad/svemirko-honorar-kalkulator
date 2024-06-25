@@ -5,7 +5,7 @@ export const useRoyaltiesStore = create((set) => ({
   grossRoyalties: '',
   setGrossRoyalties: (value: string) => set({ grossRoyalties: value }),
 
-  isThereBookingFee: true,
+  isThereBookingFee: false,
   setIsThereBookingFee: (value: boolean) => set({ isThereBookingFee: value }),
 
   split: 'deal',

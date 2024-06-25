@@ -37,7 +37,7 @@ export default function ExpenseList() {
   }
 
   return (
-    <Card className="space-y-3">
+    <Card className="flex flex-col space-y-3">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Troškovi</p>
         <button
@@ -60,6 +60,12 @@ export default function ExpenseList() {
             />
           ))}
         </div>
+      )}
+      {expenses.length !== 0 && (
+        <p className="text-sm text-slate-500">
+          Ukupno:{' '}
+          {expenses.reduce((acc, expense) => acc + Number(expense.amount), 0)}
+        </p>
       )}
     </Card>
   );
