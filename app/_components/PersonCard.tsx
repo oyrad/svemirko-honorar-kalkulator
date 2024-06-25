@@ -19,7 +19,7 @@ export default function PersonCard({
   const [isExpanded, setIsExpanded] = useState(false);
   const { expenses, netBandPay } = useRoyaltiesStore();
 
-  function calculatePay(rate, index) {
+  function calculatePay(rate: number, index: string) {
     let totalPayWithExpenses = netBandPay * rate;
     expenses.forEach((expense) => {
       if (expense.whoPaid === index && expense.amount) {

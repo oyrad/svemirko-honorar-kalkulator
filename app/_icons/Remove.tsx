@@ -1,4 +1,4 @@
-export default function Remove({ onClick }) {
+export default function Remove({ onClick }: { onClick: () => void }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,10 +1,10 @@
 import Input from '@/app/_atoms/Input';
-import { Expense } from '@/types/types';
+import { Expense as ExpenseType } from '@/types/types';
 import Remove from '@/app/_icons/Remove';
 
 interface ExpenseProps {
   index: number;
-  expense: Expense;
+  expense: ExpenseType;
   updateExpense: (id: number, field: string, value: string) => void;
   removeExpense: (id: number) => void;
 }
