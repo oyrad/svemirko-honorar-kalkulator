@@ -1,12 +1,20 @@
-import React from "react";
+import { ChangeEvent } from 'react';
 
-export default function InputField({
+interface InputProps {
+  name: string;
+  type: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
+export default function Input({
   name,
   type,
   value,
   onChange,
-  placeholder = "",
-}) {
+  placeholder = '',
+}: InputProps) {
   return (
     <input
       name={name}

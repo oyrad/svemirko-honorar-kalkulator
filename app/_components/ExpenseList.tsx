@@ -1,37 +1,39 @@
-import React from "react";
-import Expense from "./Expense";
-import Card from "../atoms/Card";
-import PlusIcon from "../icons/PlusIcon";
+'use client';
 
-export default function ExpensesCard({ totalPay, expenses, setExpenses }) {
+import Card from '@/app/_atoms/Card';
+import Plus from '@/app/_icons/Plus';
+import Expense from '@/app/_components/Expense';
+import { useRoyaltiesStore } from '@/stores/royaltiesStore';
+
+export default function ExpenseList() {
+  const { expenses, setExpenses } = useRoyaltiesStore();
+
   function addExpense() {
-    setExpenses((prevExpenses) => [
-      ...prevExpenses,
+    setExpenses([
+      ...expenses,
       {
         id: Date.now(),
-        name: "",
-        amount: "",
-        whoPaid: "1",
+        name: '',
+        amount: '',
+        whoPaid: '1',
       },
     ]);
   }
 
-  function updateExpense(id, field, value) {
-    setExpenses((prevExpenses) =>
-      prevExpenses.map((expense) => {
+  function updateExpense(id: number, field: string, value: string) {
+    setExpenses(
+      expenses.map((expense) => {
         if (expense.id === id) {
           return { ...expense, [field]: value };
         } else {
           return expense;
         }
-      })
+      }),
     );
   }
 
-  function removeExpense(id) {
-    setExpenses((prevExpenses) =>
-      prevExpenses.filter((expense) => expense.id !== id)
-    );
+  function removeExpense(id: number) {
+    setExpenses(expenses.filter((expense) => expense.id !== id));
   }
 
   return (
@@ -40,9 +42,9 @@ export default function ExpensesCard({ totalPay, expenses, setExpenses }) {
         <p className="font-semibold">Troškovi</p>
         <button
           onClick={addExpense}
-          className="flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow"
+          className="flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow hover:bg-slate-200 transition-colors duration-200 ease-in-out"
         >
-          <PlusIcon />
+          <Plus />
           <p className="text-sm font-semibold">Dodaj</p>
         </button>
       </div>
@@ -51,7 +53,7 @@ export default function ExpensesCard({ totalPay, expenses, setExpenses }) {
           {expenses.map((expense, index) => (
             <Expense
               key={expense.id}
-              expenseIndex={index}
+              index={index}
               expense={expense}
               updateExpense={updateExpense}
               removeExpense={removeExpense}

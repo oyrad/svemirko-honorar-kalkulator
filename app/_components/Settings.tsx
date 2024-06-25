@@ -1,13 +1,13 @@
-import React from "react";
-import Card from "../atoms/Card";
+'use client';
 
-export default function SettingsCard({
-  totalPay,
-  isThereBookingFee,
-  setIsThereBookingFee,
-  split,
-  setSplit,
-}) {
+import React from 'react';
+import Card from '@/app/_atoms/Card';
+import { useRoyaltiesStore } from '@/stores/royaltiesStore';
+
+export default function Settings() {
+  const { isThereBookingFee, setIsThereBookingFee, split, setSplit } =
+    useRoyaltiesStore();
+
   return (
     <Card className="flex flex-col py-3 space-y-1">
       <p className="font-semibold">Postavke</p>
@@ -20,13 +20,10 @@ export default function SettingsCard({
             checked={isThereBookingFee}
             onChange={() => setIsThereBookingFee(!isThereBookingFee)}
           />
-          <label for="booking" className="text-sm">
+          <label htmlFor="booking" className="text-sm">
             Booking fee
           </label>
         </div>
-        {/* <p className="font-semibold">
-          {isThereBookingFee ? (totalPay * 0.1).toFixed(2) : "-"}
-        </p> */}
       </div>
       <div className="grid grid-cols-2">
         <div className="flex items-center space-x-2">
@@ -34,10 +31,10 @@ export default function SettingsCard({
             type="radio"
             value="deal"
             id="deal"
-            checked={split === "deal"}
-            onChange={() => setSplit("deal")}
+            checked={split === 'deal'}
+            onChange={() => setSplit('deal')}
           />
-          <label className="text-sm" for="deal">
+          <label className="text-sm" htmlFor="deal">
             45/27.5/27.5
           </label>
         </div>
@@ -46,10 +43,10 @@ export default function SettingsCard({
             type="radio"
             value="equal"
             id="equal"
-            checked={split === "equal"}
-            onChange={() => setSplit("equal")}
+            checked={split === 'equal'}
+            onChange={() => setSplit('equal')}
           />
-          <label className="text-sm" for="equal">
+          <label className="text-sm" htmlFor="equal">
             Svi isto
           </label>
         </div>
