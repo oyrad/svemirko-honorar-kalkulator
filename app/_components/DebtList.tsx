@@ -4,6 +4,7 @@ import Card from '@/app/_atoms/Card';
 import Plus from '@/app/_icons/Plus';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import Debt from '@/app/_components/Debt';
+import Button from '@/app/_atoms/Button';
 
 export default function DebtList() {
   const { debts, setDebts } = useRoyaltiesStore();
@@ -41,13 +42,10 @@ export default function DebtList() {
     <Card className="flex flex-col space-y-3">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Dugovanja</p>
-        <button
-          onClick={addDebt}
-          className="flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow hover:bg-slate-200 transition-colors duration-200 ease-in-out"
-        >
+        <Button onClick={addDebt}>
           <Plus />
           <p className="text-sm font-semibold">Dodaj</p>
-        </button>
+        </Button>
       </div>
       {debts.length > 0 && (
         <div className="flex flex-col space-y-1">

@@ -4,6 +4,7 @@ import Card from '@/app/_atoms/Card';
 import Plus from '@/app/_icons/Plus';
 import Expense from '@/app/_components/Expense';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
+import Button from '@/app/_atoms/Button';
 
 export default function ExpenseList() {
   const { expenses, setExpenses } = useRoyaltiesStore();
@@ -40,13 +41,10 @@ export default function ExpenseList() {
     <Card className="flex flex-col space-y-3">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Troškovi</p>
-        <button
-          onClick={addExpense}
-          className="flex space-x-1 items-center bg-slate-100 py-1 px-3 rounded-xl shadow hover:bg-slate-200 transition-colors duration-200 ease-in-out"
-        >
+        <Button onClick={addExpense}>
           <Plus />
           <p className="text-sm font-semibold">Dodaj</p>
-        </button>
+        </Button>
       </div>
       {expenses.length > 0 && (
         <div className="flex flex-col space-y-1">
