@@ -26,13 +26,13 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
     body {
-        background: rgba(0, 0, 0, 0.85)
+        background: rgba(0, 0, 0, 0.95)
     }
 
     .card {
-        background: rgb(0, 0, 0);
+        background: rgb(37, 37, 37);
         color: white;
     }
 
