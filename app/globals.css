@@ -26,9 +26,9 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
     body {
-        background: rgba(0, 0, 0, 0.8)
+        background: rgba(0, 0, 0, 0.85)
     }
 
     .card {
@@ -47,5 +47,9 @@ input[type=number] {
 
     button {
         color: black;
+    }
+
+    label {
+        color: white;
     }
 }

@@ -18,16 +18,27 @@ export default function PersonCard({
   bgColor,
 }: PersonCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { expenses, netBandPay } = useRoyaltiesStore();
+  const { expenses, debts, netBandPay } = useRoyaltiesStore();
 
   function calculatePay(rate: number, index: string) {
-    let totalPayWithExpenses = netBandPay * rate;
+    let totalPayWithExpensesAndDebts = netBandPay * rate;
     expenses.forEach((expense) => {
       if (expense.whoPaid === index && expense.amount) {
-        totalPayWithExpenses += parseInt(expense.amount);
+        totalPayWithExpensesAndDebts += parseInt(expense.amount);
       }
     });
-    return totalPayWithExpenses;
+
+    debts.forEach((debt) => {
+      if (!debt.amount || debt.from === debt.to) return;
+
+      if (debt.from === index) {
+        totalPayWithExpensesAndDebts -= parseInt(debt.amount);
+      } else if (debt.to === index) {
+        totalPayWithExpensesAndDebts += parseInt(debt.amount);
+      }
+    });
+
+    return totalPayWithExpensesAndDebts;
   }
 
   return (
@@ -75,6 +86,28 @@ export default function PersonCard({
                   return (
                     <p key={expense.id}>
                       + {expense.amount} {expense.name}
+                    </p>
+                  );
+                }
+              })}
+            {debts
+              .filter((debt) => debt.from === personIndex)
+              .map((debt) => {
+                if (debt.amount) {
+                  return (
+                    <p key={debt.id}>
+                      - {debt.amount} {debt.name}
+                    </p>
+                  );
+                }
+              })}
+            {debts
+              .filter((debt) => debt.to === personIndex)
+              .map((debt) => {
+                if (debt.amount) {
+                  return (
+                    <p key={debt.id}>
+                      + {debt.amount} {debt.name}
                     </p>
                   );
                 }

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Expense, Split } from '@/types/types';
+import { Debt, Expense, Split } from '@/types/types';
 
 type RoyaltiesStore = {
   grossRoyalties: string;
@@ -13,6 +13,9 @@ type RoyaltiesStore = {
 
   expenses: Expense[];
   setExpenses: (expenses: Expense[]) => void;
+
+  debts: Debt[];
+  setDebts: (debt: Debt[]) => void;
 
   netBandPay: number;
   setNetBandPay: (value: number) => void;
@@ -30,6 +33,9 @@ export const useRoyaltiesStore = create<RoyaltiesStore>((set) => ({
 
   expenses: [] as Expense[],
   setExpenses: (expenses: Expense[]) => set({ expenses }),
+
+  debts: [] as Debt[],
+  setDebts: (debts: Debt[]) => set({ debts }),
 
   netBandPay: 0,
   setNetBandPay: (value: number) => set({ netBandPay: value }),
