@@ -7,10 +7,10 @@ export default function NewReportButton() {
 
   return (
     <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300 ease-in-out"
-      onClick={() => router.push('/create')}
+      className="w-full bg-gradient-to-r from-red-600 to-blue-600 font-semibold py-2 rounded-lg text-white hover:opacity-85 transition-opacity duration-300"
+      onClick={() => router.push('/report/create')}
     >
-      New Report
+      Novi izračun
     </button>
   );
 }

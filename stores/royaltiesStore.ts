@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { Debt, Expense, Split } from '@/types/types';
 
 type RoyaltiesStore = {
+  name: string;
+  setName: (value: string) => void;
+
   grossRoyalties: string;
   setGrossRoyalties: (value: string) => void;
 
@@ -22,6 +25,9 @@ type RoyaltiesStore = {
 };
 
 export const useRoyaltiesStore = create<RoyaltiesStore>((set) => ({
+  name: '',
+  setName: (value) => set({ name: value }),
+
   grossRoyalties: '',
   setGrossRoyalties: (value: string) => set({ grossRoyalties: value }),
 

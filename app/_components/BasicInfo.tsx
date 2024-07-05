@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 
 export default function BasicInfo() {
   const {
+    name,
+    setName,
     grossRoyalties,
     setGrossRoyalties,
     setNetBandPay,
@@ -29,6 +31,17 @@ export default function BasicInfo() {
 
   return (
     <Card className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-1">
+        <label htmlFor="totalPay" className="font-semibold">
+          Naziv
+        </label>
+        <Input
+          name="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
       <div className="flex flex-col space-y-1">
         <label htmlFor="totalPay" className="font-semibold">
           Honorar

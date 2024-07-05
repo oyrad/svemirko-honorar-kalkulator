@@ -1,16 +1,17 @@
-import BasicInfo from '@/app/_components/BasicInfo';
-import Settings from '@/app/_components/Settings';
-import ExpenseList from '@/app/_components/ExpenseList';
-import Earnings from '@/app/_components/Earnings';
+import NewReportButton from '@/app/_components/NewReportButton';
+import ReportInfo from '@/app/_components/ReportInfo';
 
-export default function Home() {
+export default async function Home() {
+  fetch('/api/reports')
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+
   return (
     <>
-      <BasicInfo />
-      <Settings />
-      <ExpenseList />
-      {/*<DebtList />*/}
-      <Earnings />
+      <NewReportButton />
+      <ReportInfo name="sarajevo" />
+      <ReportInfo name="kragujevac" />
+      <ReportInfo name="beer fest" />
     </>
   );
 }
