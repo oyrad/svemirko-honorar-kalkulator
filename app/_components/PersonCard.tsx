@@ -43,7 +43,11 @@ export default function PersonCard({
 
   return (
     <motion.div
-      className={cn('rounded-lg py-2 px-4 shadow person-card', bgColor)}
+      className={cn(
+        'rounded-lg py-2 px-4 shadow cursor-pointer person-card',
+        bgColor,
+      )}
+      onClick={() => setIsExpanded(!isExpanded)}
     >
       <AnimatePresence>
         <div className="flex justify-between items-center">
@@ -53,7 +57,6 @@ export default function PersonCard({
               {calculatePay(rate, personIndex).toFixed(2)}
             </p>
             <div
-              onClick={() => setIsExpanded(!isExpanded)}
               className={cn(
                 'transform transition-transform duration-300 ease-in-out cursor-pointer',
                 isExpanded && 'rotate-180',
