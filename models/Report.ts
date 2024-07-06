@@ -1,8 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-mongoose.connect(process.env.MONGO_URI);
-
-const reportSchema = new mongoose.Schema(
+const reportSchema = new Schema(
   {
     name: String,
     grossRoyalties: String,
@@ -30,6 +28,6 @@ const reportSchema = new mongoose.Schema(
   },
 );
 
-const Report = mongoose.model('Report', reportSchema);
+const Report = mongoose.models.Report || mongoose.model('Report', reportSchema);
 
 export default Report;

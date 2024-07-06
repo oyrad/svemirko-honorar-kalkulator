@@ -14,3 +14,13 @@ export type Debt = {
   from: string;
   to: string;
 };
+
+export type Report = {
+  name: string;
+  grossRoyalties: string;
+  isThereBookingFee: boolean;
+  split: Split;
+  expenses: Expense[];
+  debts: Debt[];
+  netBandPay: number;
+};
