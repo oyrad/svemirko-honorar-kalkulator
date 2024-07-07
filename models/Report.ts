@@ -8,6 +8,7 @@ const reportSchema = new Schema(
     split: String,
     expenses: [
       {
+        id: Number,
         name: String,
         amount: Number,
         whoPaid: String,
@@ -15,6 +16,7 @@ const reportSchema = new Schema(
     ],
     debts: [
       {
+        id: Number,
         name: String,
         amount: Number,
         from: String,

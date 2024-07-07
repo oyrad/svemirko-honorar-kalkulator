@@ -10,7 +10,7 @@ export default function ArrowLeft({ onClick }: ArrowLeftProps) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="size-8 dark:text-white cursor-pointer hover:opacity-90 transition-opacity duration-300"
+      className="size-7 dark:text-white cursor-pointer hover:opacity-90 transition-opacity duration-300"
       onClick={onClick}
     >
       <path

@@ -3,22 +3,29 @@ import { cn } from '@/utils/utils';
 import ChevronDown from '@/app/_icons/ChevronDown';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Expense } from '@/types/types';
 
 interface PersonCardProps {
   personIndex: string;
   name: string;
   rate: number;
+  expenses: Expense[];
+  netBandPay: number;
   bgColor: string;
+  isExpandable?: boolean;
 }
 
 export default function PersonCard({
   personIndex,
   name,
   rate,
+  expenses,
+  netBandPay,
   bgColor,
+  isExpandable = true,
 }: PersonCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { expenses, debts, netBandPay } = useRoyaltiesStore();
+  const [isExpanded, setIsExpanded] = useState(!isExpandable);
+  const { debts } = useRoyaltiesStore();
 
   function calculatePay(rate: number, index: string) {
     let totalPayWithExpensesAndDebts = netBandPay * rate;
@@ -44,10 +51,13 @@ export default function PersonCard({
   return (
     <motion.div
       className={cn(
-        'rounded-lg py-2 px-4 shadow cursor-pointer person-card',
+        'rounded-lg py-2 px-4 shadow person-card',
+        isExpandable && 'cursor-pointer',
         bgColor,
       )}
-      onClick={() => setIsExpanded(!isExpanded)}
+      onClick={() => {
+        isExpandable && setIsExpanded(!isExpanded);
+      }}
     >
       <AnimatePresence>
         <div className="flex justify-between items-center">
@@ -56,18 +66,21 @@ export default function PersonCard({
             <p className="font-semibold">
               {calculatePay(rate, personIndex).toFixed(2)}
             </p>
-            <div
-              className={cn(
-                'transform transition-transform duration-300 ease-in-out cursor-pointer',
-                isExpanded && 'rotate-180',
-              )}
-            >
-              <ChevronDown />
-            </div>
+            {isExpandable && (
+              <div
+                className={cn(
+                  'transform transition-transform duration-300 ease-in-out cursor-pointer',
+                  isExpanded && 'rotate-180',
+                )}
+              >
+                <ChevronDown />
+              </div>
+            )}
           </div>
         </div>
         {isExpanded && (
           <motion.div
+            key={personIndex}
             className="text-right text-xs"
             initial={{ opacity: 0 }}
             animate={{

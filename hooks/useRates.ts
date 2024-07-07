@@ -1,4 +1,4 @@
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
+import { Split } from '@/types/types';
 
 interface Rates {
   MARKO_RATE: number;
@@ -6,9 +6,11 @@ interface Rates {
   DARIO_RATE: number;
 }
 
-export default function useRates(): Rates {
-  const { split } = useRoyaltiesStore();
+interface RatesParams {
+  split: Split;
+}
 
+export default function useRates({ split }: RatesParams): Rates {
   if (split === 'equal') {
     return {
       MARKO_RATE: 1 / 3,
