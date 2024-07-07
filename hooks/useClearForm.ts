@@ -5,7 +5,6 @@ export default function useClearForm() {
     setName,
     setGrossRoyalties,
     setExpenses,
-    setDebts,
     setIsThereBookingFee,
     setSplit,
     setNetBandPay,
@@ -15,7 +14,6 @@ export default function useClearForm() {
     setName('');
     setGrossRoyalties('');
     setExpenses([]);
-    setDebts([]);
     setIsThereBookingFee(false);
     setSplit('deal');
     setNetBandPay(0);

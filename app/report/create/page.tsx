@@ -20,7 +20,6 @@ export default function Create() {
     name,
     grossRoyalties,
     expenses,
-    debts,
     isThereBookingFee,
     split,
     netBandPay,
@@ -37,7 +36,6 @@ export default function Create() {
         name,
         grossRoyalties,
         expenses,
-        debts,
         isThereBookingFee,
         split,
         netBandPay,
@@ -68,7 +66,6 @@ export default function Create() {
       <BasicInfo />
       <Settings />
       <ExpenseList />
-      {/*<DebtList />*/}
       <Earnings />
     </form>
   );

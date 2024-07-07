@@ -14,15 +14,6 @@ const reportSchema = new Schema(
         whoPaid: String,
       },
     ],
-    debts: [
-      {
-        id: Number,
-        name: String,
-        amount: Number,
-        from: String,
-        to: String,
-      },
-    ],
     netBandPay: Number,
   },
   {

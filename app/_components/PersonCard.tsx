@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/utils/utils';
 import ChevronDown from '@/app/_icons/ChevronDown';
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Expense } from '@/types/types';
 
@@ -25,27 +24,16 @@ export default function PersonCard({
   isExpandable = true,
 }: PersonCardProps) {
   const [isExpanded, setIsExpanded] = useState(!isExpandable);
-  const { debts } = useRoyaltiesStore();
 
   function calculatePay(rate: number, index: string) {
-    let totalPayWithExpensesAndDebts = netBandPay * rate;
+    let totalPayWithExpenses = netBandPay * rate;
     expenses.forEach((expense) => {
       if (expense.whoPaid === index && expense.amount) {
-        totalPayWithExpensesAndDebts += parseInt(expense.amount);
+        totalPayWithExpenses += parseInt(expense.amount);
       }
     });
 
-    debts.forEach((debt) => {
-      if (!debt.amount || debt.from === debt.to) return;
-
-      if (debt.from === index) {
-        totalPayWithExpensesAndDebts -= parseInt(debt.amount);
-      } else if (debt.to === index) {
-        totalPayWithExpensesAndDebts += parseInt(debt.amount);
-      }
-    });
-
-    return totalPayWithExpensesAndDebts;
+    return totalPayWithExpenses;
   }
 
   return (
@@ -102,28 +90,6 @@ export default function PersonCard({
                   return (
                     <p key={expense.id}>
                       + {expense.amount} {expense.name}
-                    </p>
-                  );
-                }
-              })}
-            {debts
-              .filter((debt) => debt.from === personIndex)
-              .map((debt) => {
-                if (debt.amount) {
-                  return (
-                    <p key={debt.id}>
-                      - {debt.amount} {debt.name}
-                    </p>
-                  );
-                }
-              })}
-            {debts
-              .filter((debt) => debt.to === personIndex)
-              .map((debt) => {
-                if (debt.amount) {
-                  return (
-                    <p key={debt.id}>
-                      + {debt.amount} {debt.name}
                     </p>
                   );
                 }

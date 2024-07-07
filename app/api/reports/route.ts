@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
     isThereBookingFee,
     split,
     expenses,
-    debts,
     netBandPay,
   } = await request.json();
 
@@ -27,7 +26,6 @@ export async function POST(request: NextRequest) {
     isThereBookingFee,
     split,
     expenses,
-    debts,
     netBandPay,
   });
 
