@@ -16,7 +16,7 @@ export default function ReportList() {
   return (
     <div className="flex flex-col gap-4">
       {reports.map((report) => (
-        <ReportInfo key={report.name} id={report._id} name={report.name} />
+        <ReportInfo key={report._id} id={report._id} name={report.name} />
       ))}
     </div>
   );

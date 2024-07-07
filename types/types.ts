@@ -24,4 +24,5 @@ export type Report = {
   expenses: Expense[];
   debts: Debt[];
   netBandPay: number;
+  createdAt: string;
 };

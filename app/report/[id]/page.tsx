@@ -7,6 +7,7 @@ import { Report } from '@/types/types';
 import Card from '@/app/_atoms/Card';
 import PersonCard from '@/app/_components/PersonCard';
 import useRates from '@/hooks/useRates';
+import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 
 export default function ReportDetails() {
   const [report, setReport] = useState<Report>();
@@ -35,9 +36,34 @@ export default function ReportDetails() {
         <p className="font-semibold text-lg dark:text-white">{report.name}</p>
       </div>
       <Card className="flex flex-col gap-4">
-        <div className="flex justify-between items-center font-semibold">
+        <div className="flex justify-between items-center font-semibold text-lg">
           <p>Honorar</p>
           <p>{report.grossRoyalties}</p>
+        </div>
+
+        <hr />
+
+        <div className="text-sm flex flex-row justify-between">
+          <OverviewItem
+            label="booking fee"
+            value={
+              report.isThereBookingFee
+                ? parseFloat(report.grossRoyalties) * 0.1
+                : '-'
+            }
+          />
+          <OverviewItem
+            label="podjela"
+            value={report.split === 'deal' ? '45/27.5/27.5' : 'Svi isto'}
+          />
+          <OverviewItem
+            label="troškovi"
+            value={report.expenses.reduce(
+              (sum, expense) => sum + parseFloat(expense.amount),
+              0,
+            )}
+          />
+          <OverviewItem label="zarada" value={report.netBandPay} />
         </div>
         <div className="flex flex-col gap-2">
           <PersonCard
@@ -69,6 +95,9 @@ export default function ReportDetails() {
           />
         </div>
       </Card>
+      <p className="text-gray-700 dark:text-gray-400 text-right text-xs">
+        {new Date(report.createdAt).toLocaleString('hr-HR')}
+      </p>
     </>
   );
 }
