@@ -16,6 +16,7 @@ export type Debt = {
 };
 
 export type Report = {
+  _id: string;
   name: string;
   grossRoyalties: string;
   isThereBookingFee: boolean;

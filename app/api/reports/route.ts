@@ -6,7 +6,7 @@ export async function GET() {
   await connect();
   const reports = await Report.find().sort({ createdAt: -1 });
 
-  return Response.json({ reports });
+  return Response.json(reports, { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
@@ -31,5 +31,5 @@ export async function POST(request: NextRequest) {
     netBandPay,
   });
 
-  return Response.json({ msg: 'New report created!' }, { status: 201 });
+  return Response.json({ msg: 'New report created' }, { status: 201 });
 }
