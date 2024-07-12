@@ -9,7 +9,7 @@ import Button from '@/app/_atoms/Button';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import { useState } from 'react';
-import { ClipLoader } from 'react-spinners';
+import { MoonLoader } from 'react-spinners';
 import useClearForm from '@/hooks/useClearForm';
 import NotesInput from '@/app/_components/NoteInput';
 
@@ -61,9 +61,9 @@ export default function Create() {
         <Button
           onClick={() => {}}
           type="submit"
-          className="font-semibold rounded-lg bg-green-300 hover:bg-green-400 dark:bg-green-500 w-24 flex justify-center items-center"
+          className="font-semibold rounded-lg bg-green-300 hover:bg-green-400 dark:bg-green-500 w-24 h-8 flex justify-center items-center"
         >
-          {isLoading ? <ClipLoader size={24} /> : 'Spremi'}
+          {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
       </div>
       <BasicInfo />

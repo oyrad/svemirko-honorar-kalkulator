@@ -69,7 +69,7 @@ export default function PersonCard({
         {isExpanded && (
           <motion.div
             key={personIndex}
-            className="text-right text-xs"
+            className="text-right text-xs text-gray-700"
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,

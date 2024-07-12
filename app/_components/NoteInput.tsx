@@ -13,7 +13,7 @@ export default function NoteInput({ note, setNote }: NoteInputProps) {
       </label>
       <textarea
         name="note"
-        className="h-32 text-black outline-none p-2 resize-none rounded-lg border border-gray-300 text-sm"
+        className="h-28 text-black outline-none p-2 resize-none rounded-lg border border-gray-300 text-sm"
         value={note}
         onChange={(e) => setNote(e.target.value)}
       ></textarea>

@@ -43,7 +43,7 @@ export default function ReportDetails() {
 
         <hr />
 
-        <div className="text-sm flex flex-row justify-between">
+        <div className="text-sm grid grid-cols-2 gap-4">
           <OverviewItem
             label="booking fee"
             value={
@@ -95,10 +95,10 @@ export default function ReportDetails() {
             isExpandable={false}
           />
         </div>
+        <p className="text-gray-400 text-right text-xs">
+          {new Date(report.createdAt).toLocaleString('hr-HR')}
+        </p>
       </Card>
-      <p className="text-gray-700 dark:text-gray-400 text-right text-xs">
-        {new Date(report.createdAt).toLocaleString('hr-HR')}
-      </p>
     </>
   );
 }
