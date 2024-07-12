@@ -10,7 +10,10 @@ interface CardProps {
 export default function Card({ children, className = '', onClick }: CardProps) {
   return (
     <div
-      className={cn('bg-white p-4 shadow-lg rounded-md card', className)}
+      className={cn(
+        'bg-white p-4 shadow-lg rounded-md card dark:text-white',
+        className,
+      )}
       onClick={onClick}
     >
       {children}

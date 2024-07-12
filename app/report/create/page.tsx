@@ -11,10 +11,12 @@ import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import useClearForm from '@/hooks/useClearForm';
+import NotesInput from '@/app/_components/NoteInput';
 
 export default function Create() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [note, setNote] = useState('');
 
   const {
     name,
@@ -38,6 +40,7 @@ export default function Create() {
         expenses,
         isThereBookingFee,
         split,
+        note,
         netBandPay,
       }),
     })
@@ -66,6 +69,7 @@ export default function Create() {
       <BasicInfo />
       <Settings />
       <ExpenseList />
+      <NotesInput note={note} setNote={setNote} />
       <Earnings />
     </form>
   );

@@ -65,6 +65,7 @@ export default function ReportDetails() {
           />
           <OverviewItem label="zarada" value={report.netBandPay} />
         </div>
+        {report.note && <Card className="bg-white">{report.note}</Card>}
         <div className="flex flex-col gap-2">
           <PersonCard
             personIndex="1"

@@ -60,7 +60,7 @@ export default function ExpenseList() {
         </div>
       )}
       {expenses.length !== 0 && (
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-500 dark:text-slate-400">
           Ukupno:{' '}
           {expenses.reduce((acc, expense) => acc + Number(expense.amount), 0)}
         </p>

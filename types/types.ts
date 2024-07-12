@@ -14,6 +14,7 @@ export type Report = {
   isThereBookingFee: boolean;
   split: Split;
   expenses: Expense[];
+  note: string;
   netBandPay: number;
   createdAt: string;
 };
