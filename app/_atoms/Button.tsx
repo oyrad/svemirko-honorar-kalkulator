@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   children: ReactNode;
   className?: string;

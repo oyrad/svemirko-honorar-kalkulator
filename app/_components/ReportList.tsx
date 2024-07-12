@@ -1,9 +1,10 @@
 'use client';
 
-import ReportInfo from '@/app/_components/ReportInfo';
 import { useEffect, useState } from 'react';
 import { Report } from '@/types/types';
-import { MoonLoader } from 'react-spinners';
+import Link from 'next/link';
+import Card from '@/app/_atoms/Card';
+import Loader from '@/app/_atoms/Loader';
 
 export default function ReportList() {
   const [reports, setReports] = useState<Report[]>([]);
@@ -17,17 +18,17 @@ export default function ReportList() {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex h-40 items-center justify-center">
-        <MoonLoader size={60} />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
     <div className="flex flex-col gap-2">
       {reports.map((report) => (
-        <ReportInfo key={report._id} id={report._id} name={report.name} />
+        <Link key={report._id} href={`/report/${report._id}`}>
+          <Card className="py-3 cursor-pointer shadow-md hover:opacity-65 transition-opacity duration-300 flex justify-between items-center">
+            <p className="font-medium">{report.name}</p>
+          </Card>
+        </Link>
       ))}
     </div>
   );

@@ -7,7 +7,7 @@ export default function OverviewItem({ label, value }: OverviewItemProps) {
   return (
     <div>
       <p className="text-xs uppercase font-semibold">{label}</p>
-      <p className="text-gray-500 dark:text-gray-400">{value}</p>
+      <p className="text-gray-600 dark:text-gray-300">{value}</p>
     </div>
   );
 }

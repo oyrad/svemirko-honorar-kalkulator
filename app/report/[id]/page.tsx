@@ -1,19 +1,20 @@
 'use client';
 
 import ArrowLeft from '@/app/_icons/ArrowLeft';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Report } from '@/types/types';
 import Card from '@/app/_atoms/Card';
 import PersonCard from '@/app/_components/PersonCard';
 import useRates from '@/hooks/useRates';
 import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
+import Link from 'next/link';
+import Loader from '@/app/_atoms/Loader';
 
 export default function ReportDetails() {
   const [report, setReport] = useState<Report>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const router = useRouter();
   const { id } = useParams();
   const rates = useRates({ split: report?.split ?? 'deal' });
 
@@ -25,14 +26,16 @@ export default function ReportDetails() {
       .finally(() => setIsLoading(false));
   }, [id]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
-  if (!report) return <p>Report not found!</p>;
+  if (!report) return <Card>Report not found.</Card>;
 
   return (
     <>
       <div className="flex gap-4 items-center">
-        <ArrowLeft onClick={() => router.push('/')} />
+        <Link href="/">
+          <ArrowLeft />
+        </Link>
         <p className="font-semibold text-lg dark:text-white">{report.name}</p>
       </div>
       <Card className="flex flex-col gap-4">
@@ -65,7 +68,7 @@ export default function ReportDetails() {
           />
           <OverviewItem label="zarada" value={report.netBandPay} />
         </div>
-        {report.note && <Card className="bg-white">{report.note}</Card>}
+        {report.note && <OverviewItem label="bilješke" value={report.note} />}
         <div className="flex flex-col gap-2">
           <PersonCard
             personIndex="1"

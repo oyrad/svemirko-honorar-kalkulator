@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import useClearForm from '@/hooks/useClearForm';
 import NotesInput from '@/app/_components/NoteInput';
+import Link from 'next/link';
 
 export default function Create() {
   const router = useRouter();
@@ -57,11 +58,12 @@ export default function Create() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <ArrowLeft onClick={() => router.push('/')} />
+        <Link href="/">
+          <ArrowLeft />
+        </Link>
         <Button
-          onClick={() => {}}
           type="submit"
-          className="font-semibold rounded-lg bg-green-300 hover:bg-green-400 dark:bg-green-500 w-24 h-8 flex justify-center items-center"
+          className="font-medium rounded-lg bg-gradient-to-r from-green-400 to-green-500 w-24 h-8 flex justify-center items-center hover:opacity-85"
         >
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
