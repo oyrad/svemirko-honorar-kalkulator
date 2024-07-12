@@ -2,7 +2,7 @@
 
 import Card from '@/app/_atoms/Card';
 import Plus from '@/app/_icons/Plus';
-import Expense from '@/app/_components/Expense';
+import Expense from '@/app/report/create/_components/Expense';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import Button from '@/app/_atoms/Button';
 

@@ -1,9 +1,9 @@
 'use client';
 
-import BasicInfo from '@/app/_components/BasicInfo';
-import Settings from '@/app/_components/Settings';
-import ExpenseList from '@/app/_components/ExpenseList';
-import Earnings from '@/app/_components/Earnings';
+import BasicInfo from '@/app/report/create/_components/BasicInfo';
+import Settings from '@/app/report/create/_components/Settings';
+import ExpenseList from '@/app/report/create/_components/ExpenseList';
+import Earnings from '@/app/report/create/_components/Earnings';
 import { useRouter } from 'next/navigation';
 import Button from '@/app/_atoms/Button';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
@@ -11,8 +11,9 @@ import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import { useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import useClearForm from '@/hooks/useClearForm';
-import NotesInput from '@/app/_components/NoteInput';
+import NotesInput from '@/app/report/create/_components/NoteInput';
 import Link from 'next/link';
+import { FLAGS } from '@/libs/flags';
 
 export default function Create() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function Create() {
       <BasicInfo />
       <Settings />
       <ExpenseList />
-      <NotesInput note={note} setNote={setNote} />
+      {FLAGS.NOTES && <NotesInput note={note} setNote={setNote} />}
       <Earnings />
     </form>
   );

@@ -6,29 +6,43 @@ import { useEffect, useState } from 'react';
 import { Report } from '@/types/types';
 import Card from '@/app/_atoms/Card';
 import PersonCard from '@/app/_components/PersonCard';
-import useRates from '@/hooks/useRates';
 import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
+import useMembers from '@/hooks/useMembers';
 
 export default function ReportDetails() {
   const [report, setReport] = useState<Report>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const { id } = useParams();
-  const rates = useRates({ split: report?.split ?? 'deal' });
+  const members = useMembers({ split: report?.split ?? 'deal' });
 
   useEffect(() => {
     fetch(`/api/reports/${id}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 404) {
+          throw new Error();
+        }
+        return res.json();
+      })
       .then((data) => setReport(data))
-      .catch((err) => console.error(err))
+      .catch(() => setIsError(true))
       .finally(() => setIsLoading(false));
   }, [id]);
 
   if (isLoading) return <Loader />;
 
-  if (!report) return <Card>Report not found.</Card>;
+  if (isError || !report)
+    return (
+      <Card className="flex gap-4 items-center">
+        <Link href="/">
+          <ArrowLeft />
+        </Link>
+        <p>{id} ne postoji.</p>
+      </Card>
+    );
 
   return (
     <>
@@ -46,7 +60,7 @@ export default function ReportDetails() {
 
         <hr />
 
-        <div className="text-sm grid grid-cols-2 gap-4">
+        <div className="text-sm grid grid-cols-2 gap-4 mb-2">
           <OverviewItem
             label="booking fee"
             value={
@@ -70,33 +84,18 @@ export default function ReportDetails() {
         </div>
         {report.note && <OverviewItem label="bilješke" value={report.note} />}
         <div className="flex flex-col gap-2">
-          <PersonCard
-            personIndex="1"
-            name="Marko"
-            rate={rates.MARKO_RATE}
-            expenses={report.expenses}
-            netBandPay={report.netBandPay}
-            bgColor="bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-cyan-300 dark:to-blue-300"
-            isExpandable={false}
-          />
-          <PersonCard
-            personIndex="2"
-            name="Tali"
-            rate={rates.TALI_RATE}
-            expenses={report.expenses}
-            netBandPay={report.netBandPay}
-            bgColor="bg-gradient-to-r from-violet-100 to-fuchsia-100 dark:from-violet-300 dark:to-fuchsia-300"
-            isExpandable={false}
-          />
-          <PersonCard
-            personIndex="3"
-            name="Dario"
-            rate={rates.DARIO_RATE}
-            expenses={report.expenses}
-            netBandPay={report.netBandPay}
-            bgColor="bg-gradient-to-r from-green-100 to-lime-100 dark:from-green-300 dark:to-lime-300"
-            isExpandable={false}
-          />
+          {members.map((member) => (
+            <PersonCard
+              key={member.index}
+              personIndex={member.index}
+              name={member.name}
+              rate={member.rate}
+              expenses={report.expenses}
+              netBandPay={report.netBandPay}
+              bgColor={member.bgColor}
+              isExpandable={false}
+            />
+          ))}
         </div>
         <p className="text-gray-400 text-right text-xs">
           {new Date(report.createdAt).toLocaleString('hr-HR')}
