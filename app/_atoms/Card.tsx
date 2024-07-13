@@ -9,14 +9,14 @@ interface CardProps {
 
 export default function Card({ children, className = '', onClick }: CardProps) {
   return (
-    <div
+    <section
       className={cn(
-        'bg-white p-4 shadow-lg rounded-md card dark:text-white',
+        'bg-white p-4 shadow-lg rounded-md dark:bg-dark-card-background dark:text-white',
         className,
       )}
       onClick={onClick}
     >
       {children}
-    </div>
+    </section>
   );
 }

@@ -11,8 +11,8 @@
 body {
   background: linear-gradient(
     90deg,
-    rgba(252, 255, 245, 1) 0%,
-    rgba(235, 241, 255, 1) 100%
+    rgb(252, 255, 247) 0%,
+    rgb(235, 243, 255) 100%
   );
 }
 
@@ -29,15 +29,6 @@ input[type=number] {
 @media (prefers-color-scheme: dark) {
   body {
     background: rgba(0, 0, 0, 0.95)
-  }
-
-  .card {
-    background: rgb(37, 37, 37);
-    color: white;
-  }
-
-  .person-card {
-    color: black;
   }
 
   input {

@@ -39,7 +39,7 @@ export default function PersonCard({
   return (
     <motion.div
       className={cn(
-        'rounded-lg py-2 px-4 shadow person-card',
+        'rounded-lg py-2 px-4 shadow dark:text-black',
         isExpandable && 'cursor-pointer',
         bgColor,
       )}

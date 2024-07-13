@@ -64,7 +64,7 @@ export default function Create() {
         </Link>
         <Button
           type="submit"
-          className="font-medium rounded-lg bg-gradient-to-r from-green-400 to-green-500 w-24 h-8 flex justify-center items-center hover:opacity-85"
+          className="font-medium rounded-lg bg-gradient-to-r from-green-300 to-green-400 dark:from-green-400 dark:to-green-500 w-24 h-8 flex justify-center items-center hover:opacity-85"
         >
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
