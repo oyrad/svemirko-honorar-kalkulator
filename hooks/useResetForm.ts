@@ -1,6 +1,6 @@
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 
-export default function useClearForm() {
+export default function useResetForm() {
   const {
     setName,
     setGrossRoyalties,
@@ -10,14 +10,12 @@ export default function useClearForm() {
     setNetBandPay,
   } = useRoyaltiesStore();
 
-  function clearForm() {
+  return () => {
     setName('');
     setGrossRoyalties('');
     setExpenses([]);
     setIsThereBookingFee(false);
     setSplit('deal');
     setNetBandPay(0);
-  }
-
-  return clearForm;
+  };
 }

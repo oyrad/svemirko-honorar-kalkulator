@@ -14,9 +14,19 @@ const config: Config = {
     },
   },
   safelist: [
-    {
-      pattern: /(from|to)-(blue|cyan|fuchsia|violet|green|lime)-(100|300)/,
-    },
+    'bg-gradient-to-r',
+    'from-cyan-100',
+    'to-blue-100',
+    'dark:from-cyan-300',
+    'dark:to-blue-300',
+    'from-violet-100',
+    'to-fuchsia-100',
+    'dark:from-violet-300',
+    'dark:to-fuchsia-300',
+    'from-green-100',
+    'to-lime-100',
+    'dark:from-green-300',
+    'dark:to-lime-300',
   ],
 };
 export default config;

@@ -1,7 +1,7 @@
 'use client';
 
 import ArrowLeft from '@/app/_icons/ArrowLeft';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Report } from '@/types/types';
 import Card from '@/app/_atoms/Card';
@@ -10,11 +10,17 @@ import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
 import useMembers from '@/hooks/useMembers';
+import { getTotalExpenses } from '@/utils/utils';
+import Button from '@/app/_atoms/Button';
+import Delete from '@/app/_icons/Delete';
+import { FLAGS } from '@/libs/flags';
 
 export default function ReportDetails() {
   const [report, setReport] = useState<Report>();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
+  const router = useRouter();
 
   const { id } = useParams();
   const members = useMembers({ split: report?.split ?? 'deal' });
@@ -32,6 +38,16 @@ export default function ReportDetails() {
       .finally(() => setIsLoading(false));
   }, [id]);
 
+  function handleDelete() {
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/reports/${id}`, {
+      method: 'DELETE',
+    }).then((res) => {
+      if (res.status === 200) {
+        router.push('/');
+      }
+    });
+  }
+
   if (isLoading) return <Loader />;
 
   if (isError || !report)
@@ -46,11 +62,21 @@ export default function ReportDetails() {
 
   return (
     <>
-      <div className="flex gap-4 items-center">
-        <Link href="/">
-          <ArrowLeft />
-        </Link>
-        <p className="font-semibold text-lg dark:text-white">{report.name}</p>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <Link href="/">
+            <ArrowLeft />
+          </Link>
+          <p className="font-semibold text-lg dark:text-white">{report.name}</p>
+        </div>
+        {FLAGS.DELETE_REPORT && (
+          <Button
+            className="bg-red-300 dark:bg-red-500 px-2 py-1.5 hover:opacity-85"
+            onClick={handleDelete}
+          >
+            <Delete />
+          </Button>
+        )}
       </div>
       <Card className="flex flex-col gap-4">
         <div className="flex justify-between items-center font-semibold text-lg">
@@ -75,10 +101,7 @@ export default function ReportDetails() {
           />
           <OverviewItem
             label="troškovi"
-            value={report.expenses.reduce(
-              (sum, expense) => sum + parseFloat(expense.amount),
-              0,
-            )}
+            value={getTotalExpenses(report.expenses)}
           />
           <OverviewItem label="zarada" value={report.netBandPay} />
         </div>

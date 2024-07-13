@@ -15,3 +15,10 @@ export async function GET(request: NextRequest, { params }) {
 
   return Response.json(report, { status: 200 });
 }
+
+export async function DELETE(request: NextRequest, { params }) {
+  await connect();
+  await Report.findByIdAndDelete(params.id);
+
+  return Response.json({ msg: 'Report deleted' }, { status: 200 });
+}

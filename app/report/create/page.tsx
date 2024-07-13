@@ -10,7 +10,7 @@ import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import { useState } from 'react';
 import { MoonLoader } from 'react-spinners';
-import useClearForm from '@/hooks/useClearForm';
+import useResetForm from '@/hooks/useResetForm';
 import NotesInput from '@/app/report/create/_components/NoteInput';
 import Link from 'next/link';
 import { FLAGS } from '@/libs/flags';
@@ -29,7 +29,7 @@ export default function Create() {
     netBandPay,
   } = useRoyaltiesStore();
 
-  const clearForm = useClearForm();
+  const resetForm = useResetForm();
 
   function handleSubmit(e) {
     setIsLoading(true);
@@ -49,7 +49,7 @@ export default function Create() {
       .then((res) => {
         if (res.status === 201) {
           router.push('/');
-          clearForm();
+          resetForm();
         }
       })
       .catch((err) => console.error(err))
@@ -64,7 +64,7 @@ export default function Create() {
         </Link>
         <Button
           type="submit"
-          className="font-medium rounded-lg bg-gradient-to-r from-green-300 to-green-400 dark:from-green-400 dark:to-green-500 w-24 h-8 flex justify-center items-center hover:opacity-85"
+          className="font-medium bg-gradient-to-r from-green-300 to-green-400 dark:from-green-400 dark:to-green-500 w-24 h-8 justify-center hover:opacity-85"
         >
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
