@@ -1,16 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function NewReportButton() {
-  const router = useRouter();
-
   return (
-    <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300 ease-in-out"
-      onClick={() => router.push('/create')}
-    >
-      New Report
-    </button>
+    <Link href="/report/create">
+      <button className="w-full shadow-md bg-gradient-to-r from-green-600 to-blue-600 font-semibold py-2 rounded-lg text-white hover:opacity-85 transition-opacity duration-300 outline-none">
+        Novi izračun
+      </button>
+    </Link>
   );
 }

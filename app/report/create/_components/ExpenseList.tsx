@@ -2,7 +2,7 @@
 
 import Card from '@/app/_atoms/Card';
 import Plus from '@/app/_icons/Plus';
-import Expense from '@/app/_components/Expense';
+import Expense from '@/app/report/create/_components/Expense';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import Button from '@/app/_atoms/Button';
 
@@ -41,7 +41,10 @@ export default function ExpenseList() {
     <Card className="flex flex-col space-y-3">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Troškovi</p>
-        <Button onClick={addExpense}>
+        <Button
+          onClick={addExpense}
+          className="bg-slate-100 hover:bg-slate-200"
+        >
           <Plus />
           <p className="text-sm font-semibold">Dodaj</p>
         </Button>
@@ -58,12 +61,6 @@ export default function ExpenseList() {
             />
           ))}
         </div>
-      )}
-      {expenses.length !== 0 && (
-        <p className="text-sm text-slate-500">
-          Ukupno:{' '}
-          {expenses.reduce((acc, expense) => acc + Number(expense.amount), 0)}
-        </p>
       )}
     </Card>
   );

@@ -7,10 +7,14 @@ export type Expense = {
   whoPaid: string;
 };
 
-export type Debt = {
-  id: number;
+export type Report = {
+  _id: string;
   name: string;
-  amount: string;
-  from: string;
-  to: string;
+  grossRoyalties: string;
+  isThereBookingFee: boolean;
+  split: Split;
+  expenses: Expense[];
+  note: string;
+  netBandPay: number;
+  createdAt: string;
 };

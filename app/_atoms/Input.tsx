@@ -22,7 +22,7 @@ export default function Input({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className="py-0.5 px-2 rounded-md w-full shadow-sm border border-gray-200 text-sm outline-none"
+      className="py-0.5 px-2 rounded-md w-full shadow-sm text-black text-sm outline-none border border-gray-300"
     />
   );
 }

@@ -1,16 +1,11 @@
-import BasicInfo from '@/app/_components/BasicInfo';
-import Settings from '@/app/_components/Settings';
-import ExpenseList from '@/app/_components/ExpenseList';
-import Earnings from '@/app/_components/Earnings';
+import NewReportButton from '@/app/_components/NewReportButton';
+import ReportList from '@/app/_components/ReportList';
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
-      <BasicInfo />
-      <Settings />
-      <ExpenseList />
-      {/*<DebtList />*/}
-      <Earnings />
+      <NewReportButton />
+      <ReportList />
     </>
   );
 }
