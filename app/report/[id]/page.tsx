@@ -39,7 +39,7 @@ export default function ReportDetails() {
   }, [id]);
 
   function handleDelete() {
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/reports/${id}`, {
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports/${id}`, {
       method: 'DELETE',
     }).then((res) => {
       if (res.status === 200) {

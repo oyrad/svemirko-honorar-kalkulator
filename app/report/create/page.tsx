@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Button from '@/app/_atoms/Button';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { useRoyaltiesStore } from '@/stores/royaltiesStore';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import useResetForm from '@/hooks/useResetForm';
 import NotesInput from '@/app/report/create/_components/NoteInput';
@@ -31,10 +31,10 @@ export default function Create() {
 
   const resetForm = useResetForm();
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/reports`, {
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports`, {
       method: 'POST',
       body: JSON.stringify({
         name,

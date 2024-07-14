@@ -11,7 +11,7 @@ export default function ReportList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/reports`)
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports`)
       .then((res) => res.json())
       .then((data) => setReports(data))
       .finally(() => setIsLoading(false));
