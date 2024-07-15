@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
     isThereBookingFee,
     split,
-    expenses,
+    expenses: expenses.filter((expense) => parseFloat(expense.amount) > 0),
     note,
   });
 

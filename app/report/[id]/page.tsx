@@ -80,14 +80,14 @@ export default function ReportDetails() {
         <div className="flex gap-2 items-center">
           {FLAGS.EDIT_REPORT && (
             <Link href={`/report/${report._id}/edit`}>
-              <Button className="bg-blue-400 dark:bg-blue-600 px-2 py-1.5 hover:opacity-85">
+              <Button className="bg-blue-400 dark:bg-blue-500 px-2 py-1.5 hover:opacity-85">
                 <Edit />
               </Button>
             </Link>
           )}
           {FLAGS.DELETE_REPORT && (
             <Button
-              className="bg-red-400 dark:bg-red-600 px-2 py-1.5 hover:opacity-85"
+              className="bg-red-400 dark:bg-red-500 px-2 py-1.5 hover:opacity-85"
               onClick={handleDelete}
             >
               <Delete />
@@ -108,7 +108,7 @@ export default function ReportDetails() {
             label="booking fee"
             value={
               report.isThereBookingFee
-                ? parseFloat(report.grossRoyalties) * 0.1
+                ? (parseFloat(report.grossRoyalties) * 0.1).toFixed(2)
                 : '-'
             }
           />
@@ -118,9 +118,9 @@ export default function ReportDetails() {
           />
           <OverviewItem
             label="troškovi"
-            value={getTotalExpenses(report.expenses) || '-'}
+            value={getTotalExpenses(report.expenses).toFixed(2) || '-'}
           />
-          <OverviewItem label="zarada" value={netRoyalties} />
+          <OverviewItem label="zarada" value={netRoyalties.toFixed(2)} />
         </div>
         {report.note && <OverviewItem label="bilješke" value={report.note} />}
         <div className="flex flex-col gap-2">

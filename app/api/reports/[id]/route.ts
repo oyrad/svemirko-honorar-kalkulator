@@ -22,3 +22,26 @@ export async function DELETE(request: NextRequest, context: any) {
 
   return Response.json({ msg: 'Report deleted' }, { status: 200 });
 }
+
+export async function PUT(request: NextRequest, context: any) {
+  await connect();
+
+  const isIdValid = mongoose.isValidObjectId(context.params.id);
+  if (!isIdValid) {
+    return Response.json({ msg: 'Invalid id' }, { status: 404 });
+  }
+
+  const { name, grossRoyalties, isThereBookingFee, split, expenses, note } =
+    await request.json();
+
+  await Report.findByIdAndUpdate(context.params.id, {
+    name: name.length === 0 ? new Date().toISOString() : name,
+    grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
+    isThereBookingFee,
+    split,
+    expenses: expenses.filter((expense) => parseFloat(expense.amount) > 0),
+    note,
+  });
+
+  return Response.json({ msg: 'Report updated' }, { status: 200 });
+}
