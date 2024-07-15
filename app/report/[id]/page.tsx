@@ -118,7 +118,11 @@ export default function ReportDetails() {
           />
           <OverviewItem
             label="troškovi"
-            value={getTotalExpenses(report.expenses).toFixed(2) || '-'}
+            value={
+              report.expenses.length > 0
+                ? getTotalExpenses(report.expenses).toFixed(2)
+                : '-'
+            }
           />
           <OverviewItem label="zarada" value={netRoyalties.toFixed(2)} />
         </div>
