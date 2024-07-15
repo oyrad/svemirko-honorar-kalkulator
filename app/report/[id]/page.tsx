@@ -10,10 +10,11 @@ import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
 import useMembers from '@/hooks/useMembers';
-import { getTotalExpenses } from '@/utils/utils';
+import { getNetRoyalties, getTotalExpenses } from '@/utils/utils';
 import Button from '@/app/_atoms/Button';
 import Delete from '@/app/_icons/Delete';
 import { FLAGS } from '@/libs/flags';
+import Edit from '@/app/_icons/Edit';
 
 export default function ReportDetails() {
   const [report, setReport] = useState<Report>();
@@ -48,9 +49,15 @@ export default function ReportDetails() {
     });
   }
 
+  const netRoyalties = getNetRoyalties(
+    report?.grossRoyalties ?? '',
+    report?.isThereBookingFee ?? false,
+    report?.expenses ?? [],
+  );
+
   if (isLoading) return <Loader />;
 
-  if (isError || !report)
+  if (isError || !report) {
     return (
       <Card className="flex gap-4 items-center">
         <Link href="/">
@@ -59,6 +66,7 @@ export default function ReportDetails() {
         <p>{id} ne postoji.</p>
       </Card>
     );
+  }
 
   return (
     <>
@@ -69,14 +77,23 @@ export default function ReportDetails() {
           </Link>
           <p className="font-semibold text-lg dark:text-white">{report.name}</p>
         </div>
-        {FLAGS.DELETE_REPORT && (
-          <Button
-            className="bg-red-300 dark:bg-red-500 px-2 py-1.5 hover:opacity-85"
-            onClick={handleDelete}
-          >
-            <Delete />
-          </Button>
-        )}
+        <div className="flex gap-2 items-center">
+          {FLAGS.EDIT_REPORT && (
+            <Link href={`/report/${report._id}/edit`}>
+              <Button className="bg-blue-400 dark:bg-blue-600 px-2 py-1.5 hover:opacity-85">
+                <Edit />
+              </Button>
+            </Link>
+          )}
+          {FLAGS.DELETE_REPORT && (
+            <Button
+              className="bg-red-400 dark:bg-red-600 px-2 py-1.5 hover:opacity-85"
+              onClick={handleDelete}
+            >
+              <Delete />
+            </Button>
+          )}
+        </div>
       </div>
       <Card className="flex flex-col gap-4">
         <div className="flex justify-between items-center font-semibold text-lg">
@@ -101,9 +118,9 @@ export default function ReportDetails() {
           />
           <OverviewItem
             label="troškovi"
-            value={getTotalExpenses(report.expenses)}
+            value={getTotalExpenses(report.expenses) || '-'}
           />
-          <OverviewItem label="zarada" value={report.netBandPay} />
+          <OverviewItem label="zarada" value={netRoyalties} />
         </div>
         {report.note && <OverviewItem label="bilješke" value={report.note} />}
         <div className="flex flex-col gap-2">
@@ -114,7 +131,7 @@ export default function ReportDetails() {
               name={member.name}
               rate={member.rate}
               expenses={report.expenses}
-              netBandPay={report.netBandPay}
+              netRoyalties={netRoyalties}
               bgColor={member.bgColor}
               isExpandable={false}
             />

@@ -2,12 +2,21 @@
 
 import React from 'react';
 import Card from '@/app/_atoms/Card';
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
+import { Split } from '@/types/types';
 
-export default function Settings() {
-  const { isThereBookingFee, setIsThereBookingFee, split, setSplit } =
-    useRoyaltiesStore();
+interface SettingsProps {
+  isThereBookingFee: boolean;
+  setIsThereBookingFee: (value: boolean) => void;
+  split: string;
+  setSplit: (value: Split) => void;
+}
 
+export default function Settings({
+  isThereBookingFee,
+  setIsThereBookingFee,
+  split,
+  setSplit,
+}: SettingsProps) {
   return (
     <Card className="flex flex-col py-3 space-y-1">
       <p className="font-semibold">Postavke</p>

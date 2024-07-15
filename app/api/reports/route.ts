@@ -11,15 +11,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   await connect();
-  const {
-    name,
-    grossRoyalties,
-    isThereBookingFee,
-    split,
-    expenses,
-    note,
-    netBandPay,
-  } = await request.json();
+  const { name, grossRoyalties, isThereBookingFee, split, expenses, note } =
+    await request.json();
 
   await Report.create({
     name: name.length === 0 ? new Date().toISOString() : name,
@@ -28,7 +21,6 @@ export async function POST(request: NextRequest) {
     split,
     expenses,
     note,
-    netBandPay,
   });
 
   return Response.json({ msg: 'New report created' }, { status: 201 });

@@ -2,33 +2,20 @@
 
 import Card from '@/app/_atoms/Card';
 import Input from '@/app/_atoms/Input';
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
-import { useEffect } from 'react';
 
-export default function BasicInfo() {
-  const {
-    name,
-    setName,
-    grossRoyalties,
-    setGrossRoyalties,
-    setNetBandPay,
-    expenses,
-    isThereBookingFee,
-  } = useRoyaltiesStore();
+interface BasicInfoProps {
+  name: string;
+  setName: (value: string) => void;
+  grossRoyalties: string;
+  setGrossRoyalties: (value: string) => void;
+}
 
-  useEffect(() => {
-    let totalBandFee = parseFloat(grossRoyalties) || 0;
-    if (isThereBookingFee) {
-      totalBandFee = (parseFloat(grossRoyalties) || 0) * 0.9;
-    }
-
-    expenses.forEach(
-      (expense) => (totalBandFee -= parseInt(expense.amount || '0')),
-    );
-
-    setNetBandPay(totalBandFee);
-  }, [expenses, grossRoyalties, isThereBookingFee, setNetBandPay]);
-
+export default function BasicInfo({
+  name,
+  setName,
+  grossRoyalties,
+  setGrossRoyalties,
+}: BasicInfoProps) {
   return (
     <Card className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-1">

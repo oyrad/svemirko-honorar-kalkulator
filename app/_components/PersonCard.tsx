@@ -9,7 +9,7 @@ interface PersonCardProps {
   name: string;
   rate: number;
   expenses: Expense[];
-  netBandPay: number;
+  netRoyalties: number;
   bgColor: string;
   isExpandable?: boolean;
 }
@@ -19,14 +19,14 @@ export default function PersonCard({
   name,
   rate,
   expenses,
-  netBandPay,
+  netRoyalties,
   bgColor,
   isExpandable = true,
 }: PersonCardProps) {
   const [isExpanded, setIsExpanded] = useState(!isExpandable);
 
   function calculatePay(rate: number, index: string) {
-    let totalPayWithExpenses = netBandPay * rate;
+    let totalPayWithExpenses = netRoyalties * rate;
     expenses.forEach((expense) => {
       if (expense.whoPaid === index && expense.amount) {
         totalPayWithExpenses += parseInt(expense.amount);
@@ -80,8 +80,8 @@ export default function PersonCard({
             exit={{ opacity: 0 }}
           >
             <p>
-              {netBandPay.toFixed(2)} * {(rate * 100).toFixed(1)}% ={' '}
-              {(netBandPay * rate).toFixed(2)}
+              {netRoyalties.toFixed(2)} * {(rate * 100).toFixed(1)}% ={' '}
+              {(netRoyalties * rate).toFixed(2)}
             </p>
             {expenses
               .filter((expense) => expense.whoPaid === personIndex)

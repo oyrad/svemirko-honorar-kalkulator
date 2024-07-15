@@ -15,6 +15,5 @@ export type Report = {
   split: Split;
   expenses: Expense[];
   note: string;
-  netBandPay: number;
   createdAt: string;
 };

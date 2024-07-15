@@ -1,13 +1,21 @@
 'use client';
 
 import Card from '@/app/_atoms/Card';
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import PersonCard from '@/app/_components/PersonCard';
 import useMembers from '@/hooks/useMembers';
+import { Expense, Split } from '@/types/types';
 
-export default function Earnings() {
-  const { expenses, netBandPay, split } = useRoyaltiesStore();
+interface EarningsProps {
+  expenses: Expense[];
+  netRoyalties: number;
+  split: Split;
+}
 
+export default function Earnings({
+  expenses,
+  netRoyalties,
+  split,
+}: EarningsProps) {
   const members = useMembers({ split });
 
   return (
@@ -15,7 +23,7 @@ export default function Earnings() {
       <Card>
         <div className="flex justify-between items-center">
           <p className="font-semibold">Zarada</p>
-          <p className="font-semibold">{netBandPay.toFixed(2)}</p>
+          <p className="font-semibold">{netRoyalties.toFixed(2)}</p>
         </div>
       </Card>
       <Card className="flex flex-col space-y-2">
@@ -27,7 +35,7 @@ export default function Earnings() {
             name={member.name}
             rate={member.rate}
             expenses={expenses}
-            netBandPay={netBandPay}
+            netRoyalties={netRoyalties}
             bgColor={member.bgColor}
           />
         ))}

@@ -3,12 +3,20 @@
 import Card from '@/app/_atoms/Card';
 import Plus from '@/app/_icons/Plus';
 import Expense from '@/app/report/create/_components/Expense';
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
 import Button from '@/app/_atoms/Button';
+import { Expense as ExpenseType } from '@/types/types';
 
-export default function ExpenseList() {
-  const { expenses, setExpenses } = useRoyaltiesStore();
+interface ExpenseListProps {
+  expenses: Expense[];
+  setExpenses: (
+    value: ((prevState: Expense[]) => Expense[]) | Expense[],
+  ) => void;
+}
 
+export default function ExpenseList({
+  expenses,
+  setExpenses,
+}: ExpenseListProps) {
   function addExpense() {
     setExpenses([
       ...expenses,
@@ -51,7 +59,7 @@ export default function ExpenseList() {
       </div>
       {expenses.length > 0 && (
         <div className="flex flex-col space-y-1">
-          {expenses.map((expense, index) => (
+          {expenses.map((expense: ExpenseType, index) => (
             <Expense
               key={expense.id}
               index={index}

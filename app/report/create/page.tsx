@@ -7,29 +7,25 @@ import Earnings from '@/app/report/create/_components/Earnings';
 import { useRouter } from 'next/navigation';
 import Button from '@/app/_atoms/Button';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
-import { useRoyaltiesStore } from '@/stores/royaltiesStore';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { MoonLoader } from 'react-spinners';
-import useResetForm from '@/hooks/useResetForm';
 import NotesInput from '@/app/report/create/_components/NoteInput';
 import Link from 'next/link';
 import { FLAGS } from '@/libs/flags';
+import { Expense, Split } from '@/types/types';
+import { getNetRoyalties } from '@/utils/utils';
 
 export default function Create() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [name, setName] = useState('');
+  const [grossRoyalties, setGrossRoyalties] = useState('');
+  const [isThereBookingFee, setIsThereBookingFee] = useState(false);
+  const [split, setSplit] = useState<Split>('deal');
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [note, setNote] = useState('');
 
-  const {
-    name,
-    grossRoyalties,
-    expenses,
-    isThereBookingFee,
-    split,
-    netBandPay,
-  } = useRoyaltiesStore();
-
-  const resetForm = useResetForm();
+  const router = useRouter();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setIsLoading(true);
@@ -43,18 +39,27 @@ export default function Create() {
         isThereBookingFee,
         split,
         note,
-        netBandPay,
       }),
     })
       .then((res) => {
         if (res.status === 201) {
           router.push('/');
-          resetForm();
+          setName('');
+          setGrossRoyalties('');
+          setExpenses([]);
+          setIsThereBookingFee(false);
+          setNote('');
+          setSplit('deal');
         }
       })
       .catch((err) => console.error(err))
       .finally(() => setIsLoading(false));
   }
+
+  const netRoyalties = useMemo(
+    () => getNetRoyalties(grossRoyalties, isThereBookingFee, expenses),
+    [expenses, grossRoyalties, isThereBookingFee],
+  );
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -69,11 +74,21 @@ export default function Create() {
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
       </div>
-      <BasicInfo />
-      <Settings />
-      <ExpenseList />
+      <BasicInfo
+        name={name}
+        setName={setName}
+        grossRoyalties={grossRoyalties}
+        setGrossRoyalties={setGrossRoyalties}
+      />
+      <Settings
+        isThereBookingFee={isThereBookingFee}
+        setIsThereBookingFee={setIsThereBookingFee}
+        split={split}
+        setSplit={setSplit}
+      />
+      <ExpenseList expenses={expenses} setExpenses={setExpenses} />
       {FLAGS.NOTES && <NotesInput note={note} setNote={setNote} />}
-      <Earnings />
+      <Earnings expenses={expenses} netRoyalties={netRoyalties} split={split} />
     </form>
   );
 }

@@ -15,7 +15,6 @@ const reportSchema = new Schema(
         whoPaid: String,
       },
     ],
-    netBandPay: Number,
   },
   {
     timestamps: true,

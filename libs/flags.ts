@@ -1,4 +1,5 @@
 export const FLAGS = {
   NOTES: false,
-  DELETE_REPORT: false,
+  EDIT_REPORT: true,
+  DELETE_REPORT: true,
 };
