@@ -1,6 +1,7 @@
 import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
+import { Expense } from '@/types/types';
 
 export async function GET() {
   await connect();
@@ -19,7 +20,9 @@ export async function POST(request: NextRequest) {
     grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
     isThereBookingFee,
     split,
-    expenses: expenses.filter((expense) => parseFloat(expense.amount) > 0),
+    expenses: expenses.filter(
+      (expense: Expense) => parseFloat(expense.amount) > 0,
+    ),
     note,
   });
 

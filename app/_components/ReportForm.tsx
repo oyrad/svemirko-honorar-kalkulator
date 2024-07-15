@@ -22,7 +22,9 @@ interface ReportFormProps {
   split: Split;
   setSplit: (split: Split) => void;
   expenses: Expense[];
-  setExpenses: (expenses: Expense[]) => void;
+  setExpenses: (
+    value: Expense[] | ((prevState: Expense[]) => Expense[]),
+  ) => void;
   note: string;
   setNote: (note: string) => void;
   isLoading: boolean;

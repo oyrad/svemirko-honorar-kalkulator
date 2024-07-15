@@ -7,9 +7,9 @@ import Button from '@/app/_atoms/Button';
 import { Expense as ExpenseType } from '@/types/types';
 
 interface ExpenseListProps {
-  expenses: Expense[];
+  expenses: ExpenseType[];
   setExpenses: (
-    value: ((prevState: Expense[]) => Expense[]) | Expense[],
+    value: ((prevState: ExpenseType[]) => ExpenseType[]) | ExpenseType[],
   ) => void;
 }
 
