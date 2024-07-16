@@ -41,8 +41,11 @@ export default function ReportForm({
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const { name, value, type } = e.target;
+    const newValue =
+      type === 'checkbox' && 'checked' in e.target
+        ? (e.target as HTMLInputElement).checked
+        : value;
     setReport((prev: ReportTextData) => ({ ...prev, [name]: newValue }));
   }
 
