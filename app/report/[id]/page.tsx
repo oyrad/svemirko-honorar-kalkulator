@@ -3,7 +3,7 @@
 import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Report } from '@/types/types';
+import { ReportDB } from '@/types/types';
 import Card from '@/app/_atoms/Card';
 import PersonCard from '@/app/_components/PersonCard';
 import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
@@ -17,7 +17,7 @@ import { FLAGS } from '@/libs/flags';
 import Edit from '@/app/_icons/Edit';
 
 export default function ReportDetails() {
-  const [report, setReport] = useState<Report>();
+  const [report, setReport] = useState<ReportDB>();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -141,9 +141,17 @@ export default function ReportDetails() {
             />
           ))}
         </div>
-        <p className="text-gray-400 text-right text-xs">
-          {new Date(report.createdAt).toLocaleString('hr-HR')}
-        </p>
+        <div className="flex flex-col gap-1">
+          <p className="text-gray-400 text-right text-xs">
+            {new Date(report.createdAt).toLocaleString('hr-HR')}
+          </p>
+          {FLAGS.EDIT_REPORT && (
+            <p className="text-gray-400 text-right text-xs">
+              <span className="opacity-65">Updated:</span>{' '}
+              {new Date(report.updatedAt).toLocaleString('hr-HR')}
+            </p>
+          )}
+        </div>
       </Card>
     </>
   );

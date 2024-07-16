@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Report } from '@/types/types';
+import { ReportDB } from '@/types/types';
 import Link from 'next/link';
 import Card from '@/app/_atoms/Card';
 import Loader from '@/app/_atoms/Loader';
 
 export default function ReportList() {
-  const [reports, setReports] = useState<Report[]>([]);
+  const [reports, setReports] = useState<ReportDB[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

@@ -19,7 +19,7 @@ export default function Button({
       onClick={onClick}
       type={type}
       className={cn(
-        'flex space-x-1 items-center py-1 px-3 rounded-lg shadow transition-colors duration-200 ease-in-out',
+        'flex space-x-1 items-center py-1 px-3 rounded-lg shadow transition-opacity duration-200 ease-in-out',
         className,
       )}
     >
