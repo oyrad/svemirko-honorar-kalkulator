@@ -23,3 +23,5 @@ export type Report = {
 };
 
 export type ReportDB = Report & DatabaseProps;
+
+export type ReportTextData = Omit<Report, 'expenses'>;

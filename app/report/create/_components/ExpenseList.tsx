@@ -8,9 +8,7 @@ import { Expense as ExpenseType } from '@/types/types';
 
 interface ExpenseListProps {
   expenses: ExpenseType[];
-  setExpenses: (
-    value: ((prevState: ExpenseType[]) => ExpenseType[]) | ExpenseType[],
-  ) => void;
+  setExpenses: (expenses: ExpenseType[]) => void;
 }
 
 export default function ExpenseList({

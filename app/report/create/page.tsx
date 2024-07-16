@@ -2,18 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import { Expense, Split } from '@/types/types';
+import { Expense, ReportTextData } from '@/types/types';
 import ReportForm from '@/app/_components/ReportForm';
+import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 
 export default function Create() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [name, setName] = useState('');
-  const [grossRoyalties, setGrossRoyalties] = useState('');
-  const [isThereBookingFee, setIsThereBookingFee] = useState(false);
-  const [split, setSplit] = useState<Split>('deal');
+  const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [note, setNote] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -22,24 +18,13 @@ export default function Create() {
     e.preventDefault();
     fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports`, {
       method: 'POST',
-      body: JSON.stringify({
-        name,
-        grossRoyalties,
-        expenses,
-        isThereBookingFee,
-        split,
-        note,
-      }),
+      body: JSON.stringify({ ...report, expenses }),
     })
       .then((res) => {
         if (res.status === 201) {
           router.push('/');
-          setName('');
-          setGrossRoyalties('');
+          setReport(REPORT_FORM_DEFAULT);
           setExpenses([]);
-          setIsThereBookingFee(false);
-          setNote('');
-          setSplit('deal');
         }
       })
       .catch((err) => console.error(err))
@@ -48,21 +33,13 @@ export default function Create() {
 
   return (
     <ReportForm
-      name={name}
-      setName={setName}
-      grossRoyalties={grossRoyalties}
-      setGrossRoyalties={setGrossRoyalties}
-      isThereBookingFee={isThereBookingFee}
-      setIsThereBookingFee={setIsThereBookingFee}
-      split={split}
-      setSplit={setSplit}
+      report={report}
+      setReport={setReport}
       expenses={expenses}
       setExpenses={setExpenses}
-      note={note}
-      setNote={setNote}
       isLoading={isLoading}
-      backLink="/"
       handleSubmit={handleSubmit}
+      backLink="/"
     />
   );
 }

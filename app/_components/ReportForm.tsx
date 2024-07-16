@@ -8,51 +8,43 @@ import ExpenseList from '@/app/report/create/_components/ExpenseList';
 import { FLAGS } from '@/libs/flags';
 import NotesInput from '@/app/report/create/_components/NoteInput';
 import Earnings from '@/app/report/create/_components/Earnings';
-import { Expense, Split } from '@/types/types';
-import { FormEvent, useMemo } from 'react';
-import { getNetRoyalties } from '@/utils/utils';
+import { Expense, ReportTextData, Split } from '@/types/types';
+import { ChangeEvent, FormEvent } from 'react';
 
 interface ReportFormProps {
-  name: string;
-  setName: (name: string) => void;
-  grossRoyalties: string;
-  setGrossRoyalties: (grossRoyalties: string) => void;
-  isThereBookingFee: boolean;
-  setIsThereBookingFee: (isThereBookingFee: boolean) => void;
-  split: Split;
-  setSplit: (split: Split) => void;
-  expenses: Expense[];
-  setExpenses: (
-    value: Expense[] | ((prevState: Expense[]) => Expense[]),
+  report: ReportTextData;
+  setReport: (
+    report: (prev: ReportTextData) => {
+      isThereBookingFee: boolean;
+      note: string;
+      grossRoyalties: string;
+      split: Split;
+      name: string;
+    },
   ) => void;
-  note: string;
-  setNote: (note: string) => void;
+  expenses: Expense[];
+  setExpenses: (expenses: Expense[]) => void;
   isLoading: boolean;
-  backLink: string;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  backLink: string;
 }
 
 export default function ReportForm({
-  name,
-  setName,
-  grossRoyalties,
-  setGrossRoyalties,
-  isThereBookingFee,
-  setIsThereBookingFee,
-  split,
-  setSplit,
+  report,
+  setReport,
   expenses,
   setExpenses,
-  note,
-  setNote,
   isLoading,
-  backLink,
   handleSubmit,
+  backLink,
 }: ReportFormProps) {
-  const netRoyalties = useMemo(
-    () => getNetRoyalties(grossRoyalties, isThereBookingFee, expenses),
-    [expenses, grossRoyalties, isThereBookingFee],
-  );
+  function handleChange(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    setReport((prev: ReportTextData) => ({ ...prev, [name]: newValue }));
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -67,21 +59,13 @@ export default function ReportForm({
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
       </div>
-      <BasicInfo
-        name={name}
-        setName={setName}
-        grossRoyalties={grossRoyalties}
-        setGrossRoyalties={setGrossRoyalties}
-      />
-      <Settings
-        isThereBookingFee={isThereBookingFee}
-        setIsThereBookingFee={setIsThereBookingFee}
-        split={split}
-        setSplit={setSplit}
-      />
+      <BasicInfo report={report} handleChange={handleChange} />
+      <Settings report={report} handleChange={handleChange} />
       <ExpenseList expenses={expenses} setExpenses={setExpenses} />
-      {FLAGS.NOTES && <NotesInput note={note} setNote={setNote} />}
-      <Earnings expenses={expenses} netRoyalties={netRoyalties} split={split} />
+      {FLAGS.NOTES && (
+        <NotesInput note={report.note} handleChange={handleChange} />
+      )}
+      <Earnings report={report} expenses={expenses} />
     </form>
   );
 }

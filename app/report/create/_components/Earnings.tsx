@@ -3,20 +3,27 @@
 import Card from '@/app/_atoms/Card';
 import PersonCard from '@/app/_components/PersonCard';
 import useMembers from '@/hooks/useMembers';
-import { Expense, Split } from '@/types/types';
+import { Expense, ReportTextData } from '@/types/types';
+import { useMemo } from 'react';
+import { getNetRoyalties } from '@/utils/utils';
 
 interface EarningsProps {
+  report: ReportTextData;
   expenses: Expense[];
-  netRoyalties: number;
-  split: Split;
 }
 
-export default function Earnings({
-  expenses,
-  netRoyalties,
-  split,
-}: EarningsProps) {
-  const members = useMembers({ split });
+export default function Earnings({ report, expenses }: EarningsProps) {
+  const members = useMembers({ split: report.split });
+
+  const netRoyalties = useMemo(
+    () =>
+      getNetRoyalties(
+        report.grossRoyalties,
+        report.isThereBookingFee,
+        expenses,
+      ),
+    [report.grossRoyalties, report.isThereBookingFee, expenses],
+  );
 
   return (
     <>

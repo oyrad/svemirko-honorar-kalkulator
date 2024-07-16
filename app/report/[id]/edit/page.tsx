@@ -4,24 +4,19 @@ import { useParams, useRouter } from 'next/navigation';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Expense, Split } from '@/types/types';
 import Loader from '@/app/_atoms/Loader';
 import Card from '@/app/_atoms/Card';
 import ReportForm from '@/app/_components/ReportForm';
+import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
+import { Expense, Report, ReportTextData } from '@/types/types';
 
 export default function Create() {
+  const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  const [name, setName] = useState('');
-  const [grossRoyalties, setGrossRoyalties] = useState('');
-  const [isThereBookingFee, setIsThereBookingFee] = useState(false);
-  const [split, setSplit] = useState<Split>('deal');
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [note, setNote] = useState('');
-
   const router = useRouter();
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -32,13 +27,9 @@ export default function Create() {
         }
         return res.json();
       })
-      .then((data) => {
-        setName(data.name);
-        setGrossRoyalties(data.grossRoyalties);
-        setIsThereBookingFee(data.isThereBookingFee);
-        setSplit(data.split);
-        setExpenses(data.expenses);
-        setNote(data.note);
+      .then(({ expenses, ...data }: Report) => {
+        setReport(data);
+        setExpenses(expenses);
       })
       .catch(() => setIsError(true))
       .finally(() => setIsLoading(false));
@@ -49,24 +40,13 @@ export default function Create() {
     e.preventDefault();
     fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({
-        name,
-        grossRoyalties,
-        expenses,
-        isThereBookingFee,
-        split,
-        note,
-      }),
+      body: JSON.stringify({ ...report, expenses }),
     })
       .then((res) => {
         if (res.status === 200) {
           router.push(`/report/${id}`);
-          setName('');
-          setGrossRoyalties('');
+          setReport(REPORT_FORM_DEFAULT);
           setExpenses([]);
-          setIsThereBookingFee(false);
-          setNote('');
-          setSplit('deal');
         }
       })
       .catch((err) => console.error(err))
@@ -87,21 +67,13 @@ export default function Create() {
 
   return (
     <ReportForm
-      name={name}
-      setName={setName}
-      grossRoyalties={grossRoyalties}
-      setGrossRoyalties={setGrossRoyalties}
-      isThereBookingFee={isThereBookingFee}
-      setIsThereBookingFee={setIsThereBookingFee}
-      split={split}
-      setSplit={setSplit}
+      report={report}
+      setReport={setReport}
       expenses={expenses}
       setExpenses={setExpenses}
-      note={note}
-      setNote={setNote}
       isLoading={isLoading}
-      backLink={`/report/${id}`}
       handleSubmit={handleSubmit}
+      backLink={`/report/${id}`}
     />
   );
 }

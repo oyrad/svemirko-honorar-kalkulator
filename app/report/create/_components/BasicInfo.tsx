@@ -2,20 +2,17 @@
 
 import Card from '@/app/_atoms/Card';
 import Input from '@/app/_atoms/Input';
+import { ChangeEvent } from 'react';
+import { ReportTextData } from '@/types/types';
 
 interface BasicInfoProps {
-  name: string;
-  setName: (value: string) => void;
-  grossRoyalties: string;
-  setGrossRoyalties: (value: string) => void;
+  report: ReportTextData;
+  handleChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => void;
 }
 
-export default function BasicInfo({
-  name,
-  setName,
-  grossRoyalties,
-  setGrossRoyalties,
-}: BasicInfoProps) {
+export default function BasicInfo({ report, handleChange }: BasicInfoProps) {
   return (
     <Card className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-1">
@@ -25,8 +22,8 @@ export default function BasicInfo({
         <Input
           name="name"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={report.name}
+          onChange={handleChange}
         />
       </div>
       <div className="flex flex-col space-y-1">
@@ -34,10 +31,10 @@ export default function BasicInfo({
           Honorar
         </label>
         <Input
-          name="totalPay"
+          name="grossRoyalties"
           type="number"
-          value={grossRoyalties}
-          onChange={(e) => setGrossRoyalties(e.target.value)}
+          value={report.grossRoyalties}
+          onChange={handleChange}
         />
       </div>
     </Card>
