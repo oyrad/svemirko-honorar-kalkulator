@@ -1,13 +1,13 @@
 import NewReportButton from '@/app/_components/NewReportButton';
 import Link from 'next/link';
 import Card from '@/app/_atoms/Card';
+import { ReportDB } from '@/types/types';
 
 async function getReports() {
-  const response = await fetch(`${process.env.CLIENT_URL}/api/reports`, {
+  const res = await fetch(`${process.env.CLIENT_URL}/api/reports`, {
     method: 'GET',
   });
-  console.log({ response });
-  return await response.json();
+  return (await res.json()) as ReportDB[];
 }
 
 export default async function Home() {
