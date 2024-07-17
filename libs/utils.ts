@@ -23,3 +23,19 @@ export function getNetRoyalties(
     totalBandFee,
   );
 }
+
+export function getNetRoyaltiesByPerson(
+  index: string,
+  netRoyalties: number,
+  rate: number,
+  expenses: Expense[],
+) {
+  let totalPayWithExpenses = netRoyalties * rate;
+  expenses.forEach((expense) => {
+    if (expense.whoPaid === index && expense.amount) {
+      totalPayWithExpenses += parseInt(expense.amount);
+    }
+  });
+
+  return totalPayWithExpenses;
+}
