@@ -10,7 +10,7 @@ import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
 import useMembers from '@/hooks/useMembers';
-import { getNetRoyalties, getTotalExpenses } from '@/utils/utils';
+import { getNetRoyalties, getTotalExpenses } from '@/libs/utils';
 import Button from '@/app/_atoms/Button';
 import Delete from '@/app/_icons/Delete';
 import { FLAGS } from '@/libs/flags';
@@ -40,7 +40,7 @@ export default function ReportDetails() {
   }, [id]);
 
   function handleDelete() {
-    fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports/${id}`, {
+    fetch(`/api/reports/${id}`, {
       method: 'DELETE',
     }).then((res) => {
       if (res.status === 200) {

@@ -38,7 +38,7 @@ export default function Create() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
-    fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/reports/${id}`, {
+    fetch(`/api/reports/${id}`, {
       method: 'PUT',
       body: JSON.stringify({ ...report, expenses }),
     })

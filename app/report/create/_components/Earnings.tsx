@@ -5,7 +5,7 @@ import PersonCard from '@/app/_components/PersonCard';
 import useMembers from '@/hooks/useMembers';
 import { Expense, ReportTextData } from '@/types/types';
 import { useMemo } from 'react';
-import { getNetRoyalties } from '@/utils/utils';
+import { getNetRoyalties } from '@/libs/utils';
 
 interface EarningsProps {
   report: ReportTextData;

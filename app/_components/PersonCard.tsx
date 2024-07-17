@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/libs/utils';
 import ChevronDown from '@/app/_icons/ChevronDown';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Expense } from '@/types/types';

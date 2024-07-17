@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/libs/utils';
 
 interface ButtonProps {
   onClick?: () => void;
@@ -19,7 +19,7 @@ export default function Button({
       onClick={onClick}
       type={type}
       className={cn(
-        'flex space-x-1 items-center py-1 px-3 rounded-lg shadow transition-opacity duration-200 ease-in-out',
+        'flex space-x-1 items-center py-1 px-3 rounded-lg shadow transition-opacity duration-200 ease-in-out outline-none',
         className,
       )}
     >
