@@ -2,6 +2,10 @@ import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
 import { Expense } from '@/types/types';
+import { Resend } from 'resend';
+import NewReport from '@/app/emails/NewReport';
+
+const resend = new Resend('re_NghMorha_jD3iEH2pAozU7ru6VnbvuH6W');
 
 export async function GET() {
   await connect();
@@ -15,7 +19,7 @@ export async function POST(request: NextRequest) {
   const { name, grossRoyalties, isThereBookingFee, split, expenses, note } =
     await request.json();
 
-  await Report.create({
+  const newReport = await Report.create({
     name: name.length === 0 ? new Date().toISOString() : name,
     grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
     isThereBookingFee,
@@ -24,6 +28,15 @@ export async function POST(request: NextRequest) {
       (expense: Expense) => parseFloat(expense.amount) > 0,
     ),
     note,
+  });
+
+  await resend.emails.send({
+    from: 'SVMRK <info@svmrk.co>',
+    to: 'dsf997@gmail.com',
+    subject: `Izračun - ${name}`,
+    react: NewReport({
+      url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
+    }),
   });
 
   return Response.json({ msg: 'New report created' }, { status: 201 });
