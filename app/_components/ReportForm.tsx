@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import ArrowLeft from '@/app/_icons/ArrowLeft';
 import Button from '@/app/_atoms/Button';
 import { MoonLoader } from 'react-spinners';
 import BasicInfo from '@/app/report/create/_components/BasicInfo';
@@ -10,6 +9,7 @@ import NotesInput from '@/app/report/create/_components/NoteInput';
 import Earnings from '@/app/report/create/_components/Earnings';
 import { Expense, ReportTextData, Split } from '@/types/types';
 import { ChangeEvent, FormEvent } from 'react';
+import ArrowLeft from '@/app/_icons/ArrowLeft';
 
 interface ReportFormProps {
   report: ReportTextData;

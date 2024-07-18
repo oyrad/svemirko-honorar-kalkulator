@@ -1,9 +1,6 @@
 import Link from 'next/link';
-import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { FLAGS } from '@/libs/flags';
 import Button from '@/app/_atoms/Button';
-import Edit from '@/app/_icons/Edit';
-import Delete from '@/app/_icons/Delete';
 import Card from '@/app/_atoms/Card';
 import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import { getNetRoyalties, getTotalExpenses } from '@/libs/utils';
@@ -11,6 +8,8 @@ import PersonCard from '@/app/_components/PersonCard';
 import { ReportDB } from '@/types/types';
 import { useRouter } from 'next/navigation';
 import useMembers from '@/hooks/useMembers';
+import ArrowLeft from '@/app/_icons/ArrowLeft';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface ReportDetailsProps {
   report: ReportDB;
@@ -48,17 +47,17 @@ export default function ReportDetails({ report }: ReportDetailsProps) {
         <div className="flex gap-2 items-center">
           {FLAGS.EDIT_REPORT && (
             <Link href={`/report/${report._id}/edit`}>
-              <Button className="bg-blue-400 dark:bg-blue-500 px-2 py-1.5 hover:opacity-85">
-                <Edit />
+              <Button className="border border-blue-400 dark:border-blue-800 bg-white dark:bg-blue-600 px-2 py-1.5 hover:opacity-75">
+                <PencilSquareIcon className="size-5 text-blue-400 dark:text-black" />
               </Button>
             </Link>
           )}
           {FLAGS.DELETE_REPORT && (
             <Button
-              className="bg-red-400 dark:bg-red-500 px-2 py-1.5 hover:opacity-85"
+              className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-600 px-2 py-1.5 hover:opacity-75"
               onClick={handleDelete}
             >
-              <Delete />
+              <TrashIcon className="size-5 text-red-500 dark:text-black" />
             </Button>
           )}
         </div>
@@ -111,11 +110,12 @@ export default function ReportDetails({ report }: ReportDetailsProps) {
         </div>
         <div className="flex flex-col gap-1">
           <p className="text-gray-400 text-right text-xs">
+            <span className="opacity-65">Kreirano:</span>{' '}
             {new Date(report.createdAt).toLocaleString('hr-HR')}
           </p>
-          {FLAGS.EDIT_REPORT && (
+          {FLAGS.EDIT_REPORT && report.createdAt !== report.updatedAt && (
             <p className="text-gray-400 text-right text-xs">
-              <span className="opacity-65">Updated:</span>{' '}
+              <span className="opacity-65">Uredeno:</span>{' '}
               {new Date(report.updatedAt).toLocaleString('hr-HR')}
             </p>
           )}

@@ -1,6 +1,6 @@
 import Input from '@/app/_atoms/Input';
 import { Expense as ExpenseType } from '@/types/types';
-import Remove from '@/app/_icons/Remove';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
 interface ExpenseProps {
   index: number;
@@ -47,7 +47,10 @@ export default function Expense({
           <option value={3}>Dario</option>
         </select>
       </div>
-      <Remove onClick={() => removeExpense(expense.id)} />
+      <XMarkIcon
+        onClick={() => removeExpense(expense.id)}
+        className="w-12 h-6 text-red-600 cursor-pointer hover:text-red-400 transition-colors duration-300 ease-in-out"
+      />
     </div>
   );
 }

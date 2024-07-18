@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { cn, getNetRoyaltiesByPerson } from '@/libs/utils';
-import ChevronDown from '@/app/_icons/ChevronDown';
 import { Expense } from '@/types/types';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 interface PersonCardProps {
   personIndex: string;
@@ -53,7 +53,7 @@ export default function PersonCard({
                 isExpanded && 'rotate-180',
               )}
             >
-              <ChevronDown />
+              <ChevronDownIcon className="size-5" />
             </div>
           )}
         </div>

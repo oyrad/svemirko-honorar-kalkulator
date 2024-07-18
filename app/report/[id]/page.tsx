@@ -1,6 +1,5 @@
 'use client';
 
-import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { useEffect, useState } from 'react';
 import { ReportDB } from '@/types/types';
 import Card from '@/app/_atoms/Card';
@@ -8,6 +7,7 @@ import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
 import { useParams } from 'next/navigation';
 import ReportDetails from '@/app/report/[id]/_components/ReportDetails';
+import ArrowLeft from '@/app/_icons/ArrowLeft';
 
 export default function ReportDetailsPage() {
   const [report, setReport] = useState<ReportDB>();

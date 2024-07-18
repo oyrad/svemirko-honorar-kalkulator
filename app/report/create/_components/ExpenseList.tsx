@@ -1,10 +1,10 @@
 'use client';
 
 import Card from '@/app/_atoms/Card';
-import Plus from '@/app/_icons/Plus';
 import Expense from '@/app/report/create/_components/Expense';
 import Button from '@/app/_atoms/Button';
 import { Expense as ExpenseType } from '@/types/types';
+import { PlusIcon } from '@heroicons/react/24/solid';
 
 interface ExpenseListProps {
   expenses: ExpenseType[];
@@ -51,7 +51,7 @@ export default function ExpenseList({
           onClick={addExpense}
           className="bg-slate-100 hover:bg-slate-200"
         >
-          <Plus />
+          <PlusIcon className="size-4" />
           <p className="text-sm font-semibold">Dodaj</p>
         </Button>
       </div>
