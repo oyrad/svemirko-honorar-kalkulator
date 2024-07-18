@@ -5,6 +5,7 @@ import { FormEvent, useState } from 'react';
 import { Expense, ReportTextData } from '@/types/types';
 import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
+import { clearReportsCache } from '@/app/actions';
 
 export default function Create() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
@@ -22,6 +23,7 @@ export default function Create() {
     })
       .then((res) => {
         if (res.status === 201) {
+          void clearReportsCache();
           router.push('/');
           setReport(REPORT_FORM_DEFAULT);
           setExpenses([]);

@@ -11,6 +11,7 @@ import PersonCard from '@/app/_components/PersonCard';
 import { ReportDB } from '@/types/types';
 import { useRouter } from 'next/navigation';
 import useMembers from '@/hooks/useMembers';
+import { clearReportsCache } from '@/app/actions';
 
 interface ReportDetailsProps {
   report: ReportDB;
@@ -31,6 +32,7 @@ export default function ReportDetails({ report }: ReportDetailsProps) {
       method: 'DELETE',
     }).then((res) => {
       if (res.status === 200) {
+        void clearReportsCache();
         router.push('/');
       }
     });

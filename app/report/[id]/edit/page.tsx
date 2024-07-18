@@ -9,6 +9,7 @@ import Card from '@/app/_atoms/Card';
 import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 import { Expense, Report, ReportTextData } from '@/types/types';
+import { clearReportsCache } from '@/app/actions';
 
 export default function Create() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
@@ -44,6 +45,7 @@ export default function Create() {
     })
       .then((res) => {
         if (res.status === 200) {
+          void clearReportsCache();
           router.push(`/report/${id}`);
           setReport(REPORT_FORM_DEFAULT);
           setExpenses([]);

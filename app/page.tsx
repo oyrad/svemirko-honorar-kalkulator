@@ -6,6 +6,9 @@ import { ReportDB } from '@/types/types';
 async function getReports() {
   const res = await fetch(`${process.env.CLIENT_URL}/api/reports`, {
     method: 'GET',
+    next: {
+      tags: ['reports'],
+    },
   });
   return (await res.json()) as ReportDB[];
 }
