@@ -3,7 +3,8 @@ import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
 import { Expense } from '@/types/types';
 import { Resend } from 'resend';
-import NewReport from '@/app/emails/NewReport';
+import NewReport from '@/emails/NewReport';
+import { getNetRoyalties, getNetRoyaltiesByPerson } from '@/libs/utils';
 
 const resend = new Resend('re_NghMorha_jD3iEH2pAozU7ru6VnbvuH6W');
 
@@ -31,11 +32,18 @@ export async function POST(request: NextRequest) {
   });
 
   await resend.emails.send({
-    from: 'SVMRK <info@svmrk.co>',
+    from: 'SVMRK <isplata@svmrk.co>',
     to: 'dsf997@gmail.com',
     subject: `Izračun - ${name}`,
     react: NewReport({
       url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
+      amount: getNetRoyaltiesByPerson(
+        '3',
+        getNetRoyalties(grossRoyalties, isThereBookingFee, expenses),
+        0.275,
+        expenses,
+      ),
+      name,
     }),
   });
 
