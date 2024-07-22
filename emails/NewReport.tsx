@@ -10,13 +10,13 @@ import {
 } from '@react-email/components';
 
 interface NewReportProps {
-  amount: number;
+  amount: string;
   name: string;
   url: string;
 }
 
 export default function NewReport({
-  amount = 673.21,
+  amount = '673.21',
   name = 'ISPLATA',
   url = 'http://localhost:3000',
 }: NewReportProps) {
