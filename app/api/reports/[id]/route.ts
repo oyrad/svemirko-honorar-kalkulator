@@ -2,7 +2,6 @@ import connect from '@/libs/db';
 import { NextRequest } from 'next/server';
 import Report from '@/models/Report';
 import mongoose from 'mongoose';
-import { Expense } from '@/types/types';
 
 export async function GET(request: NextRequest, context: any) {
   await connect();
@@ -36,13 +35,11 @@ export async function PUT(request: NextRequest, context: any) {
     await request.json();
 
   await Report.findByIdAndUpdate(context.params.id, {
-    name: name.length === 0 ? new Date().toISOString() : name,
-    grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
+    name,
+    grossRoyalties,
     isThereBookingFee,
     split,
-    expenses: expenses.filter(
-      (expense: Expense) => parseFloat(expense.amount) > 0,
-    ),
+    expenses,
     note,
   });
 

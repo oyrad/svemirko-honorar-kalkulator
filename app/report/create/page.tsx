@@ -5,6 +5,7 @@ import { FormEvent, useState } from 'react';
 import { Expense, ReportTextData } from '@/types/types';
 import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
+import { formatReportFormData } from '@/libs/utils';
 
 export default function Create() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
@@ -18,7 +19,7 @@ export default function Create() {
     e.preventDefault();
     fetch('/api/reports', {
       method: 'POST',
-      body: JSON.stringify({ ...report, expenses }),
+      body: JSON.stringify(formatReportFormData({ ...report, expenses })),
     })
       .then((res) => {
         if (res.status === 201) {

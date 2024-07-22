@@ -1,12 +1,11 @@
 import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
-import { Expense } from '@/types/types';
 import { Resend } from 'resend';
 import NewReport from '@/emails/NewReport';
 import { getNetRoyalties, getNetRoyaltiesByPerson } from '@/libs/utils';
 
-const resend = new Resend('re_NghMorha_jD3iEH2pAozU7ru6VnbvuH6W');
+const resend = new Resend(process.env.RESEND_KEY);
 
 export async function GET() {
   await connect();
@@ -21,13 +20,11 @@ export async function POST(request: NextRequest) {
     await request.json();
 
   const newReport = await Report.create({
-    name: name.length === 0 ? new Date().toISOString() : name,
-    grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
+    name,
+    grossRoyalties,
     isThereBookingFee,
     split,
-    expenses: expenses.filter(
-      (expense: Expense) => parseFloat(expense.amount) > 0,
-    ),
+    expenses,
     note,
   });
 
@@ -36,14 +33,14 @@ export async function POST(request: NextRequest) {
     to: 'dsf997@gmail.com',
     subject: `Izračun - ${name}`,
     react: NewReport({
+      name,
       url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
       amount: getNetRoyaltiesByPerson(
         '3',
         getNetRoyalties(grossRoyalties, isThereBookingFee, expenses),
         0.275,
         expenses,
-      ),
-      name,
+      ).toFixed(2),
     }),
   });
 

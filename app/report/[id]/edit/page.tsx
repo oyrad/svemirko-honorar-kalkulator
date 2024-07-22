@@ -9,6 +9,7 @@ import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 import { Expense, Report, ReportTextData } from '@/types/types';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
+import { formatReportFormData } from '@/libs/utils';
 
 export default function Create() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
@@ -40,7 +41,7 @@ export default function Create() {
     e.preventDefault();
     fetch(`/api/reports/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ ...report, expenses }),
+      body: JSON.stringify(formatReportFormData({ ...report, expenses })),
     })
       .then((res) => {
         if (res.status === 200) {

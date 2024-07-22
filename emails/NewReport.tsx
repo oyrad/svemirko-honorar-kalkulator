@@ -4,13 +4,13 @@ import {
   Font,
   Heading,
   Html,
+  Link,
   Tailwind,
   Text,
 } from '@react-email/components';
-import Link from 'next/link';
 
 interface NewReportProps {
-  amount: number;
+  amount: string;
   name: string;
   url: string;
 }
@@ -25,12 +25,14 @@ export default function NewReport({
       <Tailwind>
         <Font fontFamily="roboto" fallbackFontFamily="sans-serif" />
         <Body className="mt-8 text-white">
-          <Container className="bg-stone-800 rounded-lg px-6 pb-8 pt-0 shadow-2xl flex items-center">
-            <Heading className="bg-red-500 inline-block mb-0">{name}</Heading>
-            <Text className="text-6xl mb-8">{amount}€</Text>
+          <Container className="bg-gray-800 rounded-lg px-6 pb-8 pt-0 shadow-2xl">
+            <Heading className="inline-block mb-0 text-4xl uppercase">
+              {name}
+            </Heading>
+            <Text className="text-6xl mb-6 text-emerald-500">{amount}€</Text>
             <Link
               href={url}
-              className="bg-blue-600 no-underline text-white px-4 py-2 rounded-lg"
+              className="bg-blue-600 no-underline text-white px-4 py-2 rounded-lg text-lg"
             >
               Više detalja
             </Link>
