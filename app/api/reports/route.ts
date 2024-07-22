@@ -28,21 +28,29 @@ export async function POST(request: NextRequest) {
     note,
   });
 
-  await resend.emails.send({
-    from: 'SVMRK <isplata@svmrk.co>',
-    to: 'dsf997@gmail.com',
-    subject: `Izračun - ${name}`,
-    react: NewReport({
-      name,
-      url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
-      amount: getNetRoyaltiesByPerson(
-        '3',
-        getNetRoyalties(grossRoyalties, isThereBookingFee, expenses),
-        0.275,
-        expenses,
-      ).toFixed(2),
-    }),
-  });
+  const netRoyalties = getNetRoyalties(
+    grossRoyalties,
+    isThereBookingFee,
+    expenses,
+  );
+
+  if (process.env.EMAILS === 'true') {
+    await resend.emails.send({
+      from: 'SVMRK <isplata@svmrk.co>',
+      to: 'dario.susanj2@gmail.com',
+      subject: `Izračun - ${name}`,
+      react: NewReport({
+        name,
+        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
+        amount: getNetRoyaltiesByPerson(
+          '3',
+          netRoyalties,
+          split === 'deal' ? 0.275 : 0.33,
+          expenses,
+        ).toFixed(2),
+      }),
+    });
+  }
 
   return Response.json({ msg: 'New report created' }, { status: 201 });
 }
