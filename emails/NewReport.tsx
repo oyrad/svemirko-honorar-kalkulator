@@ -10,7 +10,7 @@ import {
 } from '@react-email/components';
 
 interface NewReportProps {
-  amount: string;
+  amount: number;
   name: string;
   url: string;
 }
