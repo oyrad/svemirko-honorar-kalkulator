@@ -1,6 +1,6 @@
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { Expense } from '@/types/types';
+import { Expense, Report } from '@/types/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -38,4 +38,16 @@ export function getNetRoyaltiesByPerson(
   });
 
   return totalPayWithExpenses;
+}
+
+export function formatReportFormData(report: Report) {
+  return {
+    ...report,
+    name: report.name.length === 0 ? new Date().toISOString() : report.name,
+    grossRoyalties:
+      report.grossRoyalties.length === 0 ? '0' : report.grossRoyalties,
+    expenses: report.expenses.filter(
+      (expense: Expense) => parseFloat(expense.amount) > 0,
+    ),
+  };
 }

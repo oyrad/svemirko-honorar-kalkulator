@@ -47,14 +47,14 @@ export default function ReportDetails({ report }: ReportDetailsProps) {
         <div className="flex gap-2 items-center">
           {FLAGS.EDIT_REPORT && (
             <Link href={`/report/${report._id}/edit`}>
-              <Button className="border border-blue-400 dark:border-blue-800 bg-white dark:bg-blue-600 px-2 py-1.5 hover:opacity-75">
+              <Button className="border border-blue-400 dark:border-blue-800 bg-white dark:bg-blue-500 px-2 py-1.5 hover:opacity-75">
                 <PencilSquareIcon className="size-5 text-blue-400 dark:text-black" />
               </Button>
             </Link>
           )}
           {FLAGS.DELETE_REPORT && (
             <Button
-              className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-600 px-2 py-1.5 hover:opacity-75"
+              className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-500 px-2 py-1.5 hover:opacity-75"
               onClick={handleDelete}
             >
               <TrashIcon className="size-5 text-red-500 dark:text-black" />

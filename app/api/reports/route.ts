@@ -1,7 +1,11 @@
 import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
-import { Expense } from '@/types/types';
+import { Resend } from 'resend';
+import NewReport from '@/emails/NewReport';
+import { getNetRoyalties, getNetRoyaltiesByPerson } from '@/libs/utils';
+
+const resend = new Resend(process.env.RESEND_KEY);
 
 export async function GET() {
   await connect();
@@ -15,16 +19,38 @@ export async function POST(request: NextRequest) {
   const { name, grossRoyalties, isThereBookingFee, split, expenses, note } =
     await request.json();
 
-  await Report.create({
-    name: name.length === 0 ? new Date().toISOString() : name,
-    grossRoyalties: grossRoyalties.length === 0 ? '0' : grossRoyalties,
+  const newReport = await Report.create({
+    name,
+    grossRoyalties,
     isThereBookingFee,
     split,
-    expenses: expenses.filter(
-      (expense: Expense) => parseFloat(expense.amount) > 0,
-    ),
+    expenses,
     note,
   });
+
+  const netRoyalties = getNetRoyalties(
+    grossRoyalties,
+    isThereBookingFee,
+    expenses,
+  );
+
+  if (process.env.EMAILS === 'true') {
+    await resend.emails.send({
+      from: 'SVMRK <isplata@svmrk.co>',
+      to: 'dario.susanj2@gmail.com',
+      subject: `Izračun - ${name}`,
+      react: NewReport({
+        name,
+        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
+        amount: getNetRoyaltiesByPerson(
+          '3',
+          netRoyalties,
+          split === 'deal' ? 0.275 : 0.33,
+          expenses,
+        ).toFixed(2),
+      }),
+    });
+  }
 
   return Response.json({ msg: 'New report created' }, { status: 201 });
 }
