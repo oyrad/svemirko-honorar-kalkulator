@@ -35,10 +35,43 @@ export async function POST(request: NextRequest) {
   );
 
   if (process.env.EMAILS === 'true') {
-    await resend.emails.send({
-      from: 'SVMRK <isplata@svmrk.co>',
-      to: 'dario.susanj2@gmail.com',
+    const staticEmailOptions = {
+      from: 'SVMRK <izracun@svmrk.co>',
       subject: `Izračun - ${name}`,
+    };
+
+    await resend.emails.send({
+      ...staticEmailOptions,
+      to: 'markovukovic14@gmail.com',
+      react: NewReport({
+        name,
+        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
+        amount: getNetRoyaltiesByPerson(
+          '1',
+          netRoyalties,
+          split === 'deal' ? 0.45 : 0.33,
+          expenses,
+        ).toFixed(2),
+      }),
+    });
+    await resend.emails.send({
+      ...staticEmailOptions,
+      to: 'antobosn@icloud.com',
+      react: NewReport({
+        name,
+        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
+        amount: getNetRoyaltiesByPerson(
+          '2',
+          netRoyalties,
+          split === 'deal' ? 0.275 : 0.33,
+          expenses,
+        ).toFixed(2),
+      }),
+    });
+
+    await resend.emails.send({
+      ...staticEmailOptions,
+      to: 'dario.susanj2@gmail.com',
       react: NewReport({
         name,
         url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
