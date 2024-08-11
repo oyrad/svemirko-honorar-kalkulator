@@ -20,6 +20,7 @@ interface ReportFormProps {
       grossRoyalties: string;
       split: Split;
       name: string;
+      isLocked: boolean;
     },
   ) => void;
   expenses: Expense[];
@@ -57,7 +58,7 @@ export default function ReportForm({
         </Link>
         <Button
           type="submit"
-          className="font-medium bg-gradient-to-r from-green-300 to-green-400 dark:from-green-400 dark:to-green-500 w-24 h-8 justify-center hover:opacity-85"
+          className="font-medium dark:bg-gradient-to-r bg-white border border-green-600 text-green-600 dark:text-black dark:from-green-400 dark:to-green-500 w-24 h-8 justify-center hover:opacity-85"
         >
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>

@@ -15,6 +15,7 @@ const reportSchema = new Schema(
         whoPaid: String,
       },
     ],
+    isLocked: Boolean,
   },
   {
     timestamps: true,

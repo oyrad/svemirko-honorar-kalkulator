@@ -1,33 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { ReportDB } from '@/types/types';
 import Card from '@/app/_atoms/Card';
 import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
 import { useParams } from 'next/navigation';
 import ReportDetails from '@/app/report/[id]/_components/ReportDetails';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
+import { useQuery } from 'react-query';
 
 export default function ReportDetailsPage() {
-  const [report, setReport] = useState<ReportDB>();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
   const { id } = useParams();
 
-  useEffect(() => {
-    fetch(`/api/reports/${id}`)
-      .then((res) => {
-        if (res.status === 404) {
-          throw new Error();
-        }
-        return res.json();
-      })
-      .then((data) => setReport(data))
-      .catch(() => setIsError(true))
-      .finally(() => setIsLoading(false));
-  }, [id]);
+  const {
+    data: report,
+    isLoading,
+    isError,
+    refetch: refetchReport,
+  } = useQuery(
+    `report-${id}`,
+    async () => {
+      const res = await fetch(`/api/reports/${id}`);
+
+      if (res.status === 404) return;
+      return res.json();
+    },
+    {
+      retry: false,
+    },
+  );
 
   if (isLoading) return <Loader />;
 
@@ -42,5 +42,5 @@ export default function ReportDetailsPage() {
     );
   }
 
-  return <ReportDetails report={report} />;
+  return <ReportDetails report={report} refetchReport={refetchReport} />;
 }

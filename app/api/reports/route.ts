@@ -1,11 +1,6 @@
 import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
-import { Resend } from 'resend';
-import NewReport from '@/emails/NewReport';
-import { getNetRoyalties, getNetRoyaltiesByPerson } from '@/libs/utils';
-
-const resend = new Resend(process.env.RESEND_KEY);
 
 export async function GET() {
   await connect();
@@ -16,74 +11,25 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   await connect();
-  const { name, grossRoyalties, isThereBookingFee, split, expenses, note } =
-    await request.json();
-
-  const newReport = await Report.create({
+  const {
     name,
     grossRoyalties,
     isThereBookingFee,
     split,
     expenses,
     note,
-  });
+    isLocked,
+  } = await request.json();
 
-  const netRoyalties = getNetRoyalties(
+  await Report.create({
+    name,
     grossRoyalties,
     isThereBookingFee,
+    split,
     expenses,
-  );
-
-  if (process.env.EMAILS === 'true') {
-    const staticEmailOptions = {
-      from: 'SVMRK <izracun@svmrk.co>',
-      subject: `Izračun - ${name}`,
-    };
-
-    await resend.emails.send({
-      ...staticEmailOptions,
-      to: 'markovukovic14@gmail.com',
-      react: NewReport({
-        name,
-        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
-        amount: getNetRoyaltiesByPerson(
-          '1',
-          netRoyalties,
-          split === 'deal' ? 0.45 : 0.33,
-          expenses,
-        ).toFixed(2),
-      }),
-    });
-    await resend.emails.send({
-      ...staticEmailOptions,
-      to: 'antobosn@icloud.com',
-      react: NewReport({
-        name,
-        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
-        amount: getNetRoyaltiesByPerson(
-          '2',
-          netRoyalties,
-          split === 'deal' ? 0.275 : 0.33,
-          expenses,
-        ).toFixed(2),
-      }),
-    });
-
-    await resend.emails.send({
-      ...staticEmailOptions,
-      to: 'dario.susanj2@gmail.com',
-      react: NewReport({
-        name,
-        url: `${process.env.CLIENT_URL}/report/${newReport._id}`,
-        amount: getNetRoyaltiesByPerson(
-          '3',
-          netRoyalties,
-          split === 'deal' ? 0.275 : 0.33,
-          expenses,
-        ).toFixed(2),
-      }),
-    });
-  }
+    note,
+    isLocked,
+  });
 
   return Response.json({ msg: 'New report created' }, { status: 201 });
 }

@@ -6,4 +6,5 @@ export const REPORT_FORM_DEFAULT: ReportTextData = {
   isThereBookingFee: false,
   split: 'deal',
   note: '',
+  isLocked: false,
 };

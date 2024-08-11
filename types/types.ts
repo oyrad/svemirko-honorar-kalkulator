@@ -11,6 +11,7 @@ export type Report = {
   split: Split;
   expenses: Expense[];
   note: string;
+  isLocked: boolean;
 };
 
 export type ReportDB = Report & DatabaseProps;
