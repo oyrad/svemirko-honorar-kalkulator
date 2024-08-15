@@ -12,11 +12,12 @@ export type Report = {
   expenses: Expense[];
   note: string;
   isLocked: boolean;
+  gigIds: SelectedGig[];
 };
 
 export type ReportDB = Report & DatabaseProps;
 
-export type ReportTextData = Omit<Report, 'expenses'>;
+export type ReportTextData = Omit<Report, 'expenses' | 'gigIds'>;
 
 export type Split = 'deal' | 'equal';
 
@@ -26,3 +27,19 @@ export type Expense = {
   amount: string;
   whoPaid: string;
 };
+
+export type Gig = {
+  city: string;
+  venue: string;
+  date: string;
+  royalties: string;
+  isPaidOut: boolean;
+  reportId: string;
+};
+
+export type GigDB = Gig & DatabaseProps;
+
+export interface SelectedGig {
+  label: string;
+  value: number;
+}

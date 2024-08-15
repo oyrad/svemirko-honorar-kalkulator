@@ -5,6 +5,7 @@ import Report from '@/models/Report';
 import NewReport from '@/emails/NewReport';
 import { getNetRoyalties, getNetRoyaltiesByPerson } from '@/libs/utils';
 import { Resend } from 'resend';
+import Gig from '@/models/Gig';
 
 const resend = new Resend(process.env.RESEND_KEY);
 
@@ -18,7 +19,7 @@ export async function PUT(request: NextRequest, context: any) {
     return Response.json({ msg: 'Invalid id' }, { status: 404 });
   }
 
-  const { name, split, expenses, grossRoyalties, isThereBookingFee } =
+  const { name, split, expenses, grossRoyalties, isThereBookingFee, gigIds } =
     await Report.findByIdAndUpdate(
       id,
       {
@@ -28,6 +29,13 @@ export async function PUT(request: NextRequest, context: any) {
         timestamps: false,
       },
     );
+
+  for (const gigId of gigIds) {
+    await Gig.findByIdAndUpdate(gigId, {
+      isPaidOut: true,
+      reportId: id,
+    });
+  }
 
   const netRoyalties = getNetRoyalties(
     grossRoyalties,

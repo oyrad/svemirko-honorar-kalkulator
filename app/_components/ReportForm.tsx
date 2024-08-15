@@ -7,9 +7,9 @@ import ExpenseList from '@/app/report/create/_components/ExpenseList';
 import { FLAGS } from '@/libs/flags';
 import NotesInput from '@/app/report/create/_components/NoteInput';
 import Earnings from '@/app/report/create/_components/Earnings';
-import { Expense, ReportTextData, Split } from '@/types/types';
+import { Expense, ReportTextData, SelectedGig, Split } from '@/types/types';
 import { ChangeEvent, FormEvent } from 'react';
-import ArrowLeft from '@/app/_icons/ArrowLeft';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 
 interface ReportFormProps {
   report: ReportTextData;
@@ -19,12 +19,14 @@ interface ReportFormProps {
       note: string;
       grossRoyalties: string;
       split: Split;
-      name: string;
       isLocked: boolean;
+      name: string;
     },
   ) => void;
   expenses: Expense[];
   setExpenses: (expenses: Expense[]) => void;
+  selectedGigs: SelectedGig[];
+  setSelectedGigs: (selectedGigs: SelectedGig[]) => void;
   isLoading: boolean;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   backLink: string;
@@ -35,6 +37,8 @@ export default function ReportForm({
   setReport,
   expenses,
   setExpenses,
+  selectedGigs,
+  setSelectedGigs,
   isLoading,
   handleSubmit,
   backLink,
@@ -54,7 +58,9 @@ export default function ReportForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <Link href={backLink}>
-          <ArrowLeft />
+          <Button className="border border-gray-500 bg-white dark:bg-gray-800 px-2 py-1.5 hover:opacity-75">
+            <ArrowLeftIcon className="size-5 text-gray-700 dark:text-gray-100" />
+          </Button>
         </Link>
         <Button
           type="submit"
@@ -63,7 +69,12 @@ export default function ReportForm({
           {isLoading ? <MoonLoader size={16} /> : 'Spremi'}
         </Button>
       </div>
-      <BasicInfo report={report} handleChange={handleChange} />
+      <BasicInfo
+        report={report}
+        handleChange={handleChange}
+        selectedGigs={selectedGigs}
+        setSelectedGigs={setSelectedGigs}
+      />
       <Settings report={report} handleChange={handleChange} />
       <ExpenseList expenses={expenses} setExpenses={setExpenses} />
       {FLAGS.NOTES && (

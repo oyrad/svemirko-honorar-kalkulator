@@ -49,5 +49,6 @@ export function formatReportFormData(report: Report) {
     expenses: report.expenses.filter(
       (expense: Expense) => parseFloat(expense.amount) > 0,
     ),
+    gigIds: report.gigIds.map((gig) => gig.value),
   };
 }

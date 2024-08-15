@@ -16,6 +16,7 @@ const reportSchema = new Schema(
       },
     ],
     isLocked: Boolean,
+    gigIds: [String],
   },
   {
     timestamps: true,
