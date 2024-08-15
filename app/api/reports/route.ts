@@ -19,9 +19,10 @@ export async function POST(request: NextRequest) {
     expenses,
     note,
     isLocked,
+    gigIds,
   } = await request.json();
 
-  await Report.create({
+  const newReport = await Report.create({
     name,
     grossRoyalties,
     isThereBookingFee,
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
     expenses,
     note,
     isLocked,
+    gigIds,
   });
 
   return Response.json({ msg: 'New report created' }, { status: 201 });

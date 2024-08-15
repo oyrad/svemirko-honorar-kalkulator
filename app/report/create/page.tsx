@@ -2,14 +2,15 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import { Expense, ReportTextData } from '@/types/types';
+import { Expense, ReportTextData, SelectedGig } from '@/types/types';
 import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 import { formatReportFormData } from '@/libs/utils';
 
-export default function Create() {
+export default function CreateReport() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [gigIds, setGigIds] = useState<SelectedGig[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -19,7 +20,9 @@ export default function Create() {
     e.preventDefault();
     fetch('/api/reports', {
       method: 'POST',
-      body: JSON.stringify(formatReportFormData({ ...report, expenses })),
+      body: JSON.stringify(
+        formatReportFormData({ ...report, expenses, gigIds }),
+      ),
     })
       .then((res) => {
         if (res.status === 201) {
@@ -38,6 +41,8 @@ export default function Create() {
       setReport={setReport}
       expenses={expenses}
       setExpenses={setExpenses}
+      selectedGigs={gigIds}
+      setSelectedGigs={setGigIds}
       isLoading={isLoading}
       handleSubmit={handleSubmit}
       backLink="/"

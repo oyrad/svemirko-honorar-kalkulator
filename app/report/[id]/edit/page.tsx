@@ -7,18 +7,25 @@ import Loader from '@/app/_atoms/Loader';
 import Card from '@/app/_atoms/Card';
 import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
-import { Expense, Report, ReportTextData } from '@/types/types';
+import { Expense, GigDB, ReportTextData, SelectedGig } from '@/types/types';
 import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { formatReportFormData } from '@/libs/utils';
+import { useQuery } from 'react-query';
 
-export default function Create() {
+export default function EditReport() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [gigIds, setGigIds] = useState<SelectedGig[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   const router = useRouter();
   const { id } = useParams();
+
+  const { data: gigs } = useQuery('gigs', async () => {
+    const res = await fetch('/api/gigs');
+    return res.json();
+  });
 
   useEffect(() => {
     fetch(`/api/reports/${id}`)
@@ -28,20 +35,37 @@ export default function Create() {
         }
         return res.json();
       })
-      .then(({ expenses, ...data }: Report) => {
-        setReport(data);
+      .then(({ gigIds, expenses, ...data }) => {
+        setReport(data as ReportTextData);
         setExpenses(expenses);
+        if (gigs) {
+          setGigIds(
+            gigIds.map((gig: string) => {
+              const currentGig = gigs.find(
+                (g: GigDB) => g._id.toString() === gig,
+              );
+              return {
+                label: `${currentGig.city} - ${currentGig.venue}`,
+                value: currentGig._id,
+              };
+            }),
+          );
+        }
       })
-      .catch(() => setIsError(true))
+      .catch(() => {
+        setIsError(true);
+      })
       .finally(() => setIsLoading(false));
-  }, [id]);
+  }, [gigs, id]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
     fetch(`/api/reports/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(formatReportFormData({ ...report, expenses })),
+      body: JSON.stringify(
+        formatReportFormData({ ...report, expenses, gigIds }),
+      ),
     })
       .then((res) => {
         if (res.status === 200) {
@@ -62,7 +86,7 @@ export default function Create() {
         <Link href="/">
           <ArrowLeft />
         </Link>
-        <p>{id} ne postoji.</p>
+        <p>Izračun ne postoji.</p>
       </Card>
     );
 
@@ -72,6 +96,8 @@ export default function Create() {
       setReport={setReport}
       expenses={expenses}
       setExpenses={setExpenses}
+      selectedGigs={gigIds}
+      setSelectedGigs={setGigIds}
       isLoading={isLoading}
       handleSubmit={handleSubmit}
       backLink={`/report/${id}`}

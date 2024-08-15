@@ -31,8 +31,15 @@ export async function PUT(request: NextRequest, context: any) {
     return Response.json({ msg: 'Invalid id' }, { status: 404 });
   }
 
-  const { name, grossRoyalties, isThereBookingFee, split, expenses, note } =
-    await request.json();
+  const {
+    name,
+    grossRoyalties,
+    isThereBookingFee,
+    split,
+    expenses,
+    note,
+    gigIds,
+  } = await request.json();
 
   await Report.findByIdAndUpdate(context.params.id, {
     name,
@@ -41,6 +48,7 @@ export async function PUT(request: NextRequest, context: any) {
     split,
     expenses,
     note,
+    gigIds,
   });
 
   return Response.json({ msg: 'Report updated' }, { status: 200 });
