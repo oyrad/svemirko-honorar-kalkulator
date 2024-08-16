@@ -5,7 +5,7 @@ import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import { getNetRoyalties, getTotalExpenses } from '@/libs/utils';
 import PersonCard from '@/app/_components/PersonCard';
 import { ReportDB } from '@/types/types';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import useMembers from '@/hooks/useMembers';
 import {
   LockClosedIcon,
@@ -28,6 +28,8 @@ export default function ReportDetails({
   const [isReportLockingLoading, setIsReportLockingLoading] = useState(false);
 
   const router = useRouter();
+  const from = useSearchParams().get('from');
+
   const members = useMembers({ split: report?.split ?? 'deal' });
 
   const netRoyalties = getNetRoyalties(
@@ -60,7 +62,7 @@ export default function ReportDetails({
     <>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <Link href="/">
+          <Link href={from === 'gigs' ? '/gigs' : '/'}>
             <Button className="border border-gray-500 bg-white dark:bg-gray-800 px-2 py-1.5 hover:opacity-75">
               <ArrowLeftIcon className="size-5 text-gray-700 dark:text-gray-100" />
             </Button>

@@ -20,7 +20,7 @@ export default function ReportList() {
   return (
     <div className="flex flex-col gap-2">
       {reports.map((report: ReportDB) => (
-        <Link key={report._id} href={`/report/${report._id}`}>
+        <Link key={report._id} href={`/report/${report._id}?from=reports`}>
           <Card className="py-3 cursor-pointer shadow-md hover:opacity-65 transition-opacity duration-300 flex justify-between items-center">
             <p className="font-medium">{report.name}</p>
             {!report.isLocked && (

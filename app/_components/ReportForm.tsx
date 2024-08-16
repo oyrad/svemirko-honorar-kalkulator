@@ -55,11 +55,9 @@ export default function ReportForm({
   const [error, setError] = useState(false);
   const [isGigInfoLoading, setIsGigInfoLoading] = useState(false);
 
-  const searchParams = useSearchParams();
+  const gigId = useSearchParams().get('gigId');
 
   useEffect(() => {
-    const gigId = searchParams.get('gigId');
-
     if (!gigId) return;
 
     setIsGigInfoLoading(true);
@@ -89,7 +87,7 @@ export default function ReportForm({
       })
       .catch((err) => setError(err))
       .finally(() => setIsGigInfoLoading(false));
-  }, [searchParams, setReport, setSelectedGigs]);
+  }, [gigId, setReport, setSelectedGigs]);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,

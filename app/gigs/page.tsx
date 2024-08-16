@@ -63,7 +63,7 @@ export default function Gigs() {
             <Link
               href={
                 gig.isPaidOut
-                  ? `/report/${gig.reportId}`
+                  ? `/report/${gig.reportId}?from=gigs`
                   : `/report/create?gigId=${gig._id}`
               }
               key={gig._id}
