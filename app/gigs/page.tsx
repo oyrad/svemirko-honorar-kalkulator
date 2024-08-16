@@ -59,22 +59,23 @@ export default function Gigs() {
         <hr className="mb-4" />
 
         <div className="flex flex-col gap-3">
-          {pastGigs.map((gig: GigDB) => {
-            if (gig.isPaidOut) {
-              return (
-                <Link href={`/report/${gig.reportId}`} key={gig._id}>
-                  <Gig
-                    gig={gig}
-                    key={gig._id}
-                    isPast={true}
-                    className="hover:opacity-75 duration-300 ease-in-out"
-                  />
-                </Link>
-              );
-            } else {
-              return <Gig gig={gig} key={gig._id} isPast={true} />;
-            }
-          })}
+          {pastGigs.map((gig: GigDB) => (
+            <Link
+              href={
+                gig.isPaidOut
+                  ? `/report/${gig.reportId}`
+                  : `/report/create?gigId=${gig._id}`
+              }
+              key={gig._id}
+            >
+              <Gig
+                gig={gig}
+                key={gig._id}
+                isPast={true}
+                className="hover:opacity-75 duration-300 ease-in-out"
+              />
+            </Link>
+          ))}
         </div>
       </div>
     </>

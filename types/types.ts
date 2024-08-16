@@ -41,5 +41,5 @@ export type GigDB = Gig & DatabaseProps;
 
 export interface SelectedGig {
   label: string;
-  value: number;
+  value: string;
 }

@@ -2,15 +2,13 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
-import Link from 'next/link';
 import Loader from '@/app/_atoms/Loader';
-import Card from '@/app/_atoms/Card';
 import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 import { Expense, GigDB, ReportTextData, SelectedGig } from '@/types/types';
-import ArrowLeft from '@/app/_icons/ArrowLeft';
 import { formatReportFormData } from '@/libs/utils';
 import { useQuery } from 'react-query';
+import NotFound from '@/app/_components/NotFound';
 
 export default function EditReport() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
@@ -80,15 +78,7 @@ export default function EditReport() {
 
   if (isLoading) return <Loader />;
 
-  if (isError)
-    return (
-      <Card className="flex gap-4 items-center">
-        <Link href="/">
-          <ArrowLeft />
-        </Link>
-        <p>Izračun ne postoji.</p>
-      </Card>
-    );
+  if (isError) return <NotFound backLink="/" text="Izračun ne postoji." />;
 
   return (
     <ReportForm
