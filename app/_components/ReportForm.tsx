@@ -7,9 +7,17 @@ import ExpenseList from '@/app/report/create/_components/ExpenseList';
 import { FLAGS } from '@/libs/flags';
 import NotesInput from '@/app/report/create/_components/NoteInput';
 import Earnings from '@/app/report/create/_components/Earnings';
-import { Expense, ReportTextData, SelectedGig, Split } from '@/types/types';
-import { ChangeEvent, FormEvent } from 'react';
+import {
+  Expense,
+  GigDB,
+  ReportTextData,
+  SelectedGig,
+  Split,
+} from '@/types/types';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useSearchParams } from 'next/navigation';
+import NotFound from '@/app/_components/NotFound';
 
 interface ReportFormProps {
   report: ReportTextData;
@@ -43,6 +51,39 @@ export default function ReportForm({
   handleSubmit,
   backLink,
 }: ReportFormProps) {
+  const [error, setError] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const gigId = searchParams.get('gigId');
+
+    if (gigId) {
+      fetch(`/api/gigs/${gigId}`)
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error('Gig not found');
+          }
+        })
+        .then((data: GigDB) => {
+          const gigNameString = `${data.city} - ${data.venue}`;
+          setSelectedGigs([
+            {
+              value: gigId,
+              label: gigNameString,
+            },
+          ]);
+          setReport((prevReport) => ({
+            ...prevReport,
+            grossRoyalties: data.royalties.split('€')[0],
+            name: gigNameString,
+          }));
+        })
+        .catch((err) => setError(err));
+    }
+  }, [searchParams, setReport, setSelectedGigs]);
+
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) {
@@ -52,6 +93,10 @@ export default function ReportForm({
         ? (e.target as HTMLInputElement).checked
         : value;
     setReport((prev: ReportTextData) => ({ ...prev, [name]: newValue }));
+  }
+
+  if (error) {
+    return <NotFound backLink="/" text="Svirka ne postoji." />;
   }
 
   return (

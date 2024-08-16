@@ -72,8 +72,7 @@ export default function BasicInfo({
           // @ts-ignore
           onChange={setSelectedGigs}
           value={selectedGigs}
-          // @ts-ignore
-          isMulti={true}
+          isMulti
           isSearchable={false}
           placeholder=""
           isDisabled={!gigs || gigs.length === 0}
