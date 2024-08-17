@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FormEvent, Suspense, useState } from 'react';
 import { Expense, ReportTextData, SelectedGig } from '@/types/types';
 import ReportForm from '@/app/_components/ReportForm';
@@ -15,6 +15,7 @@ export default function CreateReport() {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const router = useRouter();
+  const from = useSearchParams().get('from');
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setIsSubmitLoading(true);
@@ -48,7 +49,7 @@ export default function CreateReport() {
         setSelectedGigs={setGigIds}
         isLoading={isSubmitLoading}
         handleSubmit={handleSubmit}
-        backLink="/"
+        backLink={from ? '/gigs' : '/'}
       />
     </Suspense>
   );

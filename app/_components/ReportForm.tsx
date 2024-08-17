@@ -7,18 +7,13 @@ import ExpenseList from '@/app/report/create/_components/ExpenseList';
 import { FLAGS } from '@/libs/flags';
 import NotesInput from '@/app/report/create/_components/NoteInput';
 import Earnings from '@/app/report/create/_components/Earnings';
-import {
-  Expense,
-  GigDB,
-  ReportTextData,
-  SelectedGig,
-  Split,
-} from '@/types/types';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { Expense, ReportTextData, SelectedGig, Split } from '@/types/types';
+import { ChangeEvent, FormEvent, useEffect } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useSearchParams } from 'next/navigation';
 import Loader from '@/app/_atoms/Loader';
 import NotFound from '@/app/_components/NotFound';
+import { useQuery } from 'react-query';
 
 interface ReportFormProps {
   report: ReportTextData;
@@ -52,42 +47,43 @@ export default function ReportForm({
   handleSubmit,
   backLink,
 }: ReportFormProps) {
-  const [error, setError] = useState(false);
-  const [isGigInfoLoading, setIsGigInfoLoading] = useState(false);
-
   const gigId = useSearchParams().get('gigId');
 
+  const {
+    data: gig,
+    isLoading: isGigInfoLoading,
+    error,
+  } = useQuery(
+    `gig-${gigId}`,
+    async () => {
+      const res = await fetch(`/api/gigs/${gigId}`);
+      if (res.status === 200) {
+        return res.json();
+      } else {
+        throw new Error('Gig not found');
+      }
+    },
+    {
+      enabled: !!gigId,
+    },
+  );
+
   useEffect(() => {
-    if (!gigId) return;
+    if (!gigId || !gig) return;
 
-    setIsGigInfoLoading(true);
-
-    fetch(`/api/gigs/${gigId}`)
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          throw new Error('Gig not found');
-        }
-      })
-      .then((data: GigDB) => {
-        const gigNameString = `${data.city} - ${data.venue}`;
-        setSelectedGigs([
-          {
-            value: gigId,
-            label: gigNameString,
-          },
-        ]);
-        setReport((prevReport) => ({
-          ...prevReport,
-          grossRoyalties:
-            data.royalties !== 'door deal' ? data.royalties.split('€')[0] : '',
-          name: gigNameString,
-        }));
-      })
-      .catch((err) => setError(err))
-      .finally(() => setIsGigInfoLoading(false));
-  }, [gigId, setReport, setSelectedGigs]);
+    setSelectedGigs([
+      {
+        value: gigId,
+        label: `${gig.city} - ${gig.venue}`,
+      },
+    ]);
+    setReport((prevReport) => ({
+      ...prevReport,
+      grossRoyalties:
+        gig.royalties !== 'door deal' ? gig.royalties.split('€')[0] : '',
+      name: gig.city,
+    }));
+  }, [gig, gigId, setReport, setSelectedGigs]);
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
