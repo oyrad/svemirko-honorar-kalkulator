@@ -31,7 +31,7 @@ export default function BasicInfo({
     {
       select: (data: GigDB[]) =>
         data
-          .filter((gig) => !gig.isPaidOut && new Date(gig.date) < new Date())
+          .filter((gig) => !gig.reportId && new Date(gig.date) < new Date())
           .map((gig) => ({
             label: `${gig.city} - ${gig.venue}`,
             value: gig._id,
