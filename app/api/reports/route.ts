@@ -1,6 +1,7 @@
 import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
+import Gig from '@/models/Gig';
 
 export async function GET() {
   await connect();
@@ -32,6 +33,12 @@ export async function POST(request: NextRequest) {
     isLocked,
     gigIds,
   });
+
+  for (const gigId of gigIds) {
+    await Gig.findByIdAndUpdate(gigId, {
+      reportId: newReport._id,
+    });
+  }
 
   return Response.json({ msg: 'New report created' }, { status: 201 });
 }

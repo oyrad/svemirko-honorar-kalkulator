@@ -33,7 +33,6 @@ export async function PUT(request: NextRequest, context: any) {
   for (const gigId of gigIds) {
     await Gig.findByIdAndUpdate(gigId, {
       isPaidOut: true,
-      reportId: id,
     });
   }
 

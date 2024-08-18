@@ -62,7 +62,7 @@ export default function Gigs() {
           {pastGigs.map((gig: GigDB) => (
             <Link
               href={
-                gig.isPaidOut
+                gig.reportId
                   ? `/report/${gig.reportId}?from=gigs`
                   : `/report/create?gigId=${gig._id}&from=gigs`
               }

@@ -17,7 +17,12 @@ export default function Gig({ gig, isPast, className }: GigProps) {
           'border-2 border-green-500 bg-green-50 dark:bg-green-200 dark:text-black',
         isPast &&
           !gig.isPaidOut &&
+          gig.reportId &&
           'border-2 border-yellow-400 bg-yellow-50 dark:bg-yellow-200 dark:text-black',
+        isPast &&
+          !gig.isPaidOut &&
+          !gig.reportId &&
+          'border-2 border-red-400 bg-red-50 dark:bg-red-200 dark:text-black',
         !isPast &&
           'border-2 border-blue-500 bg-blue-50 dark:bg-blue-200 dark:text-black',
         className,
