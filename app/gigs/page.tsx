@@ -64,7 +64,7 @@ export default function Gigs() {
               href={
                 gig.isPaidOut
                   ? `/report/${gig.reportId}?from=gigs`
-                  : `/report/create?gigId=${gig._id}?from=gigs`
+                  : `/report/create?gigId=${gig._id}&from=gigs`
               }
               key={gig._id}
             >

@@ -17,6 +17,8 @@ export default function CreateReport() {
   const router = useRouter();
   const from = useSearchParams().get('from');
 
+  console.log(from);
+
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setIsSubmitLoading(true);
     e.preventDefault();
