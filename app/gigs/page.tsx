@@ -1,18 +1,15 @@
 'use client';
 
-import { useQuery } from 'react-query';
 import { GigDB } from '@/types/types';
 import Loader from '@/app/_atoms/Loader';
 import Gig from '@/app/gigs/_components/Gig';
 import Button from '@/app/_atoms/Button';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import { useGigs } from '@/hooks/useGigs';
 
 export default function Gigs() {
-  const { data: gigs, isLoading } = useQuery('gigs', async () => {
-    const res = await fetch('/api/gigs');
-    return res.json();
-  });
+  const { data: gigs, isLoading } = useGigs();
 
   const upcomingGigs = gigs
     ?.filter((gig: GigDB) => new Date(gig.date) >= new Date())

@@ -13,7 +13,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useSearchParams } from 'next/navigation';
 import Loader from '@/app/_atoms/Loader';
 import NotFound from '@/app/_components/NotFound';
-import { useQuery } from 'react-query';
+import { useGigById } from '@/hooks/useGigById';
 
 interface ReportFormProps {
   report: ReportTextData;
@@ -49,24 +49,7 @@ export default function ReportForm({
 }: ReportFormProps) {
   const gigId = useSearchParams().get('gigId');
 
-  const {
-    data: gig,
-    isLoading: isGigInfoLoading,
-    error,
-  } = useQuery(
-    `gig-${gigId}`,
-    async () => {
-      const res = await fetch(`/api/gigs/${gigId}`);
-      if (res.status === 200) {
-        return res.json();
-      } else {
-        throw new Error('Gig not found');
-      }
-    },
-    {
-      enabled: !!gigId,
-    },
-  );
+  const { data: gig, isLoading: isGigInfoLoading, error } = useGigById(gigId);
 
   useEffect(() => {
     if (!gigId || !gig) return;
