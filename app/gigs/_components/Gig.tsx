@@ -37,9 +37,7 @@ export default function Gig({ gig, isPast, className }: GigProps) {
               : new Date(gig.date).toLocaleDateString('hr-HR')}
           </p>
         </div>
-        {process.env.NEXT_PUBLIC_SHOW_GIG_ROYALTIES === 'true' && (
-          <p className="font-medium">{gig.royalties}</p>
-        )}
+        <p className="font-medium">{gig.royalties}</p>
       </div>
     </Card>
   );
