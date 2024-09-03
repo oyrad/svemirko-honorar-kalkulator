@@ -35,7 +35,10 @@ export async function middleware(req: NextRequest) {
 
     // If no token, redirect to /login
     if (!token) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      console.log(req);
+      return NextResponse.redirect(
+        new URL(`/login?redirectTo=${req.url}`, req.url),
+      );
     }
 
     // If token exists, verify it
@@ -47,7 +50,9 @@ export async function middleware(req: NextRequest) {
       return NextResponse.next();
     } catch (error) {
       // If verification fails, redirect to /login
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(
+        new URL(`/login?redirectTo=${req.url}`, req.url),
+      );
     }
   }
 

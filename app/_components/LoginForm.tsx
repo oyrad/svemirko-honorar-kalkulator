@@ -3,7 +3,7 @@
 import Input from '@/app/_atoms/Input';
 import { FormEvent, useState } from 'react';
 import Button from '@/app/_atoms/Button';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { MoonLoader } from 'react-spinners';
 import Card from '@/app/_atoms/Card';
 
@@ -14,6 +14,8 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+
+  const redirectTo = useSearchParams().get('redirectTo');
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,7 +34,7 @@ export default function LoginForm() {
       })
       .then((data) => {
         localStorage.setItem('user', JSON.stringify(data));
-        router.push('/');
+        router.push(redirectTo ?? '/');
       })
       .catch((err) => {
         setError(err.message);

@@ -1,6 +1,7 @@
 import Card from '@/app/_atoms/Card';
 import Image from 'next/image';
 import LoginForm from '@/app/_components/LoginForm';
+import { Suspense } from 'react';
 
 export default function Login() {
   return (
@@ -12,7 +13,9 @@ export default function Login() {
         height={200}
         className="mb-8 p-4"
       />
-      <LoginForm />
+      <Suspense>
+        <LoginForm />
+      </Suspense>
     </Card>
   );
 }
