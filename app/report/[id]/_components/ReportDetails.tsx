@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useQueryClient } from 'react-query';
 
 interface ReportDetailsProps {
   report: ReportDB;
@@ -30,6 +31,8 @@ export default function ReportDetails({
   const router = useRouter();
   const from = useSearchParams().get('from');
 
+  const queryClient = useQueryClient();
+
   const members = useMembers({ split: report?.split ?? 'deal' });
 
   const netRoyalties = getNetRoyalties(
@@ -44,6 +47,7 @@ export default function ReportDetails({
     }).then((res) => {
       if (res.status === 200) {
         router.push('/');
+        queryClient.invalidateQueries('gigs');
       }
     });
   }
@@ -54,6 +58,7 @@ export default function ReportDetails({
       method: 'PUT',
     }).then(() => {
       refetchReport();
+      queryClient.invalidateQueries('gigs');
       setIsReportLockingLoading(false);
     });
   }

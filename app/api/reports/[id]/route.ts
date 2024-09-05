@@ -2,6 +2,7 @@ import connect from '@/libs/db';
 import { NextRequest } from 'next/server';
 import Report from '@/models/Report';
 import mongoose from 'mongoose';
+import Gig from '@/models/Gig';
 
 export async function GET(request: NextRequest, context: any) {
   await connect();
@@ -19,6 +20,16 @@ export async function GET(request: NextRequest, context: any) {
 export async function DELETE(request: NextRequest, context: any) {
   await connect();
   await Report.findByIdAndDelete(context.params.id);
+
+  const associatedGigs = await Gig.find({ reportId: context.params.id });
+
+  if (associatedGigs) {
+    for (const gig of associatedGigs) {
+      await Gig.findByIdAndUpdate(gig._id, { reportId: '' });
+    }
+  }
+
+  console.log(context.params.id);
 
   return Response.json({ msg: 'Report deleted' }, { status: 200 });
 }
