@@ -9,6 +9,7 @@ export function useGigs() {
     },
     {
       cacheTime: 0,
+      staleTime: 0,
     },
   );
 }
