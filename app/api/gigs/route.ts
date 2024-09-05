@@ -1,6 +1,8 @@
 import connect from '@/libs/db';
 import Gig from '@/models/Gig';
 
+export const revalidate = 0;
+
 export async function GET() {
   await connect();
 
