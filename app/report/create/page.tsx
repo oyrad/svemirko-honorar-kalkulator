@@ -7,15 +7,12 @@ import ReportForm from '@/app/_components/ReportForm';
 import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 import { formatReportFormData } from '@/libs/utils';
 import Loader from '@/app/_atoms/Loader';
-import { useQueryClient } from 'react-query';
 
 export default function CreateReport() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [gigIds, setGigIds] = useState<SelectedGig[]>([]);
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
-
-  const queryClient = useQueryClient();
 
   const router = useRouter();
   const from = useSearchParams().get('from');
@@ -32,7 +29,6 @@ export default function CreateReport() {
       .then((res) => {
         if (res.status === 201) {
           router.push('/');
-          queryClient.invalidateQueries('gigs');
           setReport(REPORT_FORM_DEFAULT);
           setExpenses([]);
           setGigIds([]);
