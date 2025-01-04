@@ -3,9 +3,9 @@
 import Card from '@/app/_atoms/Card';
 import Input from '@/app/_atoms/Input';
 import { ChangeEvent } from 'react';
-import { GigDB, ReportTextData, SelectedGig } from '@/types/types';
-import { useQuery } from 'react-query';
+import { ReportTextData, SelectedGig } from '@/types/types';
 import Select from 'react-select';
+import { useGigsQuery } from '@/hooks/useGigsQuery';
 
 interface BasicInfoProps {
   report: ReportTextData;
@@ -22,22 +22,16 @@ export default function BasicInfo({
   selectedGigs,
   setSelectedGigs,
 }: BasicInfoProps) {
-  const { data: gigs } = useQuery(
-    'gigs',
-    async () => {
-      const res = await fetch('/api/gigs');
-      return res.json();
-    },
-    {
-      select: (data: GigDB[]) =>
-        data
-          .filter((gig) => !gig.reportId && new Date(gig.date) < new Date())
-          .map((gig) => ({
-            label: `${gig.city} - ${gig.venue}`,
-            value: gig._id,
-          })),
-    },
-  );
+  const { data: gigs } = useGigsQuery();
+
+  const selectOptions = gigs
+    ? gigs
+        .filter((gig) => !gig.reportId && new Date(gig.date) < new Date())
+        .map((gig) => ({
+          label: `${gig.city} - ${gig.venue}`,
+          value: gig._id,
+        }))
+    : [];
 
   return (
     <Card className="flex flex-col gap-4">
@@ -68,14 +62,14 @@ export default function BasicInfo({
           Svirka/e
         </label>
         <Select
-          options={gigs}
+          options={selectOptions}
           // @ts-ignore
           onChange={setSelectedGigs}
           value={selectedGigs}
           isMulti
           isSearchable={false}
           placeholder=""
-          isDisabled={!gigs || gigs.length === 0}
+          isDisabled={!selectOptions || selectOptions.length === 0}
           noOptionsMessage={() => 'Sve svirke su odabrane'}
           className="text-black"
         />

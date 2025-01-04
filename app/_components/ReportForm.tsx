@@ -4,8 +4,6 @@ import { MoonLoader } from 'react-spinners';
 import BasicInfo from '@/app/report/create/_components/BasicInfo';
 import Settings from '@/app/report/create/_components/Settings';
 import ExpenseList from '@/app/report/create/_components/ExpenseList';
-import { FLAGS } from '@/libs/flags';
-import NotesInput from '@/app/report/create/_components/NoteInput';
 import Earnings from '@/app/report/create/_components/Earnings';
 import { Expense, ReportTextData, SelectedGig, Split } from '@/types/types';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
@@ -13,7 +11,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useSearchParams } from 'next/navigation';
 import Loader from '@/app/_atoms/Loader';
 import NotFound from '@/app/_components/NotFound';
-import { useGigById } from '@/hooks/useGigById';
+import { useGigByIdQuery } from '@/hooks/useGigByIdQuery';
 
 interface ReportFormProps {
   report: ReportTextData;
@@ -49,7 +47,11 @@ export default function ReportForm({
 }: ReportFormProps) {
   const gigId = useSearchParams().get('gigId');
 
-  const { data: gig, isLoading: isGigInfoLoading, error } = useGigById(gigId);
+  const {
+    data: gig,
+    isLoading: isGigInfoLoading,
+    error,
+  } = useGigByIdQuery(gigId ?? '');
 
   useEffect(() => {
     if (!gigId || !gig) return;
@@ -76,7 +78,7 @@ export default function ReportForm({
       type === 'checkbox' && 'checked' in e.target
         ? (e.target as HTMLInputElement).checked
         : value;
-    setReport((prev: ReportTextData) => ({ ...prev, [name]: newValue }));
+    setReport((prev) => ({ ...prev, [name]: newValue }));
   }
 
   if (isGigInfoLoading) {
@@ -110,9 +112,6 @@ export default function ReportForm({
       />
       <Settings report={report} handleChange={handleChange} />
       <ExpenseList expenses={expenses} setExpenses={setExpenses} />
-      {FLAGS.NOTES && (
-        <NotesInput note={report.note} handleChange={handleChange} />
-      )}
       <Earnings report={report} expenses={expenses} />
     </form>
   );

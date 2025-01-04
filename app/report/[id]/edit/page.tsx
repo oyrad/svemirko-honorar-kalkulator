@@ -8,7 +8,7 @@ import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
 import { Expense, GigDB, ReportTextData, SelectedGig } from '@/types/types';
 import { formatReportFormData } from '@/libs/utils';
 import NotFound from '@/app/_components/NotFound';
-import { useGigs } from '@/hooks/useGigs';
+import { useGigsQuery } from '@/hooks/useGigsQuery';
 
 export default function EditReport() {
   const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
@@ -20,7 +20,7 @@ export default function EditReport() {
   const router = useRouter();
   const { id } = useParams();
 
-  const { data: gigs } = useGigs();
+  const { data: gigs } = useGigsQuery();
 
   useEffect(() => {
     fetch(`/api/reports/${id}`)

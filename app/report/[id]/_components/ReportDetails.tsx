@@ -5,58 +5,38 @@ import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
 import { getNetRoyalties, getTotalExpenses } from '@/libs/utils';
 import PersonCard from '@/app/_components/PersonCard';
 import { ReportDB } from '@/types/types';
-import { useRouter, useSearchParams } from 'next/navigation';
-import useMembers from '@/hooks/useMembers';
+import { useSearchParams } from 'next/navigation';
 import {
   LockClosedIcon,
   PencilSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-import { useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { getMembers } from '@/utils/getMembers';
+import { useDeleteReportMutation } from '@/hooks/useDeleteReportMutation';
+import { useLockReportMutation } from '@/hooks/useLockReportMutation';
 
 interface ReportDetailsProps {
   report: ReportDB;
-  refetchReport: () => void;
 }
 
-export default function ReportDetails({
-  report,
-  refetchReport,
-}: ReportDetailsProps) {
-  const [isReportLockingLoading, setIsReportLockingLoading] = useState(false);
-
-  const router = useRouter();
+export default function ReportDetails({ report }: ReportDetailsProps) {
   const from = useSearchParams().get('from');
 
-  const members = useMembers({ split: report?.split ?? 'deal' });
+  const { mutate: deleteReport, isPending: isDeleteLoading } =
+    useDeleteReportMutation(report._id);
+
+  const { mutate: lockReport, isPending: isLockLoading } =
+    useLockReportMutation(report._id);
+
+  const members = getMembers(report?.split ?? 'deal');
 
   const netRoyalties = getNetRoyalties(
     report?.grossRoyalties ?? '',
     report?.isThereBookingFee ?? false,
     report?.expenses ?? [],
   );
-
-  function handleDelete() {
-    fetch(`/api/reports/${report._id}`, {
-      method: 'DELETE',
-    }).then((res) => {
-      if (res.status === 200) {
-        router.push('/');
-      }
-    });
-  }
-
-  function handleLockReport() {
-    setIsReportLockingLoading(true);
-    fetch(`/api/reports/${report._id}/confirm`, {
-      method: 'PUT',
-    }).then(() => {
-      refetchReport();
-      setIsReportLockingLoading(false);
-    });
-  }
 
   return (
     <>
@@ -73,9 +53,9 @@ export default function ReportDetails({
           <div className="flex gap-2 items-center">
             <Button
               className="border border-green-400 dark:border-green-800 bg-white dark:bg-green-500 px-2 py-1.5 hover:opacity-75"
-              onClick={handleLockReport}
+              onClick={lockReport}
             >
-              {isReportLockingLoading ? (
+              {isLockLoading ? (
                 <MoonLoader size={16} />
               ) : (
                 <LockClosedIcon className="size-5 text-green-500 dark:text-black" />
@@ -90,9 +70,13 @@ export default function ReportDetails({
 
             <Button
               className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-500 px-2 py-1.5 hover:opacity-75"
-              onClick={handleDelete}
+              onClick={deleteReport}
             >
-              <TrashIcon className="size-5 text-red-500 dark:text-black" />
+              {isDeleteLoading ? (
+                <MoonLoader size={16} />
+              ) : (
+                <TrashIcon className="size-5 text-red-500 dark:text-black" />
+              )}
             </Button>
           </div>
         )}
@@ -128,7 +112,6 @@ export default function ReportDetails({
           />
           <OverviewItem label="zarada" value={netRoyalties.toFixed(2)} />
         </div>
-        {report.note && <OverviewItem label="bilješke" value={report.note} />}
         <div className="flex flex-col gap-2 mb-1">
           {members.map((member) => (
             <PersonCard
