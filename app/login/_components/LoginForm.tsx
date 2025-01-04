@@ -1,22 +1,17 @@
 'use client';
 
-import Input from '@/app/_atoms/Input';
 import Button from '@/app/_atoms/Button';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MoonLoader } from 'react-spinners';
 import Card from '@/app/_atoms/Card';
 import { useLogin } from '@/hooks/useLoginMutation';
 import { useForm } from 'react-hook-form';
+import { Input } from '@/app/_atoms/Input';
 
 export interface LoginFormValues {
   username: string;
   password: string;
 }
-
-const loginFormDefaultValues = {
-  username: '',
-  password: '',
-};
 
 export default function LoginForm() {
   const redirectTo = useSearchParams().get('redirectTo');
@@ -32,9 +27,14 @@ export default function LoginForm() {
     },
   });
 
-  const { register, handleSubmit, getValues } = useForm<LoginFormValues>({
-    defaultValues: loginFormDefaultValues,
+  const { register, handleSubmit, watch } = useForm<LoginFormValues>({
+    defaultValues: {
+      username: '',
+      password: '',
+    },
   });
+
+  const { username, password } = watch();
 
   const onSubmit = handleSubmit((data) => login(data));
 
@@ -56,7 +56,7 @@ export default function LoginForm() {
       <Button
         type="submit"
         className="bg-blue-600 w-full flex justify-center text-white py-2"
-        disabled={!getValues().username || !getValues().password}
+        disabled={!username || !password}
       >
         {isLoading ? <MoonLoader size={18} color="white" /> : 'Log in'}
       </Button>
