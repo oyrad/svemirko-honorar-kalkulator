@@ -1,4 +1,4 @@
-import { getRates } from '@/utils/getRates';
+import { getRates } from '@/utils/get-rates';
 import { Split } from '@/types/types';
 
 interface Member {
