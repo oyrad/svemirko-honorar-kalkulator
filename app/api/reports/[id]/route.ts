@@ -14,7 +14,26 @@ export async function GET(request: NextRequest, context: any) {
 
   const report = await Report.findById(context.params.id);
 
-  return Response.json(report, { status: 200 });
+  const gigs = await Gig.find();
+
+  const selectedGigs = report.gigIds.map((id: string) => {
+    const currentGig = gigs.find((g) => g._id.toString() === id);
+
+    if (currentGig) {
+      return {
+        label: `${currentGig.city} - ${currentGig.venue}`,
+        value: currentGig._id,
+      };
+    }
+  });
+
+  return Response.json(
+    {
+      ...report._doc,
+      selectedGigs,
+    },
+    { status: 200 },
+  );
 }
 
 export async function DELETE(request: NextRequest, context: any) {
@@ -42,15 +61,8 @@ export async function PUT(request: NextRequest, context: any) {
     return Response.json({ msg: 'Invalid id' }, { status: 404 });
   }
 
-  const {
-    name,
-    grossRoyalties,
-    isThereBookingFee,
-    split,
-    expenses,
-    note,
-    gigIds,
-  } = await request.json();
+  const { name, grossRoyalties, isThereBookingFee, split, expenses, gigIds } =
+    await request.json();
 
   await Report.findByIdAndUpdate(context.params.id, {
     name,
@@ -58,7 +70,6 @@ export async function PUT(request: NextRequest, context: any) {
     isThereBookingFee,
     split,
     expenses,
-    note,
     gigIds,
   });
 

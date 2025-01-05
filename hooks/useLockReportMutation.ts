@@ -18,8 +18,8 @@ export function useLockReportMutation(
 
   return useMutation({
     mutationFn: () => lockReport(id),
-    onSuccess: () => {
-      options?.onSuccess?.();
+    onSuccess: (...args) => {
+      options?.onSuccess?.(...args);
 
       void queryClient.invalidateQueries({ queryKey: ['reports', id] });
     },

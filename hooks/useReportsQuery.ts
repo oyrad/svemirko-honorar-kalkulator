@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { ReportDB } from '@/types/types';
 
-function fetchReports(): Promise<ReportDB[]> {
-  return fetch('/api/reports').then((res) => res.json());
+async function getReports(): Promise<ReportDB[]> {
+  const res = await fetch('/api/reports');
+  return await res.json();
 }
 
 export function useReportsQuery() {
   return useQuery({
     queryKey: ['reports'],
-    queryFn: fetchReports,
+    queryFn: getReports,
   });
 }

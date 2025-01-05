@@ -20,8 +20,8 @@ export function useDeleteReportMutation(
 
   return useMutation({
     mutationFn: () => deleteReport(id),
-    onSuccess: () => {
-      options?.onSuccess?.();
+    onSuccess: (...args) => {
+      options?.onSuccess?.(...args);
 
       void queryClient.invalidateQueries({ queryKey: ['reports'] });
       push('/');

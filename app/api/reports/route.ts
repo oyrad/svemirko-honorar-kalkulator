@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
     isThereBookingFee,
     split,
     expenses,
-    note,
     isLocked,
     gigIds,
   } = await request.json();
@@ -29,7 +28,6 @@ export async function POST(request: NextRequest) {
     isThereBookingFee,
     split,
     expenses,
-    note,
     isLocked,
     gigIds,
   });

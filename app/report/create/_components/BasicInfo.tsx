@@ -44,13 +44,13 @@ export function BasicInfo() {
           render={({ field }) => (
             <Select
               options={selectableGigs}
-              {...field}
               isMulti
               isSearchable={false}
               placeholder=""
               isDisabled={selectableGigs.length === 0}
               noOptionsMessage={() => 'Sve svirke su odabrane'}
               className="text-black"
+              {...field}
             />
           )}
         />

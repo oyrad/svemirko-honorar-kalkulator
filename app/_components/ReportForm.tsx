@@ -22,7 +22,7 @@ interface ReportFormProps {
   backLink: string;
 }
 
-export default function ReportForm({
+export function ReportForm({
   expenses,
   setExpenses,
   isSubmitLoading,

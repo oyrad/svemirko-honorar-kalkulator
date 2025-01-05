@@ -6,7 +6,6 @@ const reportSchema = new Schema(
     grossRoyalties: String,
     isThereBookingFee: Boolean,
     split: String,
-    note: String,
     expenses: [
       {
         id: Number,

@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextTopLoader showSpinner={false} />
         <Providers>
-          <main className="space-y-4 xl:px-[24rem] lg:px-[20rem] md:px-[16rem] px-6 mt-8 max-w-[1280px] mx-auto mb-8">
+          <main className="space-y-4 xl:px-[24rem] lg:px-[18rem] md:px-[8rem] px-6 mt-8 max-w-[1280px] mx-auto mb-8">
             {children}
           </main>
         </Providers>
