@@ -6,11 +6,7 @@ interface Rates {
   DARIO_RATE: number;
 }
 
-interface RatesParams {
-  split: Split;
-}
-
-export default function useRates({ split }: RatesParams): Rates {
+export function getRates(split: Split): Rates {
   if (split === 'equal') {
     return {
       MARKO_RATE: 1 / 3,

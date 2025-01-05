@@ -1,31 +1,23 @@
-import { ReactNode } from 'react';
-import { cn } from '@/libs/utils';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import { cn } from '@/utils/cn';
 
-interface ButtonProps {
-  onClick?: () => void;
-  children: ReactNode;
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-export default function Button({
-  onClick,
+export function Button({
+  className,
   children,
-  type = 'button',
-  className = '',
-  disabled = false,
-}: ButtonProps) {
+  ...rest
+}: PropsWithChildren<ButtonProps>) {
   return (
     <button
-      onClick={onClick}
-      type={type}
       className={cn(
         'flex space-x-1 items-center py-1 px-3 rounded-lg shadow transition-opacity duration-200 ease-in-out outline-none',
         className,
-        disabled && 'bg-gray-400 hover:opacity-100',
+        rest.disabled && 'bg-gray-400 hover:opacity-100',
       )}
-      disabled={disabled}
+      {...rest}
     >
       {children}
     </button>

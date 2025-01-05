@@ -1,93 +1,65 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
-import Loader from '@/app/_atoms/Loader';
-import ReportForm from '@/app/_components/ReportForm';
-import { REPORT_FORM_DEFAULT } from '@/constants/form-defaults';
-import { Expense, GigDB, ReportTextData, SelectedGig } from '@/types/types';
-import { formatReportFormData } from '@/libs/utils';
-import NotFound from '@/app/_components/NotFound';
-import { useGigs } from '@/hooks/useGigs';
+import { useEffect, useState } from 'react';
+import { Expense } from '@/types/types';
+import { FormProvider, useForm } from 'react-hook-form';
+import { ReportFormData } from '@/app/report/create/page';
+import { useReportByIdQuery } from '@/hooks/use-report-by-id-query';
+import { useEditReportMutation } from '@/hooks/use-edit-report-mutation';
+import { ReportForm } from '@/app/_components/ReportForm';
+import { NotFound } from '@/app/_components/NotFound';
+import { Loader } from '@/app/_atoms/Loader';
 
 export default function EditReport() {
-  const [report, setReport] = useState<ReportTextData>(REPORT_FORM_DEFAULT);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [gigIds, setGigIds] = useState<SelectedGig[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [expenses, setExpenses] = useState<Array<Expense>>([]);
 
-  const router = useRouter();
+  const { push } = useRouter();
   const { id } = useParams();
+  const singleId = Array.isArray(id) ? id[0] : id;
 
-  const { data: gigs } = useGigs();
+  const {
+    data: report,
+    isPending: isReportLoading,
+    isError,
+  } = useReportByIdQuery(singleId);
+
+  const methods = useForm<ReportFormData>({
+    values: report,
+  });
 
   useEffect(() => {
-    fetch(`/api/reports/${id}`)
-      .then((res) => {
-        if (res.status === 404) {
-          throw new Error();
-        }
-        return res.json();
-      })
-      .then(({ gigIds, expenses, ...data }) => {
-        setReport(data as ReportTextData);
-        setExpenses(expenses);
-        if (gigs) {
-          setGigIds(
-            gigIds.map((gig: string) => {
-              const currentGig = gigs.find(
-                (g: GigDB) => g._id.toString() === gig,
-              );
-              return {
-                label: `${currentGig.city} - ${currentGig.venue}`,
-                value: currentGig._id,
-              };
-            }),
-          );
-        }
-      })
-      .catch(() => {
-        setIsError(true);
-      })
-      .finally(() => setIsLoading(false));
-  }, [gigs, id]);
+    setExpenses(report?.expenses ?? []);
+  }, [report?.expenses]);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    setIsLoading(true);
-    e.preventDefault();
-    fetch(`/api/reports/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(
-        formatReportFormData({ ...report, expenses, gigIds }),
-      ),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          router.push(`/report/${id}`);
-          setReport(REPORT_FORM_DEFAULT);
-          setExpenses([]);
-        }
-      })
-      .catch((err) => console.error(err))
-      .finally(() => setIsLoading(false));
-  }
+  const { mutate: editReport, isPending: isSubmitLoading } =
+    useEditReportMutation(singleId, {
+      onSuccess: () => {
+        push(`/report/${id}`);
+        methods.reset();
+        setExpenses([]);
+      },
+    });
 
-  if (isLoading) return <Loader />;
+  if (isReportLoading) return <Loader />;
 
   if (isError) return <NotFound backLink="/" text="Izračun ne postoji." />;
 
   return (
-    <ReportForm
-      report={report}
-      setReport={setReport}
-      expenses={expenses}
-      setExpenses={setExpenses}
-      selectedGigs={gigIds}
-      setSelectedGigs={setGigIds}
-      isLoading={isLoading}
-      handleSubmit={handleSubmit}
-      backLink={`/report/${id}`}
-    />
+    <FormProvider {...methods}>
+      <form
+        onSubmit={methods.handleSubmit((data) =>
+          editReport({ ...data, expenses }),
+        )}
+        className="flex flex-col gap-4"
+      >
+        <ReportForm
+          expenses={expenses}
+          setExpenses={setExpenses}
+          isSubmitLoading={isSubmitLoading}
+          backLink={`/report/${id}`}
+        />
+      </form>
+    </FormProvider>
   );
 }

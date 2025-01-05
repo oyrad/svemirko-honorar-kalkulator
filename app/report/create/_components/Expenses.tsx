@@ -1,23 +1,19 @@
-'use client';
-
-import Card from '@/app/_atoms/Card';
-import Expense from '@/app/report/create/_components/Expense';
-import Button from '@/app/_atoms/Button';
 import { Expense as ExpenseType } from '@/types/types';
 import { PlusIcon } from '@heroicons/react/24/solid';
+import { Dispatch, SetStateAction } from 'react';
+import { Expense } from '@/app/report/create/_components/Expense';
+import { Card } from '@/app/_atoms/Card';
+import { Button } from '@/app/_atoms/Button';
 
 interface ExpenseListProps {
   expenses: ExpenseType[];
-  setExpenses: (expenses: ExpenseType[]) => void;
+  setExpenses: Dispatch<SetStateAction<ExpenseType[]>>;
 }
 
-export default function ExpenseList({
-  expenses,
-  setExpenses,
-}: ExpenseListProps) {
+export function Expenses({ expenses, setExpenses }: ExpenseListProps) {
   function addExpense() {
-    setExpenses([
-      ...expenses,
+    setExpenses((prevExpenses) => [
+      ...prevExpenses,
       {
         id: Date.now(),
         name: '',
@@ -28,8 +24,8 @@ export default function ExpenseList({
   }
 
   function updateExpense(id: number, field: string, value: string) {
-    setExpenses(
-      expenses.map((expense) => {
+    setExpenses((prevExpenses) =>
+      prevExpenses.map((expense) => {
         if (expense.id === id) {
           return { ...expense, [field]: value };
         } else {
@@ -40,7 +36,9 @@ export default function ExpenseList({
   }
 
   function removeExpense(id: number) {
-    setExpenses(expenses.filter((expense) => expense.id !== id));
+    setExpenses((prevExpenses) =>
+      prevExpenses.filter((expense) => expense.id !== id),
+    );
   }
 
   return (
@@ -49,6 +47,7 @@ export default function ExpenseList({
         <p className="font-semibold">Troškovi</p>
         <Button
           onClick={addExpense}
+          type="button"
           className="bg-slate-100 hover:bg-slate-200"
         >
           <PlusIcon className="size-4" />

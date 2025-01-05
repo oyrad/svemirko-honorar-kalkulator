@@ -1,6 +1,6 @@
-import Card from '@/app/_atoms/Card';
 import { GigDB } from '@/types/types';
-import { cn } from '@/libs/utils';
+import { Card } from '@/app/_atoms/Card';
+import { cn } from '@/utils/cn';
 
 interface GigProps {
   gig: GigDB;
@@ -8,7 +8,7 @@ interface GigProps {
   className?: string;
 }
 
-export default function Gig({ gig, isPast, className }: GigProps) {
+export function Gig({ gig, isPast, className }: GigProps) {
   return (
     <Card
       className={cn(

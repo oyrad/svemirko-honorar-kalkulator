@@ -1,6 +1,6 @@
-import NewReportButton from '@/app/_components/NewReportButton';
-import ReportList from '@/app/_components/ReportList';
-import GigsButton from '@/app/_components/GigsButton';
+import { GigsButton } from '@/app/_components/GigsButton';
+import { NewReportButton } from '@/app/_components/NewReportButton';
+import { Reports } from '@/app/_components/Reports';
 
 export default async function Home() {
   return (
@@ -8,7 +8,7 @@ export default async function Home() {
       <GigsButton />
       <hr />
       <NewReportButton />
-      <ReportList />
+      <Reports />
     </div>
   );
 }

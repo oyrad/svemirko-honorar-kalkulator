@@ -1,6 +1,6 @@
-import Input from '@/app/_atoms/Input';
 import { Expense as ExpenseType } from '@/types/types';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { Input } from '@/app/_atoms/Input';
 
 interface ExpenseProps {
   index: number;
@@ -9,7 +9,7 @@ interface ExpenseProps {
   removeExpense: (id: number) => void;
 }
 
-export default function Expense({
+export function Expense({
   index,
   expense,
   updateExpense,
@@ -17,7 +17,7 @@ export default function Expense({
 }: ExpenseProps) {
   return (
     <div className="flex space-x-2 items-end">
-      <div className="flex flex-col space-y-1 text-xs text-gray-700">
+      <div className="flex flex-col space-y-1 text-xs text-gray-700 grow-1">
         {index === 0 && <label>Naziv</label>}
         <Input
           name="expenseName"
@@ -26,7 +26,7 @@ export default function Expense({
           onChange={(e) => updateExpense(expense.id, 'name', e.target.value)}
         />
       </div>
-      <div className="flex flex-col space-y-1 text-xs text-gray-700">
+      <div className="flex flex-col space-y-1 text-xs text-gray-700 grow-1">
         {index === 0 && <label>Iznos</label>}
         <Input
           name="expenseAmount"
@@ -35,7 +35,7 @@ export default function Expense({
           onChange={(e) => updateExpense(expense.id, 'amount', e.target.value)}
         />
       </div>
-      <div className="flex flex-col space-y-1 text-xs text-gray-700">
+      <div className="flex flex-col space-y-1 text-xs text-gray-700 grow-0">
         {index === 0 && <label>Tko je platio</label>}
         <select
           value={expense.whoPaid}

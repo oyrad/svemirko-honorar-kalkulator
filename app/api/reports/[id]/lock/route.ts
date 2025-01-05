@@ -3,9 +3,12 @@ import { NextRequest } from 'next/server';
 import mongoose from 'mongoose';
 import Report from '@/models/Report';
 import NewReport from '@/emails/NewReport';
-import { getNetRoyalties, getNetRoyaltiesByPerson } from '@/libs/utils';
 import { Resend } from 'resend';
 import Gig from '@/models/Gig';
+import {
+  getNetRoyalties,
+  getNetRoyaltiesByPerson,
+} from '@/utils/royalties-utils';
 
 const resend = new Resend(process.env.RESEND_KEY);
 

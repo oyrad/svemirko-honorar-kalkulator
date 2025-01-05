@@ -1,5 +1,5 @@
+import { getRates } from '@/utils/get-rates';
 import { Split } from '@/types/types';
-import useRates from '@/hooks/useRates';
 
 interface Member {
   index: string;
@@ -8,12 +8,8 @@ interface Member {
   bgColor: string;
 }
 
-interface MembersParams {
-  split: Split;
-}
-
-export default function useMembers({ split }: MembersParams): Member[] {
-  const rates = useRates({ split });
+export function getMembers(split: Split): Member[] {
+  const rates = getRates(split);
 
   return [
     {

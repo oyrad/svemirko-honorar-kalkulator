@@ -1,28 +1,25 @@
-'use client';
-
-import Card from '@/app/_atoms/Card';
-import PersonCard from '@/app/_components/PersonCard';
-import useMembers from '@/hooks/useMembers';
-import { Expense, ReportTextData } from '@/types/types';
+import { Expense } from '@/types/types';
+import { getMembers } from '@/utils/get-members';
+import { useWatch } from 'react-hook-form';
+import { Card } from '@/app/_atoms/Card';
+import { getNetRoyalties } from '@/utils/royalties-utils';
+import { PersonCard } from '@/app/_components/PersonCard';
 import { useMemo } from 'react';
-import { getNetRoyalties } from '@/libs/utils';
+import { ReportFormData } from '@/app/report/create/page';
 
 interface EarningsProps {
-  report: ReportTextData;
   expenses: Expense[];
 }
 
-export default function Earnings({ report, expenses }: EarningsProps) {
-  const members = useMembers({ split: report.split });
+export function Earnings({ expenses }: EarningsProps) {
+  const { isThereBookingFee, grossRoyalties, split } =
+    useWatch<ReportFormData>();
+
+  const members = getMembers(split ?? 'deal');
 
   const netRoyalties = useMemo(
-    () =>
-      getNetRoyalties(
-        report.grossRoyalties,
-        report.isThereBookingFee,
-        expenses,
-      ),
-    [report.grossRoyalties, report.isThereBookingFee, expenses],
+    () => getNetRoyalties(grossRoyalties ?? '', !!isThereBookingFee, expenses),
+    [grossRoyalties, isThereBookingFee, expenses],
   );
 
   return (

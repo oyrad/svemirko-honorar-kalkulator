@@ -1,31 +1,28 @@
 'use client';
 
-import { GigDB } from '@/types/types';
-import Loader from '@/app/_atoms/Loader';
-import Gig from '@/app/gigs/_components/Gig';
-import Button from '@/app/_atoms/Button';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import { useGigs } from '@/hooks/useGigs';
+import { useGigsQuery } from '@/hooks/use-gigs-query';
+import { Loader } from '@/app/_atoms/Loader';
+import { Button } from '@/app/_atoms/Button';
+import { Gig } from '@/app/gigs/_components/Gig';
 
 export default function Gigs() {
-  const { data: gigs, isLoading } = useGigs();
+  const { data: gigs, isPending } = useGigsQuery();
 
   const upcomingGigs = gigs
-    ?.filter((gig: GigDB) => new Date(gig.date) >= new Date())
-    .sort(
-      (a: GigDB, b: GigDB) =>
-        new Date(a.date).getTime() - new Date(b.date).getTime(),
-    );
+    ? gigs
+        .filter((gig) => new Date(gig.date) >= new Date())
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    : [];
 
   const pastGigs = gigs
-    ?.filter((gig: GigDB) => new Date(gig.date) < new Date())
-    .sort(
-      (a: GigDB, b: GigDB) =>
-        new Date(b.date).getTime() - new Date(a.date).getTime(),
-    );
+    ? gigs
+        .filter((gig) => new Date(gig.date) < new Date())
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    : [];
 
-  if (isLoading) {
+  if (isPending) {
     return <Loader />;
   }
 
@@ -48,26 +45,26 @@ export default function Gigs() {
         </div>
 
         <div className="flex flex-col gap-3 mb-4">
-          {upcomingGigs.map((gig: GigDB) => (
-            <Gig gig={gig} key={gig._id} isPast={false} />
+          {upcomingGigs.map((gig) => (
+            <Gig key={gig._id} gig={gig} isPast={false} />
           ))}
         </div>
 
         <hr className="mb-4" />
 
         <div className="flex flex-col gap-3">
-          {pastGigs.map((gig: GigDB) => (
+          {pastGigs.map((gig) => (
             <Link
+              key={gig._id}
               href={
                 gig.reportId
                   ? `/report/${gig.reportId}?from=gigs`
                   : `/report/create?gigId=${gig._id}&from=gigs`
               }
-              key={gig._id}
             >
               <Gig
-                gig={gig}
                 key={gig._id}
+                gig={gig}
                 isPast={true}
                 className="hover:opacity-75 duration-300 ease-in-out"
               />

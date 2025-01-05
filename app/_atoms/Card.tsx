@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { cn } from '@/libs/utils';
+import { cn } from '@/utils/cn';
 
 interface CardProps {
   children: ReactNode;
@@ -7,7 +7,7 @@ interface CardProps {
   onClick?: () => void;
 }
 
-export default function Card({ children, className = '', onClick }: CardProps) {
+export function Card({ children, className = '', onClick }: CardProps) {
   return (
     <section
       className={cn(
