@@ -9,10 +9,14 @@ export async function GET(request: NextRequest, context: any) {
 
   const isIdValid = mongoose.isValidObjectId(context.params.id);
   if (!isIdValid) {
-    return Response.json({ msg: 'Invalid id' }, { status: 404 });
+    return Response.json({ msg: 'Invalid id' }, { status: 400 });
   }
 
   const report = await Report.findById(context.params.id);
+
+  if (!report) {
+    return Response.json({ msg: 'Report not found' }, { status: 404 });
+  }
 
   const gigs = await Gig.find();
 
@@ -47,8 +51,6 @@ export async function DELETE(request: NextRequest, context: any) {
       await Gig.findByIdAndUpdate(gig._id, { reportId: '' });
     }
   }
-
-  console.log(context.params.id);
 
   return Response.json({ msg: 'Report deleted' }, { status: 200 });
 }

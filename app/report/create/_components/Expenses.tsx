@@ -1,9 +1,9 @@
-import Card from '@/app/_atoms/Card';
-import Button from '@/app/_atoms/Button';
 import { Expense as ExpenseType } from '@/types/types';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { Dispatch, SetStateAction } from 'react';
 import { Expense } from '@/app/report/create/_components/Expense';
+import { Card } from '@/app/_atoms/Card';
+import { Button } from '@/app/_atoms/Button';
 
 interface ExpenseListProps {
   expenses: ExpenseType[];
@@ -47,6 +47,7 @@ export function Expenses({ expenses, setExpenses }: ExpenseListProps) {
         <p className="font-semibold">Troškovi</p>
         <Button
           onClick={addExpense}
+          type="button"
           className="bg-slate-100 hover:bg-slate-200"
         >
           <PlusIcon className="size-4" />

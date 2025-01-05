@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Card from '@/app/_atoms/Card';
-import Loader from '@/app/_atoms/Loader';
 import { LockOpenIcon } from '@heroicons/react/24/outline';
-import { useReportsQuery } from '@/hooks/useReportsQuery';
+import { useReportsQuery } from '@/hooks/use-reports-query';
+import { Loader } from '@/app/_atoms/Loader';
+import { Card } from '@/app/_atoms/Card';
 
-export default function ReportList() {
+export function Reports() {
   const { data: reports, isPending } = useReportsQuery();
 
   if (isPending) {

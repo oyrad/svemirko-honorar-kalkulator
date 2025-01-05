@@ -2,7 +2,7 @@
 
 import { MoonLoader } from 'react-spinners';
 
-export default function Loader() {
+export function Loader() {
   return (
     <div className="flex h-40 items-center justify-center">
       <MoonLoader size={60} color="#888" />

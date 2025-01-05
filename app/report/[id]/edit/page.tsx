@@ -2,17 +2,17 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Loader from '@/app/_atoms/Loader';
 import { Expense } from '@/types/types';
-import NotFound from '@/app/_components/NotFound';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
-import { useReportByIdQuery } from '@/hooks/useReportByIdQuery';
-import { useEditReportMutation } from '@/hooks/useEditReportMutation';
+import { useReportByIdQuery } from '@/hooks/use-report-by-id-query';
+import { useEditReportMutation } from '@/hooks/use-edit-report-mutation';
 import { ReportForm } from '@/app/_components/ReportForm';
+import { NotFound } from '@/app/_components/NotFound';
+import { Loader } from '@/app/_atoms/Loader';
 
 export default function EditReport() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<Array<Expense>>([]);
 
   const { push } = useRouter();
   const { id } = useParams();
@@ -29,7 +29,7 @@ export default function EditReport() {
   });
 
   useEffect(() => {
-    setExpenses(report?.expenses || []);
+    setExpenses(report?.expenses ?? []);
   }, [report?.expenses]);
 
   const { mutate: editReport, isPending: isSubmitLoading } =

@@ -1,9 +1,4 @@
 import Link from 'next/link';
-import Button from '@/app/_atoms/Button';
-import Card from '@/app/_atoms/Card';
-import OverviewItem from '@/app/report/[id]/_components/OverviewItem';
-import { getNetRoyalties, getTotalExpenses } from '@/libs/utils';
-import PersonCard from '@/app/_components/PersonCard';
 import { ReportDB } from '@/types/types';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -13,15 +8,20 @@ import {
 } from '@heroicons/react/24/outline';
 import { MoonLoader } from 'react-spinners';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { getMembers } from '@/utils/getMembers';
-import { useDeleteReportMutation } from '@/hooks/useDeleteReportMutation';
-import { useLockReportMutation } from '@/hooks/useLockReportMutation';
+import { getMembers } from '@/utils/get-members';
+import { useDeleteReportMutation } from '@/hooks/use-delete-report-mutation';
+import { useLockReportMutation } from '@/hooks/use-lock-report-mutation';
+import { Button } from '@/app/_atoms/Button';
+import { Card } from '@/app/_atoms/Card';
+import { PersonCard } from '@/app/_components/PersonCard';
+import { getNetRoyalties, getTotalExpenses } from '@/utils/royalties-utils';
+import { OverviewItem } from '@/app/report/[id]/_components/OverviewItem';
 
 interface ReportDetailsProps {
   report: ReportDB;
 }
 
-export default function ReportDetails({ report }: ReportDetailsProps) {
+export function ReportDetails({ report }: ReportDetailsProps) {
   const from = useSearchParams().get('from');
 
   const { mutate: deleteReport, isPending: isDeleteLoading } =
@@ -53,7 +53,7 @@ export default function ReportDetails({ report }: ReportDetailsProps) {
           <div className="flex gap-2 items-center">
             <Button
               className="border border-green-400 dark:border-green-800 bg-white dark:bg-green-500 px-2 py-1.5 hover:opacity-75"
-              onClick={lockReport}
+              onClick={() => lockReport()}
             >
               {isLockLoading ? (
                 <MoonLoader size={16} />
@@ -70,7 +70,7 @@ export default function ReportDetails({ report }: ReportDetailsProps) {
 
             <Button
               className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-500 px-2 py-1.5 hover:opacity-75"
-              onClick={deleteReport}
+              onClick={() => deleteReport()}
             >
               {isDeleteLoading ? (
                 <MoonLoader size={16} />

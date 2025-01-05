@@ -1,6 +1,6 @@
-import Card from '@/app/_atoms/Card';
 import { useFormContext } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
+import { Card } from '@/app/_atoms/Card';
 
 export function Settings() {
   const { register } = useFormContext<ReportFormData>();

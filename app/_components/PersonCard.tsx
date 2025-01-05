@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { cn, getNetRoyaltiesByPerson } from '@/libs/utils';
 import { Expense } from '@/types/types';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { getNetRoyaltiesByPerson } from '@/utils/royalties-utils';
+import { cn } from '@/utils/cn';
 
 interface PersonCardProps {
   personIndex: string;
@@ -13,7 +14,7 @@ interface PersonCardProps {
   isExpandable?: boolean;
 }
 
-export default function PersonCard({
+export function PersonCard({
   personIndex,
   name,
   rate,

@@ -1,11 +1,11 @@
 'use client';
 
-import Loader from '@/app/_atoms/Loader';
-import Gig from '@/app/gigs/_components/Gig';
-import Button from '@/app/_atoms/Button';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import { useGigsQuery } from '@/hooks/useGigsQuery';
+import { useGigsQuery } from '@/hooks/use-gigs-query';
+import { Loader } from '@/app/_atoms/Loader';
+import { Button } from '@/app/_atoms/Button';
+import { Gig } from '@/app/gigs/_components/Gig';
 
 export default function Gigs() {
   const { data: gigs, isPending } = useGigsQuery();

@@ -1,10 +1,10 @@
-import Card from '@/app/_atoms/Card';
-import { useGigsQuery } from '@/hooks/useGigsQuery';
+import { useGigsQuery } from '@/hooks/use-gigs-query';
 import { Input } from '@/app/_atoms/Input';
 import { Controller, useFormContext } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
 import Select from 'react-select';
 import { SelectedGig } from '@/types/types';
+import { Card } from '@/app/_atoms/Card';
 
 export function BasicInfo() {
   const { data: gigs } = useGigsQuery();

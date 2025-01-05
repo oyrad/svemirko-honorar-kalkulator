@@ -3,7 +3,7 @@ interface OverviewItemProps {
   value: string | number;
 }
 
-export default function OverviewItem({ label, value }: OverviewItemProps) {
+export function OverviewItem({ label, value }: OverviewItemProps) {
   return (
     <div>
       <p className="text-xs uppercase font-semibold">{label}</p>

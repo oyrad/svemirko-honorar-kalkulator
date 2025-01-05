@@ -1,10 +1,10 @@
 'use client';
 
-import Loader from '@/app/_atoms/Loader';
 import { useParams } from 'next/navigation';
-import ReportDetails from '@/app/report/[id]/_components/ReportDetails';
-import NotFound from '@/app/_components/NotFound';
-import { useReportByIdQuery } from '@/hooks/useReportByIdQuery';
+import { useReportByIdQuery } from '@/hooks/use-report-by-id-query';
+import { Loader } from '@/app/_atoms/Loader';
+import { ReportDetails } from '@/app/report/[id]/_components/ReportDetails';
+import { NotFound } from '@/app/_components/NotFound';
 
 export default function ReportDetailsPage() {
   const { id } = useParams();
