@@ -10,7 +10,6 @@ export type Report = {
   isThereBookingFee: boolean;
   split: Split;
   expenses: Expense[];
-  note: string;
   isLocked: boolean;
   gigIds: SelectedGig[];
 };
