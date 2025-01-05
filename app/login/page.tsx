@@ -1,7 +1,7 @@
 import Card from '@/app/_atoms/Card';
 import Image from 'next/image';
-import LoginForm from '@/app/login/_components/LoginForm';
 import { Suspense } from 'react';
+import { LoginForm } from '@/app/login/_components/LoginForm';
 
 export default function Login() {
   return (

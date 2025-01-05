@@ -1,11 +1,19 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { formatReportFormData } from '@/libs/utils';
+import { Report } from '@/types/types';
 
-function createReport() {
-  return Promise.resolve();
+function createReport(data: Report) {
+  return fetch('/api/reports', {
+    method: 'POST',
+    body: JSON.stringify(formatReportFormData(data)),
+  });
 }
 
-export function useCreateReportMutation() {
+export function useCreateReportMutation(
+  options?: UseMutationOptions<Response, Error, Report>,
+) {
   return useMutation({
     mutationFn: createReport,
+    ...options,
   });
 }

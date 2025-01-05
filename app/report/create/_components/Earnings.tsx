@@ -1,28 +1,25 @@
-'use client';
-
 import Card from '@/app/_atoms/Card';
 import PersonCard from '@/app/_components/PersonCard';
 import { Expense, ReportTextData } from '@/types/types';
 import { useMemo } from 'react';
 import { getNetRoyalties } from '@/libs/utils';
 import { getMembers } from '@/utils/getMembers';
+import { useFormContext } from 'react-hook-form';
 
 interface EarningsProps {
-  report: ReportTextData;
   expenses: Expense[];
 }
 
-export default function Earnings({ report, expenses }: EarningsProps) {
-  const members = getMembers(report.split);
+export function Earnings({ expenses }: EarningsProps) {
+  const { watch } = useFormContext<ReportTextData>();
+
+  const { isThereBookingFee, grossRoyalties, split } = watch();
+
+  const members = getMembers(split);
 
   const netRoyalties = useMemo(
-    () =>
-      getNetRoyalties(
-        report.grossRoyalties,
-        report.isThereBookingFee,
-        expenses,
-      ),
-    [report.grossRoyalties, report.isThereBookingFee, expenses],
+    () => getNetRoyalties(grossRoyalties, isThereBookingFee, expenses),
+    [grossRoyalties, isThereBookingFee, expenses],
   );
 
   return (

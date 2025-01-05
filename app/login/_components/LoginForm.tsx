@@ -13,7 +13,7 @@ export interface LoginFormValues {
   password: string;
 }
 
-export default function LoginForm() {
+export function LoginForm() {
   const redirectTo = useSearchParams().get('redirectTo');
   const { push } = useRouter();
 
@@ -36,10 +36,8 @@ export default function LoginForm() {
 
   const { username, password } = watch();
 
-  const onSubmit = handleSubmit((data) => login(data));
-
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit((data) => login(data))}>
       {error && (
         <Card className="bg-red-50 border border-red-700 dark:bg-red-700 mb-8">
           {error.message}
@@ -58,7 +56,7 @@ export default function LoginForm() {
         className="bg-blue-600 w-full flex justify-center text-white py-2"
         disabled={!username || !password}
       >
-        {isLoading ? <MoonLoader size={18} color="white" /> : 'Log in'}
+        {isLoading ? <MoonLoader size={18} color="white" /> : 'Prijava'}
       </Button>
     </form>
   );

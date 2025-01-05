@@ -9,9 +9,9 @@ export type Report = {
   grossRoyalties: string;
   isThereBookingFee: boolean;
   split: Split;
-  expenses: Expense[];
+  expenses: Array<Expense>;
   isLocked: boolean;
-  gigIds: SelectedGig[];
+  selectedGigs: Array<SelectedGig>;
 };
 
 export type ReportDB = Report & DatabaseProps;
