@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Expense } from '@/types/types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
@@ -41,18 +41,20 @@ export default function EditReport() {
   if (isError) return <NotFound backLink="/" text="Izračun ne postoji." />;
 
   return (
-    <FormProvider {...methods}>
-      <form
-        onSubmit={methods.handleSubmit((data) => editReport({ ...data, expenses }))}
-        className="flex flex-col gap-4"
-      >
-        <ReportForm
-          expenses={expenses}
-          setExpenses={setExpenses}
-          isSubmitLoading={isSubmitLoading}
-          backLink={`/report/${id}`}
-        />
-      </form>
-    </FormProvider>
+    <Suspense fallback={<Loader />}>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit((data) => editReport({ ...data, expenses }))}
+          className="flex flex-col gap-4"
+        >
+          <ReportForm
+            expenses={expenses}
+            setExpenses={setExpenses}
+            isSubmitLoading={isSubmitLoading}
+            backLink={`/report/${id}`}
+          />
+        </form>
+      </FormProvider>
+    </Suspense>
   );
 }

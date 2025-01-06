@@ -7,7 +7,6 @@ import { Loader } from '@/app/_atoms/Loader';
 import { Card } from '@/app/_atoms/Card';
 import { Button } from '@/app/_atoms/Button';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/navigation';
 import { YearSelect } from '@/app/_components/YearSelect';
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
 
@@ -18,8 +17,6 @@ export function ReportsTab() {
     select: (data) => data.filter((report) => report.year === selectedYear),
   });
 
-  const { push } = useRouter();
-
   if (isPending) {
     return <Loader />;
   }
@@ -28,12 +25,11 @@ export function ReportsTab() {
     <>
       <div className="flex justify-between items-end">
         <YearSelect />
-        <Button
-          onClick={() => push('/report/create')}
-          className="border border-emerald-500 py-1.5 hover:opacity-70 bg-white"
-        >
-          <PlusIcon className="size-[1.1rem]" />
-        </Button>
+        <Link href={`/report/create`}>
+          <Button className="border border-emerald-500 py-1.5 hover:opacity-70 bg-white">
+            <PlusIcon className="size-[1.1rem]" />
+          </Button>
+        </Link>
       </div>
 
       {reports?.length ? (
