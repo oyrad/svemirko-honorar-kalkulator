@@ -1,4 +1,4 @@
-import { GigDB } from '@/types/types';
+import { Gig } from '@/types/types';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Card } from '@/app/_atoms/Card';
 
@@ -18,7 +18,7 @@ const defaultData = [
 ];
 
 interface GigsPerMonthProps {
-  gigs: Array<GigDB>;
+  gigs: Array<Gig>;
 }
 
 export function GigsPerMonth({ gigs }: GigsPerMonthProps) {

@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 interface SelectedYearStore {
-  selectedYear: number;
-  setSelectedYear: (year: number) => void;
+  selectedYear: string;
+  setSelectedYear: (year: string) => void;
 }
 
 export const useSelectedYearStore = create<SelectedYearStore>()((set) => ({
-  selectedYear: 2024,
+  selectedYear: '2024',
   setSelectedYear: (year) => set({ selectedYear: year }),
 }));

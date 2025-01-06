@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { GigDB } from '@/types/types';
+import { Gig } from '@/types/types';
 
-async function getGigById(id: string): Promise<GigDB> {
+async function getGigById(id: string): Promise<Gig> {
   const res = await fetch(`/api/gigs/${id}`);
 
   if (res.status === 200) {

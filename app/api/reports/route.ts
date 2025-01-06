@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
     expenses,
     isLocked,
     gigIds,
+    year: gigIds[0].split('-')[0],
   });
 
   for (const gigId of gigIds) {

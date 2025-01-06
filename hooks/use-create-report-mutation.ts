@@ -15,7 +15,7 @@ function createReport(data: CreateReportData) {
 }
 
 export function useCreateReportMutation(
-  options?: UseMutationOptions<Response, Error, CreateReportData>,
+  options?: Omit<UseMutationOptions<Response, Error, CreateReportData>, 'mutationFn'>,
 ) {
   return useMutation({
     mutationFn: createReport,

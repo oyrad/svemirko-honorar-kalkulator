@@ -58,6 +58,7 @@ export async function PUT(request: NextRequest, context: any) {
     split,
     expenses,
     gigIds,
+    year: gigIds[0].split('-')[0],
   });
 
   return Response.json({ msg: 'Report updated' }, { status: 200 });

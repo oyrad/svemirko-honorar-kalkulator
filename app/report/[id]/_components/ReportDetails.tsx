@@ -1,11 +1,6 @@
 import Link from 'next/link';
-import { ReportDB } from '@/types/types';
 import { useSearchParams } from 'next/navigation';
-import {
-  LockClosedIcon,
-  PencilSquareIcon,
-  TrashIcon,
-} from '@heroicons/react/24/outline';
+import { LockClosedIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { MoonLoader } from 'react-spinners';
 import { getMembers } from '@/utils/get-members';
 import { useDeleteReportMutation } from '@/hooks/use-delete-report-mutation';
@@ -16,33 +11,33 @@ import { PersonCard } from '@/app/_components/PersonCard';
 import { getNetRoyalties, getTotalExpenses } from '@/utils/royalties-utils';
 import { OverviewItem } from '@/app/report/[id]/_components/OverviewItem';
 import { BackButton } from '@/app/_components/BackButton';
+import { tabSearchString } from '@/hooks/use-selected-tab-query-param';
+import { Report } from '@/types/types';
 
 interface ReportDetailsProps {
-  report: ReportDB;
+  report: Report;
 }
 
 export function ReportDetails({ report }: ReportDetailsProps) {
   const from = useSearchParams().get('from');
 
-  const { mutate: deleteReport, isPending: isDeleteLoading } =
-    useDeleteReportMutation(report._id);
+  const { mutate: deleteReport, isPending: isDeleteLoading } = useDeleteReportMutation(report._id);
 
-  const { mutate: lockReport, isPending: isLockLoading } =
-    useLockReportMutation(report._id);
+  const { mutate: lockReport, isPending: isLockLoading } = useLockReportMutation(report._id);
 
   const members = getMembers(report?.split ?? 'deal');
 
   const netRoyalties = getNetRoyalties(
-    report?.grossRoyalties ?? '',
-    report?.isThereBookingFee ?? false,
-    report?.expenses ?? [],
+    report.grossRoyalties ?? '',
+    report.isThereBookingFee ?? false,
+    report.expenses ?? [],
   );
 
   return (
     <>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <BackButton link={from === 'gigs' ? '/gigs' : '/'} />
+          <BackButton link={from === 'gigs' ? `/?${tabSearchString}=gigs` : '/'} />
           <p className="font-semibold text-xl dark:text-white">{report.name}</p>
         </div>
         {!report.isLocked && (
@@ -89,9 +84,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
           <OverviewItem
             label="booking fee"
             value={
-              report.isThereBookingFee
-                ? (parseFloat(report.grossRoyalties) * 0.1).toFixed(2)
-                : '-'
+              report.isThereBookingFee ? (parseFloat(report.grossRoyalties) * 0.1).toFixed(2) : '-'
             }
           />
           <OverviewItem
@@ -100,11 +93,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
           />
           <OverviewItem
             label="troškovi"
-            value={
-              report.expenses.length > 0
-                ? getTotalExpenses(report.expenses).toFixed(2)
-                : '-'
-            }
+            value={report.expenses.length > 0 ? getTotalExpenses(report.expenses).toFixed(2) : '-'}
           />
           <OverviewItem label="zarada" value={netRoyalties.toFixed(2)} />
         </div>

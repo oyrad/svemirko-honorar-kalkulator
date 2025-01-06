@@ -1,8 +1,13 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { Report } from '@/types/types';
+import { Expense } from '@/types/types';
 import { formatReportFormData } from '@/utils/format-report-form-data';
+import { ReportFormData } from '@/app/report/create/page';
 
-function editReport(id: string, data: Report) {
+interface EditReportData extends ReportFormData {
+  expenses: Array<Expense>;
+}
+
+function editReport(id: string, data: EditReportData) {
   return fetch(`/api/reports/${id}`, {
     method: 'PUT',
     body: JSON.stringify(formatReportFormData(data)),
@@ -11,7 +16,7 @@ function editReport(id: string, data: Report) {
 
 export function useEditReportMutation(
   id: string,
-  options?: UseMutationOptions<Response, Error, Report>,
+  options?: Omit<UseMutationOptions<Response, Error, EditReportData>, 'mutationFn'>,
 ) {
   return useMutation({
     mutationFn: (data) => editReport(id, data),

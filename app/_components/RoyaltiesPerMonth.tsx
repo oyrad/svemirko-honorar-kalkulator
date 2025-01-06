@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Card } from '@/app/_atoms/Card';
-import { GigDB, ReportDB } from '@/types/types';
+import { Gig, Report } from '@/types/types';
 
 const defaultData = [
   { name: 'Jan', pay: 0 },
@@ -18,8 +18,8 @@ const defaultData = [
 ];
 
 interface RoyaltiesPerMonthProps {
-  reports: Array<ReportDB>;
-  gigs: Array<GigDB>;
+  reports: Array<Report>;
+  gigs: Array<Gig>;
 }
 
 export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {

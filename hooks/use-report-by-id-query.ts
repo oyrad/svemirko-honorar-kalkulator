@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { ReportDB } from '@/types/types';
+import { Report } from '@/types/types';
 
-async function getReportById(id: string): Promise<ReportDB> {
+async function getReportById(id: string): Promise<Report> {
   const res = await fetch(`/api/reports/${id}`);
 
   if (res.status === 200) {

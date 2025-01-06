@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  UseMutationOptions,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 function deleteReport(id: string) {
@@ -13,7 +9,7 @@ function deleteReport(id: string) {
 
 export function useDeleteReportMutation(
   id: string,
-  options?: UseMutationOptions,
+  options?: Omit<UseMutationOptions, 'mutationFn'>,
 ) {
   const queryClient = useQueryClient();
   const { push } = useRouter();
