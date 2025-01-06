@@ -27,6 +27,7 @@
     "react-hook-form": "^7.54.2",
     "react-select": "^5.8.0",
     "react-spinners": "^0.14.1",
+    "recharts": "^2.15.0",
     "resend": "^3.4.0",
     "tailwind-merge": "^2.3.0"
   },
