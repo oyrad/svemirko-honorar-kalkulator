@@ -2,6 +2,7 @@ import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
 import connect from '@/libs/db';
 import Gig from '@/models/Gig';
+import { getNetRoyalties, getNetRoyaltiesForAllMembers } from '@/utils/royalties-utils';
 
 export async function GET() {
   await connect();
@@ -12,19 +13,17 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   await connect();
-  const {
-    name,
-    grossRoyalties,
-    isThereBookingFee,
-    split,
-    expenses,
-    isLocked,
-    gigIds,
-  } = await request.json();
+  const { name, grossRoyalties, isThereBookingFee, split, expenses, isLocked, gigIds } =
+    await request.json();
+
+  const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
+  const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses, split);
 
   const newReport = await Report.create({
     name,
     grossRoyalties,
+    netRoyalties,
+    netRoyaltiesPerPerson,
     isThereBookingFee,
     split,
     expenses,

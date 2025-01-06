@@ -1,0 +1,108 @@
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { Card } from '@/app/_atoms/Card';
+import { GigDB, ReportDB } from '@/types/types';
+
+const defaultData = [
+  { name: 'Jan', marko: 0, tali: 0, dario: 0 },
+  { name: 'Feb', marko: 0, tali: 0, dario: 0 },
+  { name: 'Mar', marko: 0, tali: 0, dario: 0 },
+  { name: 'Apr', marko: 0, tali: 0, dario: 0 },
+  { name: 'May', marko: 0, tali: 0, dario: 0 },
+  { name: 'Jun', marko: 0, tali: 0, dario: 0 },
+  { name: 'Jul', marko: 0, tali: 0, dario: 0 },
+  { name: 'Aug', marko: 0, tali: 0, dario: 0 },
+  { name: 'Sep', marko: 0, tali: 0, dario: 0 },
+  { name: 'Oct', marko: 0, tali: 0, dario: 0 },
+  { name: 'Nov', marko: 0, tali: 0, dario: 0 },
+  { name: 'Dec', marko: 0, tali: 0, dario: 0 },
+];
+
+interface RoyaltiesPerPersonProps {
+  reports: Array<ReportDB>;
+  gigs: Array<GigDB>;
+  selectedYear: string;
+}
+
+export function RoyaltiesPerPerson({ reports, gigs, selectedYear }: RoyaltiesPerPersonProps) {
+  const markoRoyaltiesPerMonth =
+    reports?.reduce((acc, report) => {
+      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
+      if (associatedGig) {
+        const gigYear = associatedGig.date.split('-')[0];
+
+        if (gigYear !== selectedYear) {
+          return acc;
+        }
+
+        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+        acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[0] ?? 0);
+      }
+      return acc;
+    }, Array(12).fill(0)) ?? [];
+
+  const taliRoyaltiesPerMonth =
+    reports?.reduce((acc, report) => {
+      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
+      if (associatedGig) {
+        const gigYear = associatedGig.date.split('-')[0];
+
+        if (gigYear !== selectedYear) {
+          return acc;
+        }
+
+        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+        acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[1] ?? 0);
+      }
+      return acc;
+    }, Array(12).fill(0)) ?? [];
+
+  const darioRoyaltiesPerMonth =
+    reports?.reduce((acc, report) => {
+      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
+      if (associatedGig) {
+        const gigYear = associatedGig.date.split('-')[0];
+
+        if (gigYear !== selectedYear) {
+          return acc;
+        }
+
+        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+        acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[2] ?? 0);
+      }
+      return acc;
+    }, Array(12).fill(0)) ?? [];
+
+  const chartData = defaultData.map((item, index) => ({
+    ...item,
+    marko: Math.round(markoRoyaltiesPerMonth[index]),
+    tali: Math.round(taliRoyaltiesPerMonth[index]),
+    dario: Math.round(darioRoyaltiesPerMonth[index]),
+  }));
+
+  return (
+    <Card>
+      <p className="mb-2 text-center">Zarada po članovima</p>
+      <ResponsiveContainer width="100%" height={350}>
+        <BarChart width={500} height={350} data={chartData} className="bg-white">
+          <CartesianGrid strokeDasharray="2 2" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="marko" fill="#0084d8" name="Marko" />
+          <Bar dataKey="tali" fill="#8884d8" name="Tali" />
+          <Bar dataKey="dario" fill="#ff84d8" name="Dario" />
+        </BarChart>
+      </ResponsiveContainer>
+    </Card>
+  );
+}

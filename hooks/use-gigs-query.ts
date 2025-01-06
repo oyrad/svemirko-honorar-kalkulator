@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { GigDB } from '@/types/types';
 
 async function getGigs(): Promise<GigDB[]> {
@@ -6,9 +6,12 @@ async function getGigs(): Promise<GigDB[]> {
   return await res.json();
 }
 
-export function useGigsQuery() {
+export function useGigsQuery(
+  options?: Omit<UseQueryOptions<GigDB[], Error>, 'queryKey' | 'queryFn'>,
+) {
   return useQuery({
     queryKey: ['gigs'],
     queryFn: getGigs,
+    ...options,
   });
 }

@@ -1,8 +1,13 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { Report } from '@/types/types';
 import { formatReportFormData } from '@/utils/format-report-form-data';
+import { ReportFormData } from '@/app/report/create/page';
+import { Expense } from '@/types/types';
 
-function createReport(data: Report) {
+interface CreateReportData extends ReportFormData {
+  expenses: Array<Expense>;
+}
+
+function createReport(data: CreateReportData) {
   return fetch('/api/reports', {
     method: 'POST',
     body: JSON.stringify(formatReportFormData(data)),
@@ -10,7 +15,7 @@ function createReport(data: Report) {
 }
 
 export function useCreateReportMutation(
-  options?: UseMutationOptions<Response, Error, Report>,
+  options?: UseMutationOptions<Response, Error, CreateReportData>,
 ) {
   return useMutation({
     mutationFn: createReport,

@@ -7,7 +7,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import { MoonLoader } from 'react-spinners';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { getMembers } from '@/utils/get-members';
 import { useDeleteReportMutation } from '@/hooks/use-delete-report-mutation';
 import { useLockReportMutation } from '@/hooks/use-lock-report-mutation';
@@ -16,6 +15,7 @@ import { Card } from '@/app/_atoms/Card';
 import { PersonCard } from '@/app/_components/PersonCard';
 import { getNetRoyalties, getTotalExpenses } from '@/utils/royalties-utils';
 import { OverviewItem } from '@/app/report/[id]/_components/OverviewItem';
+import { BackButton } from '@/app/_components/BackButton';
 
 interface ReportDetailsProps {
   report: ReportDB;
@@ -42,11 +42,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
     <>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <Link href={from === 'gigs' ? '/gigs' : '/'}>
-            <Button className="border border-gray-500 bg-white dark:bg-gray-800 px-2 py-1.5 hover:opacity-75">
-              <ArrowLeftIcon className="size-5 text-gray-700 dark:text-gray-100" />
-            </Button>
-          </Link>
+          <BackButton link={from === 'gigs' ? '/gigs' : '/'} />
           <p className="font-semibold text-xl dark:text-white">{report.name}</p>
         </div>
         {!report.isLocked && (

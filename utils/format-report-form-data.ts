@@ -1,14 +1,15 @@
-import { Expense, Report } from '@/types/types';
+import { Expense } from '@/types/types';
+import { ReportFormData } from '@/app/report/create/page';
 
-export function formatReportFormData(report: Report) {
+interface FormatReportFormDataParams extends ReportFormData {
+  expenses: Array<Expense>;
+}
+
+export function formatReportFormData(report: FormatReportFormDataParams) {
   return {
     ...report,
     name: report.name.length === 0 ? new Date().toISOString() : report.name,
-    grossRoyalties:
-      report.grossRoyalties.length === 0 ? '0' : report.grossRoyalties,
-    expenses: report.expenses.filter(
-      (expense: Expense) => parseFloat(expense.amount) > 0,
-    ),
-    gigIds: report.selectedGigs.map((gig) => gig.value),
+    grossRoyalties: report.grossRoyalties.length === 0 ? '0' : report.grossRoyalties,
+    expenses: report.expenses.filter((expense) => parseFloat(expense.amount) > 0),
   };
 }

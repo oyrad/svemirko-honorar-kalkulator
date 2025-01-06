@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { ReportDB } from '@/types/types';
 
 async function getReports(): Promise<ReportDB[]> {
@@ -6,9 +6,12 @@ async function getReports(): Promise<ReportDB[]> {
   return await res.json();
 }
 
-export function useReportsQuery() {
+export function useReportsQuery(
+  options?: Omit<UseQueryOptions<ReportDB[], Error>, 'queryKey' | 'queryFn'>,
+) {
   return useQuery({
     queryKey: ['reports'],
     queryFn: getReports,
+    ...options,
   });
 }

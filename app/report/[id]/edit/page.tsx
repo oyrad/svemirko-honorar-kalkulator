@@ -18,28 +18,23 @@ export default function EditReport() {
   const { id } = useParams();
   const singleId = Array.isArray(id) ? id[0] : id;
 
-  const {
-    data: report,
-    isPending: isReportLoading,
-    isError,
-  } = useReportByIdQuery(singleId);
+  const { data: report, isPending: isReportLoading, isError } = useReportByIdQuery(singleId);
 
   const methods = useForm<ReportFormData>({
     values: report,
   });
 
+  const { mutate: editReport, isPending: isSubmitLoading } = useEditReportMutation(singleId, {
+    onSuccess: () => {
+      push(`/report/${id}`);
+      methods.reset();
+      setExpenses([]);
+    },
+  });
+
   useEffect(() => {
     setExpenses(report?.expenses ?? []);
   }, [report?.expenses]);
-
-  const { mutate: editReport, isPending: isSubmitLoading } =
-    useEditReportMutation(singleId, {
-      onSuccess: () => {
-        push(`/report/${id}`);
-        methods.reset();
-        setExpenses([]);
-      },
-    });
 
   if (isReportLoading) return <Loader />;
 
@@ -48,9 +43,7 @@ export default function EditReport() {
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit((data) =>
-          editReport({ ...data, expenses }),
-        )}
+        onSubmit={methods.handleSubmit((data) => editReport({ ...data, expenses }))}
         className="flex flex-col gap-4"
       >
         <ReportForm

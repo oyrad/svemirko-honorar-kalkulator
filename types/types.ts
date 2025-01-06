@@ -7,16 +7,16 @@ export type DatabaseProps = {
 export type Report = {
   name: string;
   grossRoyalties: string;
+  netRoyalties: string;
+  netRoyaltiesPerPerson: Array<string>;
   isThereBookingFee: boolean;
   split: Split;
   expenses: Array<Expense>;
   isLocked: boolean;
-  selectedGigs: Array<SelectedGig>;
+  gigIds: Array<string>;
 };
 
 export type ReportDB = Report & DatabaseProps;
-
-export type ReportTextData = Omit<Report, 'expenses' | 'gigIds'>;
 
 export type Split = 'deal' | 'equal';
 

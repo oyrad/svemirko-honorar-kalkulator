@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server';
 import Report from '@/models/Report';
 import mongoose from 'mongoose';
 import Gig from '@/models/Gig';
+import { getNetRoyalties, getNetRoyaltiesForAllMembers } from '@/utils/royalties-utils';
 
 export async function GET(request: NextRequest, context: any) {
   await connect();
@@ -17,27 +18,7 @@ export async function GET(request: NextRequest, context: any) {
   if (!report) {
     return Response.json({ msg: 'Report not found' }, { status: 404 });
   }
-
-  const gigs = await Gig.find();
-
-  const selectedGigs = report.gigIds.map((id: string) => {
-    const currentGig = gigs.find((g) => g._id.toString() === id);
-
-    if (currentGig) {
-      return {
-        label: `${currentGig.city} - ${currentGig.venue}`,
-        value: currentGig._id,
-      };
-    }
-  });
-
-  return Response.json(
-    {
-      ...report._doc,
-      selectedGigs,
-    },
-    { status: 200 },
-  );
+  return Response.json(report, { status: 200 });
 }
 
 export async function DELETE(request: NextRequest, context: any) {
@@ -63,12 +44,16 @@ export async function PUT(request: NextRequest, context: any) {
     return Response.json({ msg: 'Invalid id' }, { status: 404 });
   }
 
-  const { name, grossRoyalties, isThereBookingFee, split, expenses, gigIds } =
-    await request.json();
+  const { name, grossRoyalties, isThereBookingFee, split, expenses, gigIds } = await request.json();
+
+  const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
+  const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses, split);
 
   await Report.findByIdAndUpdate(context.params.id, {
     name,
     grossRoyalties,
+    netRoyalties,
+    netRoyaltiesPerPerson,
     isThereBookingFee,
     split,
     expenses,

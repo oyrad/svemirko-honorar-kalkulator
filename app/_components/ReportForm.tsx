@@ -22,37 +22,19 @@ interface ReportFormProps {
   backLink: string;
 }
 
-export function ReportForm({
-  expenses,
-  setExpenses,
-  isSubmitLoading,
-  backLink,
-}: ReportFormProps) {
+export function ReportForm({ expenses, setExpenses, isSubmitLoading, backLink }: ReportFormProps) {
   const gigId = useSearchParams().get('gigId');
 
-  const {
-    data: gig,
-    isLoading: isGigInfoLoading,
-    error,
-  } = useGigByIdQuery(gigId ?? '');
+  const { data: gig, isLoading: isGigInfoLoading, error } = useGigByIdQuery(gigId ?? '');
 
   const { setValue } = useFormContext<ReportFormData>();
 
   useEffect(() => {
     if (!gigId || !gig) return;
 
-    setValue('selectedGigs', [
-      {
-        value: gigId,
-        label: `${gig.city} - ${gig.venue}`,
-      },
-    ]);
-
+    setValue('gigIds', [gigId]);
     setValue('name', gig.city);
-    setValue(
-      'grossRoyalties',
-      gig.royalties !== 'door deal' ? gig.royalties.split('€')[0] : '',
-    );
+    setValue('grossRoyalties', gig.royalties !== 'door deal' ? gig.royalties.split('€')[0] : '');
   }, [gig, gigId, setValue]);
 
   if (isGigInfoLoading) {
