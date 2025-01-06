@@ -29,57 +29,35 @@ const defaultData = [
 interface RoyaltiesPerPersonProps {
   reports: Array<ReportDB>;
   gigs: Array<GigDB>;
-  selectedYear: string;
 }
 
-export function RoyaltiesPerPerson({ reports, gigs, selectedYear }: RoyaltiesPerPersonProps) {
-  const markoRoyaltiesPerMonth =
-    reports?.reduce((acc, report) => {
-      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
-      if (associatedGig) {
-        const gigYear = associatedGig.date.split('-')[0];
+export function RoyaltiesPerPerson({ reports, gigs }: RoyaltiesPerPersonProps) {
+  const markoRoyaltiesPerMonth = reports.reduce((acc, report) => {
+    const associatedGig = gigs.find((gig) => gig._id === report.gigIds[0]);
+    if (associatedGig) {
+      const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+      acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[0] ?? 0);
+    }
+    return acc;
+  }, Array(12).fill(0));
 
-        if (gigYear !== selectedYear) {
-          return acc;
-        }
+  const taliRoyaltiesPerMonth = reports.reduce((acc, report) => {
+    const associatedGig = gigs.find((gig) => gig._id === report.gigIds[0]);
+    if (associatedGig) {
+      const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+      acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[1] ?? 0);
+    }
+    return acc;
+  }, Array(12).fill(0));
 
-        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
-        acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[0] ?? 0);
-      }
-      return acc;
-    }, Array(12).fill(0)) ?? [];
-
-  const taliRoyaltiesPerMonth =
-    reports?.reduce((acc, report) => {
-      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
-      if (associatedGig) {
-        const gigYear = associatedGig.date.split('-')[0];
-
-        if (gigYear !== selectedYear) {
-          return acc;
-        }
-
-        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
-        acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[1] ?? 0);
-      }
-      return acc;
-    }, Array(12).fill(0)) ?? [];
-
-  const darioRoyaltiesPerMonth =
-    reports?.reduce((acc, report) => {
-      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
-      if (associatedGig) {
-        const gigYear = associatedGig.date.split('-')[0];
-
-        if (gigYear !== selectedYear) {
-          return acc;
-        }
-
-        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
-        acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[2] ?? 0);
-      }
-      return acc;
-    }, Array(12).fill(0)) ?? [];
+  const darioRoyaltiesPerMonth = reports.reduce((acc, report) => {
+    const associatedGig = gigs.find((gig) => gig._id === report.gigIds[0]);
+    if (associatedGig) {
+      const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+      acc[month] = (acc[month] ?? 0) + (report.netRoyaltiesPerPerson[2] ?? 0);
+    }
+    return acc;
+  }, Array(12).fill(0));
 
   const chartData = defaultData.map((item, index) => ({
     ...item,

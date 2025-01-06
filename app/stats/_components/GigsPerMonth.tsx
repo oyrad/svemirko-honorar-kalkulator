@@ -19,23 +19,15 @@ const defaultData = [
 
 interface GigsPerMonthProps {
   gigs: Array<GigDB>;
-  selectedYear: string;
 }
 
-export function GigsPerMonth({ gigs, selectedYear }: GigsPerMonthProps) {
-  const gigsPerMonth =
-    gigs?.reduce((acc, gig) => {
-      const gigYear = gig.date.split('-')[0];
+export function GigsPerMonth({ gigs }: GigsPerMonthProps) {
+  const gigsPerMonth = gigs.reduce((acc, gig) => {
+    const month = parseInt(gig.date.split('-')[1], 10) - 1;
+    acc[month] = (acc[month] ?? 0) + 1;
 
-      if (gigYear !== selectedYear) {
-        return acc;
-      }
-
-      const month = parseInt(gig.date.split('-')[1], 10) - 1;
-      acc[month] = (acc[month] ?? 0) + 1;
-
-      return acc;
-    }, Array(12).fill(0)) ?? [];
+    return acc;
+  }, Array(12).fill(0));
 
   const chartData = defaultData.map((item, index) => ({
     ...item,

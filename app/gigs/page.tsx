@@ -34,7 +34,7 @@ export default function Gigs() {
             <ArrowLeftIcon className="size-5 text-gray-700 dark:text-gray-100" />
           </Button>
         </Link>
-        <h1 className="font-semibold text-xl dark:text-white">SVIRKE</h1>
+        <h1 className="font-semibold text-xl dark:text-white uppercase">svirke</h1>
       </div>
       <div>
         <div className="flex gap-2 items-center mb-2">

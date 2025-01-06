@@ -20,30 +20,24 @@ const defaultData = [
 interface RoyaltiesPerMonthProps {
   reports: Array<ReportDB>;
   gigs: Array<GigDB>;
-  selectedYear: string;
 }
 
-export function RoyaltiesPerMonth({ reports, gigs, selectedYear }: RoyaltiesPerMonthProps) {
-  const royaltiesPerMonth =
-    reports?.reduce((acc, report) => {
-      const associatedGig = gigs?.find((gig) => gig._id === report.gigIds[0]);
-      if (associatedGig) {
-        const gigYear = associatedGig.date.split('-')[0];
-
-        if (gigYear !== selectedYear) {
-          return acc;
-        }
-
-        const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
-        acc[month] = (acc[month] ?? 0) + (report.netRoyalties ?? 0);
-      }
-      return acc;
-    }, Array(12).fill(0)) ?? [];
+export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
+  const royaltiesPerMonth = reports.reduce((acc, report) => {
+    const associatedGig = gigs.find((gig) => gig._id === report.gigIds[0]);
+    if (associatedGig) {
+      const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
+      acc[month] = (acc[month] ?? 0) + (report.netRoyalties ?? 0);
+    }
+    return acc;
+  }, Array(12).fill(0));
 
   const chartData = defaultData.map((item, index) => ({
     ...item,
     pay: royaltiesPerMonth[index],
   }));
+
+  const totalPay = chartData.reduce((acc, item) => acc + item.pay, 0);
 
   return (
     <Card>
