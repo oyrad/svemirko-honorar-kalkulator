@@ -37,8 +37,6 @@ export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
     pay: royaltiesPerMonth[index],
   }));
 
-  const totalPay = chartData.reduce((acc, item) => acc + item.pay, 0);
-
   return (
     <Card>
       <p className="mb-2 text-center">Zarada</p>
