@@ -67,18 +67,18 @@ export function RoyaltiesPerPerson({ reports, gigs }: RoyaltiesPerPersonProps) {
   }));
 
   return (
-    <Card>
-      <p className="mb-2 text-center">Zarada po članovima</p>
+    <Card className="dark:bg-white">
+      <p className="mb-2 text-center dark:text-black">Zarada po članovima</p>
       <ResponsiveContainer width="100%" height={350}>
-        <BarChart width={500} height={350} data={chartData} className="bg-white">
+        <BarChart width={500} height={350} data={chartData} className="bg-white ">
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip />
+          <Tooltip labelClassName="dark:text-black" />
           <Legend />
-          <Bar dataKey="marko" fill="#0084d8" name="Marko" />
-          <Bar dataKey="tali" fill="#8884d8" name="Tali" />
-          <Bar dataKey="dario" fill="#ff84d8" name="Dario" />
+          <Bar dataKey="marko" fill="#3b82f6" name="Marko" />
+          <Bar dataKey="tali" fill="#10b981" name="Tali" />
+          <Bar dataKey="dario" fill="#ef4444" name="Dario" />
         </BarChart>
       </ResponsiveContainer>
     </Card>

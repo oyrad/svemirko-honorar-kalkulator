@@ -23,8 +23,8 @@ export function ReportsTab() {
   return (
     <div>
       <Link href={`/report/create`}>
-        <Button className="border border-emerald-600 py-1.5 bg-white w-full mb-2 opacity-50 hover:opacity-100">
-          <PlusIcon className="size-7 w-full" />
+        <Button className="border border-emerald-600 py-1.5 bg-white w-full mb-2 opacity-50 hover:opacity-100 dark:bg-dark-card-background dark:border-gray-600">
+          <PlusIcon className="size-7 w-full dark:text-slate-100" />
         </Button>
       </Link>
 

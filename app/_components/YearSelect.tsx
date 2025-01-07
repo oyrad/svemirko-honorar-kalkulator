@@ -13,7 +13,7 @@ export function YearSelect({ className = '' }: YearSelectProps) {
       value={selectedYear}
       onChange={(e) => setSelectedYear(e.target.value)}
       className={cn(
-        'px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-700 outline-none text-base sm:text-lg',
+        'px-2 py-1 rounded-lg border border-gray-300 dark:border-gray-700 outline-none text-sm sm:text-base',
         className,
       )}
     >
