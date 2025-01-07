@@ -5,6 +5,7 @@ import { GigsTab } from '@/app/_components/GigsTab';
 import { StatsTab } from '@/app/_components/StatsTab';
 import { cn } from '@/utils/cn';
 import { TABS, useSelectedTabQueryParam } from '@/hooks/use-selected-tab-query-param';
+import { YearSelect } from '@/app/_components/YearSelect';
 
 interface TabProps {
   title: string;
@@ -17,7 +18,7 @@ function Tab({ title, onClick, className = '' }: TabProps) {
     <div
       onClick={onClick}
       className={cn(
-        'w-full text-center py-2 cursor-pointer text-gray-500 transition-[font-size] duration-300 ease-in-out rounded-lg',
+        'w-full text-center py-2 cursor-pointer text-gray-500 transition-[font-size] duration-500 ease-in-out rounded-lg',
         className,
       )}
     >
@@ -30,8 +31,13 @@ export default function Home() {
   const [selectedTabQueryParam, setSelectedTabQueryParam] = useSelectedTabQueryParam();
 
   return (
-    <>
-      <div className="bg-gray-200 grid grid-cols-3 place-items-center uppercase text-xs mb-4 rounded-lg">
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-between items-center">
+        <p className="uppercase font-bold font-mono text-2xl text-slate-700">svmrk_kalkulator</p>
+        <YearSelect />
+      </div>
+
+      <div className="bg-gray-200 grid grid-cols-3 place-items-center uppercase text-xs rounded-lg">
         <Tab
           title="Izračuni"
           onClick={() => setSelectedTabQueryParam(TABS.REPORTS)}
@@ -66,6 +72,6 @@ export default function Home() {
       {selectedTabQueryParam === TABS.REPORTS && <ReportsTab />}
       {selectedTabQueryParam === TABS.GIGS && <GigsTab />}
       {selectedTabQueryParam === TABS.STATS && <StatsTab />}
-    </>
+    </div>
   );
 }

@@ -7,7 +7,6 @@ import { Loader } from '@/app/_atoms/Loader';
 import { Card } from '@/app/_atoms/Card';
 import { Button } from '@/app/_atoms/Button';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { YearSelect } from '@/app/_components/YearSelect';
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
 
 export function ReportsTab() {
@@ -22,15 +21,12 @@ export function ReportsTab() {
   }
 
   return (
-    <>
-      <div className="flex justify-between items-end">
-        <YearSelect />
-        <Link href={`/report/create`}>
-          <Button className="border border-emerald-500 py-1.5 hover:opacity-70 bg-white">
-            <PlusIcon className="size-[1.1rem]" />
-          </Button>
-        </Link>
-      </div>
+    <div>
+      <Link href={`/report/create`}>
+        <Button className="border border-emerald-600 py-1.5 bg-white w-full mb-2 opacity-50 hover:opacity-100">
+          <PlusIcon className="size-7 w-full" />
+        </Button>
+      </Link>
 
       {reports?.length ? (
         <div className="flex flex-col gap-2">
@@ -48,6 +44,6 @@ export function ReportsTab() {
       ) : (
         <Card>Nema izračuna za odabranu godinu.</Card>
       )}
-    </>
+    </div>
   );
 }

@@ -3,7 +3,6 @@ import { Loader } from '@/app/_atoms/Loader';
 import Link from 'next/link';
 import { Gig } from '@/app/_components/Gig';
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
-import { YearSelect } from '@/app/_components/YearSelect';
 import { Card } from '@/app/_atoms/Card';
 
 export function GigsTab() {
@@ -31,8 +30,6 @@ export function GigsTab() {
 
   return (
     <>
-      <YearSelect />
-
       {!gigs?.length ? (
         <Card>Nema svirki za odabranu godinu.</Card>
       ) : (

@@ -5,7 +5,6 @@ import { Loader } from '@/app/_atoms/Loader';
 import { GigsPerMonth } from '@/app/_components/GigsPerMonth';
 import { RoyaltiesPerMonth } from '@/app/_components/RoyaltiesPerMonth';
 import { RoyaltiesPerPerson } from '@/app/_components/RoyaltiesPerPerson';
-import { YearSelect } from '@/app/_components/YearSelect';
 
 export function StatsTab() {
   const { selectedYear } = useSelectedYearStore();
@@ -24,7 +23,6 @@ export function StatsTab() {
 
   return (
     <>
-      <YearSelect />
       <GigsPerMonth gigs={gigs.filter((gig) => gig.isPaidOut)} />
       <RoyaltiesPerMonth reports={reports} gigs={gigs} />
       <RoyaltiesPerPerson reports={reports} gigs={gigs} />
