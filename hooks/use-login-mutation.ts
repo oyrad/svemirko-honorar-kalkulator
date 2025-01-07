@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { LoginFormValues } from '@/app/login/_components/LoginForm';
+import { LoginFormData } from '@/app/login/_components/LoginForm';
 
-async function handleLogin({ username, password }: LoginFormValues) {
+async function handleLogin({ username, password }: LoginFormData) {
   const res = await fetch('/api/login', {
     method: 'POST',
     body: JSON.stringify({ username, password }),
@@ -14,15 +14,13 @@ async function handleLogin({ username, password }: LoginFormValues) {
   }
 }
 
-export function useLogin(
-  options?: UseMutationOptions<Response, Error, LoginFormValues>,
-) {
+export function useLoginMutation(options?: UseMutationOptions<Response, Error, LoginFormData>) {
   return useMutation({
     mutationFn: handleLogin,
-    onSuccess: (data, variables, context) => {
-      options?.onSuccess?.(data, variables, context);
+    onSuccess: (...args) => {
+      options?.onSuccess?.(...args);
 
-      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('user', JSON.stringify(args[0]));
     },
   });
 }
