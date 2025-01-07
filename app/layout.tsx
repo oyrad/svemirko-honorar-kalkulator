@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import NextTopLoader from 'nextjs-toploader';
 import { Providers } from '@/app/_components/Providers';
+import { Loader } from '@/app/_atoms/Loader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +27,7 @@ export default function RootLayout({
         <NextTopLoader showSpinner={false} />
         <Providers>
           <main className="space-y-4 xl:px-[24rem] lg:px-[18rem] md:px-[8rem] px-6 mt-8 max-w-[1280px] mx-auto mb-8">
-            {children}
+            <Suspense fallback={<Loader />}>{children}</Suspense>
           </main>
         </Providers>
       </body>
