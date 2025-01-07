@@ -58,7 +58,7 @@ export async function PUT(request: NextRequest, context: any) {
     split,
     expenses,
     gigIds,
-    year: gigIds[0].split('-')[0],
+    year: gigIds[0].split('-')[0] ?? new Date().getFullYear().toString(),
   });
 
   return Response.json({ msg: 'Report updated' }, { status: 200 });

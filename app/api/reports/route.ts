@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     expenses,
     isLocked,
     gigIds,
-    year: gigIds[0].split('-')[0],
+    year: gigIds[0].split('-')[0] ?? new Date().getFullYear().toString(),
   });
 
   for (const gigId of gigIds) {
