@@ -43,8 +43,8 @@ export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
       <ResponsiveContainer width="100%" height={350}>
         <BarChart width={500} height={350} data={chartData} className="bg-white">
           <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" fontSize={13} interval={0} />
+          <YAxis fontSize={13} />
           <Tooltip labelClassName="dark:text-black" />
           <Bar dataKey="pay" fill="#0a77aa" name="Zarada" />
         </BarChart>

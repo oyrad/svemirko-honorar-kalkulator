@@ -72,13 +72,13 @@ export function RoyaltiesPerPerson({ reports, gigs }: RoyaltiesPerPersonProps) {
       <ResponsiveContainer width="100%" height={350}>
         <BarChart width={500} height={350} data={chartData} className="bg-white ">
           <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" fontSize={13} interval={0} />
+          <YAxis fontSize={13} />
           <Tooltip labelClassName="dark:text-black" />
           <Legend />
           <Bar dataKey="marko" fill="#3b82f6" name="Marko" />
-          <Bar dataKey="tali" fill="#10b981" name="Tali" />
-          <Bar dataKey="dario" fill="#ef4444" name="Dario" />
+          <Bar dataKey="tali" fill="#d946ef" name="Tali" />
+          <Bar dataKey="dario" fill="#14b8a6" name="Dario" />
         </BarChart>
       </ResponsiveContainer>
     </Card>

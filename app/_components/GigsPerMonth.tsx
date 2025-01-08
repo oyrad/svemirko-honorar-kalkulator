@@ -1,14 +1,5 @@
 import { Gig } from '@/types/types';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Card } from '@/app/_atoms/Card';
 
 const defaultData = [
@@ -49,9 +40,8 @@ export function GigsPerMonth({ gigs }: GigsPerMonthProps) {
       <ResponsiveContainer width="100%" height={350}>
         <BarChart width={500} height={350} data={chartData} className="bg-white">
           <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Label value="Mjeseci" position="insideBottom" />
+          <XAxis dataKey="name" fontSize={13} interval={0} />
+          <YAxis fontSize={13} />
           <Tooltip labelClassName="dark:text-black" />
           <Bar dataKey="gigs" fill="#349e77" name="Svirke" />
         </BarChart>
