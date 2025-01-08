@@ -1,4 +1,4 @@
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 import { formatReportFormData } from '@/utils/format-report-form-data';
 import { ReportFormData } from '@/app/report/create/page';
 import { Expense } from '@/types/types';
@@ -17,8 +17,15 @@ function createReport(data: CreateReportData) {
 export function useCreateReportMutation(
   options?: Omit<UseMutationOptions<Response, Error, CreateReportData>, 'mutationFn'>,
 ) {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createReport,
     ...options,
+    onSuccess: (...args) => {
+      options?.onSuccess?.(...args);
+
+      void queryClient.invalidateQueries({ queryKey: ['report'] });
+    },
   });
 }

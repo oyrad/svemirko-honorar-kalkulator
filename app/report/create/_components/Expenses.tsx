@@ -2,8 +2,8 @@ import { Expense as ExpenseType } from '@/types/types';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { Dispatch, SetStateAction } from 'react';
 import { Expense } from '@/app/report/create/_components/Expense';
-import { Card } from '@/app/_atoms/Card';
-import { Button } from '@/app/_atoms/Button';
+import { Card } from '@/ui/atoms/Card';
+import { Button } from '@/ui/atoms/Button';
 
 interface ExpenseListProps {
   expenses: ExpenseType[];
@@ -36,20 +36,14 @@ export function Expenses({ expenses, setExpenses }: ExpenseListProps) {
   }
 
   function removeExpense(id: number) {
-    setExpenses((prevExpenses) =>
-      prevExpenses.filter((expense) => expense.id !== id),
-    );
+    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
   }
 
   return (
     <Card className="flex flex-col space-y-3">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Troškovi</p>
-        <Button
-          onClick={addExpense}
-          type="button"
-          className="bg-slate-100 hover:bg-slate-200"
-        >
+        <Button onClick={addExpense} type="button" className="bg-slate-100 hover:bg-slate-200">
           <PlusIcon className="size-4" />
           <p className="text-sm font-semibold">Dodaj</p>
         </Button>

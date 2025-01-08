@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { LockOpenIcon } from '@heroicons/react/24/outline';
 import { useReportsQuery } from '@/hooks/use-reports-query';
-import { Loader } from '@/app/_atoms/Loader';
-import { Card } from '@/app/_atoms/Card';
-import { Button } from '@/app/_atoms/Button';
+import { Loader } from '@/ui/atoms/Loader';
+import { Card } from '@/ui/atoms/Card';
+import { Button } from '@/ui/atoms/Button';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
 

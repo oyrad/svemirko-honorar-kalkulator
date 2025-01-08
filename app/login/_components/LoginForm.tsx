@@ -4,9 +4,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { MoonLoader } from 'react-spinners';
 import { useLoginMutation } from '@/hooks/use-login-mutation';
 import { useForm } from 'react-hook-form';
-import { Input } from '@/app/_atoms/Input';
-import { Card } from '@/app/_atoms/Card';
-import { Button } from '@/app/_atoms/Button';
+import { Input } from '@/ui/atoms/Input';
+import { Card } from '@/ui/atoms/Card';
+import { Button } from '@/ui/atoms/Button';
 
 export interface LoginFormData {
   username: string;

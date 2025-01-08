@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 import { Gig, Report } from '@/types/types';
 
 const defaultData = [
@@ -70,7 +70,15 @@ export function RoyaltiesPerPerson({ reports, gigs }: RoyaltiesPerPersonProps) {
     <Card className="dark:bg-white">
       <p className="mb-2 text-center dark:text-black">Zarada po članovima</p>
       <ResponsiveContainer width="100%" height={350}>
-        <BarChart width={500} height={350} data={chartData} className="bg-white ">
+        <BarChart
+          width={500}
+          height={350}
+          data={chartData}
+          className="bg-white"
+          margin={{
+            left: -14,
+          }}
+        >
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="name" fontSize={13} interval={0} />
           <YAxis fontSize={13} />

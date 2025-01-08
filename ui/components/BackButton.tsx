@@ -1,4 +1,4 @@
-import { Button } from '@/app/_atoms/Button';
+import { Button } from '@/ui/atoms/Button';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 

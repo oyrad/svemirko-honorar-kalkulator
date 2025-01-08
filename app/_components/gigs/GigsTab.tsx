@@ -1,9 +1,9 @@
 import { useGigsQuery } from '@/hooks/use-gigs-query';
-import { Loader } from '@/app/_atoms/Loader';
+import { Loader } from '@/ui/atoms/Loader';
 import Link from 'next/link';
-import { Gig } from '@/app/_components/Gig';
+import { Gig } from '@/app/_components/gigs/Gig';
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 
 export function GigsTab() {
   const { selectedYear } = useSelectedYearStore();

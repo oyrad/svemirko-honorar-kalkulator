@@ -1,9 +1,9 @@
 import { useGigsQuery } from '@/hooks/use-gigs-query';
-import { Input } from '@/app/_atoms/Input';
+import { Input } from '@/ui/atoms/Input';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
 import Select from 'react-select';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 import { SelectedGig } from '@/types/types';
 
 export function BasicInfo() {

@@ -49,6 +49,11 @@ export async function PUT(request: NextRequest, context: any) {
   const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
   const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses, split);
 
+  console.log({
+    netRoyalties,
+    netRoyaltiesPerPerson,
+  });
+
   await Report.findByIdAndUpdate(context.params.id, {
     name,
     grossRoyalties,

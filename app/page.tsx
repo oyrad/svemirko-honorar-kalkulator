@@ -1,8 +1,8 @@
 'use client';
 
-import { ReportsTab } from '@/app/_components/ReportsTab';
-import { GigsTab } from '@/app/_components/GigsTab';
-import { StatsTab } from '@/app/_components/StatsTab';
+import { ReportsTab } from '@/app/_components/reports/ReportsTab';
+import { GigsTab } from '@/app/_components/gigs/GigsTab';
+import { StatsTab } from '@/app/_components/stats/StatsTab';
 import { cn } from '@/utils/cn';
 import { TABS, useSelectedTabQueryParam } from '@/hooks/use-selected-tab-query-param';
 import { YearSelect } from '@/app/_components/YearSelect';

@@ -7,9 +7,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
 import { useReportByIdQuery } from '@/hooks/use-report-by-id-query';
 import { useEditReportMutation } from '@/hooks/use-edit-report-mutation';
-import { ReportForm } from '@/app/_components/ReportForm';
-import { NotFound } from '@/app/_components/NotFound';
-import { Loader } from '@/app/_atoms/Loader';
+import { ReportForm } from '@/ui/components/ReportForm';
+import { NotFound } from '@/ui/components/NotFound';
+import { Loader } from '@/ui/atoms/Loader';
 
 export default function EditReport() {
   const [expenses, setExpenses] = useState<Array<Expense>>([]);

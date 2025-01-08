@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Expense } from '@/types/types';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
-import { getNetRoyaltiesByPerson } from '@/utils/royalties-utils';
+import { getGrossRoyaltiesByPerson } from '@/utils/royalties-utils';
 import { cn } from '@/utils/cn';
 
 interface PersonCardProps {
@@ -40,12 +40,7 @@ export function PersonCard({
         <p className="text-slate-900 text-sm">{name}</p>
         <div className="flex space-x-2 items-center">
           <p className="font-semibold">
-            {getNetRoyaltiesByPerson(
-              personIndex,
-              netRoyalties,
-              rate,
-              expenses,
-            ).toFixed(2)}
+            {getGrossRoyaltiesByPerson(personIndex, netRoyalties, rate, expenses).toFixed(2)}
           </p>
           {isExpandable && (
             <div

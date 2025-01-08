@@ -15,7 +15,7 @@ export function getNetRoyalties(
   return expenses.reduce((acc, expense) => acc - (parseFloat(expense.amount) || 0), totalBandFee);
 }
 
-export function getNetRoyaltiesByPerson(
+export function getGrossRoyaltiesByPerson(
   index: string,
   netRoyalties: number,
   rate: number,
@@ -31,16 +31,26 @@ export function getNetRoyaltiesByPerson(
   return totalPayWithExpenses;
 }
 
-export function getNetRoyaltiesForAllMembers(
+export function getGrossRoyaltiesForAllMembers(
   netRoyalties: number,
   expenses: Array<Expense>,
   split: Split,
 ) {
   const rates = getRates(split);
 
-  const markoPay = getNetRoyaltiesByPerson('1', netRoyalties, rates.MARKO_RATE, expenses);
-  const taliPay = getNetRoyaltiesByPerson('2', netRoyalties, rates.TALI_RATE, expenses);
-  const darioPay = getNetRoyaltiesByPerson('3', netRoyalties, rates.DARIO_RATE, expenses);
+  const markoPay = getGrossRoyaltiesByPerson('1', netRoyalties, rates.MARKO_RATE, expenses);
+  const taliPay = getGrossRoyaltiesByPerson('2', netRoyalties, rates.TALI_RATE, expenses);
+  const darioPay = getGrossRoyaltiesByPerson('3', netRoyalties, rates.DARIO_RATE, expenses);
 
   return [markoPay, taliPay, darioPay];
+}
+
+export function getNetRoyaltiesForAllMembers(netRoyalties: number, split: Split) {
+  const rates = getRates(split);
+
+  return [
+    netRoyalties * rates.MARKO_RATE,
+    netRoyalties * rates.TALI_RATE,
+    netRoyalties * rates.DARIO_RATE,
+  ];
 }

@@ -1,5 +1,5 @@
 import { Gig as GigType } from '@/types/types';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 import { cn } from '@/utils/cn';
 
 interface GigProps {

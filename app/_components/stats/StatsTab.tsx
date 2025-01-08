@@ -1,10 +1,10 @@
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
 import { useReportsQuery } from '@/hooks/use-reports-query';
 import { useGigsQuery } from '@/hooks/use-gigs-query';
-import { Loader } from '@/app/_atoms/Loader';
-import { GigsPerMonth } from '@/app/_components/GigsPerMonth';
-import { RoyaltiesPerMonth } from '@/app/_components/RoyaltiesPerMonth';
-import { RoyaltiesPerPerson } from '@/app/_components/RoyaltiesPerPerson';
+import { Loader } from '@/ui/atoms/Loader';
+import { GigsPerMonth } from '@/app/_components/stats/GigsPerMonth';
+import { RoyaltiesPerMonth } from '@/app/_components/stats/RoyaltiesPerMonth';
+import { RoyaltiesPerPerson } from '@/app/_components/stats/RoyaltiesPerPerson';
 
 export function StatsTab() {
   const { selectedYear } = useSelectedYearStore();

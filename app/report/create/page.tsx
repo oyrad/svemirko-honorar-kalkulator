@@ -5,8 +5,8 @@ import { Suspense, useState } from 'react';
 import { Expense, Split } from '@/types/types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useCreateReportMutation } from '@/hooks/use-create-report-mutation';
-import { ReportForm } from '@/app/_components/ReportForm';
-import { Loader } from '@/app/_atoms/Loader';
+import { ReportForm } from '@/ui/components/ReportForm';
+import { Loader } from '@/ui/atoms/Loader';
 import { tabSearchString } from '@/hooks/use-selected-tab-query-param';
 
 export interface ReportFormData {

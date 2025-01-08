@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import { ReportFormData } from '@/app/report/create/page';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 
 export function Settings() {
   const { register } = useFormContext<ReportFormData>();
@@ -10,11 +10,7 @@ export function Settings() {
       <p className="font-semibold">Postavke</p>
       <div className="flex justify-between">
         <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="booking"
-            {...register('isThereBookingFee')}
-          />
+          <input type="checkbox" id="booking" {...register('isThereBookingFee')} />
           <label htmlFor="booking" className="text-sm">
             Booking fee
           </label>

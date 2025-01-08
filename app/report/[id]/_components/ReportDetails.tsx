@@ -5,12 +5,12 @@ import { MoonLoader } from 'react-spinners';
 import { getMembers } from '@/utils/get-members';
 import { useDeleteReportMutation } from '@/hooks/use-delete-report-mutation';
 import { useLockReportMutation } from '@/hooks/use-lock-report-mutation';
-import { Button } from '@/app/_atoms/Button';
-import { Card } from '@/app/_atoms/Card';
-import { PersonCard } from '@/app/_components/PersonCard';
+import { Button } from '@/ui/atoms/Button';
+import { Card } from '@/ui/atoms/Card';
+import { PersonCard } from '@/ui/components/PersonCard';
 import { getNetRoyalties, getTotalExpenses } from '@/utils/royalties-utils';
 import { OverviewItem } from '@/app/report/[id]/_components/OverviewItem';
-import { BackButton } from '@/app/_components/BackButton';
+import { BackButton } from '@/ui/components/BackButton';
 import { tabSearchString } from '@/hooks/use-selected-tab-query-param';
 import { Report } from '@/types/types';
 
@@ -38,7 +38,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           <BackButton link={from === 'gigs' ? `/?${tabSearchString}=gigs` : '/'} />
-          <p className="font-semibold text-xl dark:text-white">{report.name}</p>
+          <p className="font-semibold text-xl dark:text-white text-ellipsis">{report.name}</p>
         </div>
         {!report.isLocked && (
           <div className="flex gap-2 items-center">

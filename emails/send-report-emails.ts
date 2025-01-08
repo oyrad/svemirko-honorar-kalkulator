@@ -1,5 +1,5 @@
 import NewReport from '@/emails/NewReport';
-import { getNetRoyaltiesForAllMembers } from '@/utils/royalties-utils';
+import { getGrossRoyaltiesForAllMembers } from '@/utils/royalties-utils';
 import { Resend } from 'resend';
 import { Expense, Split } from '@/types/types';
 import { id } from 'postcss-selector-parser';
@@ -19,7 +19,11 @@ export async function sendReportEmails({
   expenses,
   split,
 }: SendReportEmailsParams) {
-  const [markoPay, taliPay, darioPay] = getNetRoyaltiesForAllMembers(netRoyalties, expenses, split);
+  const [markoPay, taliPay, darioPay] = getGrossRoyaltiesForAllMembers(
+    netRoyalties,
+    expenses,
+    split,
+  );
 
   const staticEmailOptions = {
     from: 'SVMRK <izracun@svmrk.co>',

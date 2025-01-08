@@ -9,10 +9,10 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Earnings } from '@/app/report/create/_components/Earnings';
 import { BasicInfo } from '@/app/report/create/_components/BasicInfo';
 import { Settings } from '@/app/report/create/_components/Settings';
-import { Button } from '@/app/_atoms/Button';
-import { Loader } from '@/app/_atoms/Loader';
-import { NotFound } from '@/app/_components/NotFound';
-import { BackButton } from '@/app/_components/BackButton';
+import { Button } from '@/ui/atoms/Button';
+import { Loader } from '@/ui/atoms/Loader';
+import { NotFound } from '@/ui/components/NotFound';
+import { BackButton } from '@/ui/components/BackButton';
 
 interface ReportFormProps {
   expenses: Array<Expense>;
@@ -32,7 +32,7 @@ export function ReportForm({ expenses, setExpenses, isSubmitLoading, backLink }:
     if (!gigId || !gig) return;
 
     setValue('gigIds', [gigId]);
-    setValue('name', gig.city);
+    setValue('name', `${gig.city} - ${gig.venue}`);
     setValue('grossRoyalties', gig.royalties !== 'door deal' ? gig.royalties.split('€')[0] : '');
   }, [gig, gigId, setValue]);
 
