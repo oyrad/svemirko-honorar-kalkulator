@@ -44,17 +44,16 @@ export async function PUT(request: NextRequest, context: any) {
     return Response.json({ msg: 'Invalid id' }, { status: 404 });
   }
 
+  const { gigIds: previousGigIds } = await Report.findById(context.params.id);
+
   const { name, grossRoyalties, isThereBookingFee, split, expenses, gigIds } = await request.json();
 
+  const { date: gigDate } = await Gig.findById(gigIds[0]);
+
   const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
-  const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses, split);
+  const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses);
 
-  console.log({
-    netRoyalties,
-    netRoyaltiesPerPerson,
-  });
-
-  await Report.findByIdAndUpdate(context.params.id, {
+  const newReport = await Report.findByIdAndUpdate(context.params.id, {
     name,
     grossRoyalties,
     netRoyalties,
@@ -63,8 +62,20 @@ export async function PUT(request: NextRequest, context: any) {
     split,
     expenses,
     gigIds,
-    year: gigIds[0].split('-')[0] ?? new Date().getFullYear().toString(),
+    year: gigDate.split('-')[0] ?? new Date().getFullYear().toString(),
   });
+
+  for (const gigId of previousGigIds) {
+    if (!gigIds.includes(gigId)) {
+      await Gig.findByIdAndUpdate(gigId, { reportId: '' });
+    }
+  }
+
+  for (const gigId of gigIds) {
+    await Gig.findByIdAndUpdate(gigId, {
+      reportId: newReport._id,
+    });
+  }
 
   return Response.json({ msg: 'Report updated' }, { status: 200 });
 }

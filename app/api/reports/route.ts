@@ -17,7 +17,9 @@ export async function POST(request: NextRequest) {
     await request.json();
 
   const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
-  const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses, split);
+  const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, split);
+
+  const { date: gigDate } = await Gig.findById(gigIds[0]);
 
   const newReport = await Report.create({
     name,
@@ -29,7 +31,7 @@ export async function POST(request: NextRequest) {
     expenses,
     isLocked,
     gigIds,
-    year: gigIds[0].split('-')[0] ?? new Date().getFullYear().toString(),
+    year: gigDate.split('-')[0] ?? new Date().getFullYear().toString(),
   });
 
   for (const gigId of gigIds) {
