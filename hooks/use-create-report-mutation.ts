@@ -2,6 +2,7 @@ import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react
 import { formatReportFormData } from '@/utils/format-report-form-data';
 import { ReportFormData } from '@/app/report/create/page';
 import { Expense } from '@/types/types';
+import { queryKeys } from '@/utils/query-keys';
 
 interface CreateReportData extends ReportFormData {
   expenses: Array<Expense>;
@@ -22,10 +23,11 @@ export function useCreateReportMutation(
   return useMutation({
     mutationFn: createReport,
     ...options,
-    onSuccess: (...args) => {
+    onSuccess: async (...args) => {
       options?.onSuccess?.(...args);
 
-      void queryClient.invalidateQueries({ queryKey: ['report'] });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.reports });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.gigs });
     },
   });
 }

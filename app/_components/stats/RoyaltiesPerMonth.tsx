@@ -34,12 +34,12 @@ export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
 
   const chartData = defaultData.map((item, index) => ({
     ...item,
-    pay: royaltiesPerMonth[index],
+    pay: Math.round(royaltiesPerMonth[index]),
   }));
 
   return (
     <Card className="dark:bg-white">
-      <p className="mb-2 text-center dark:text-black">Zarada</p>
+      <p className="mb-2 text-center dark:text-black">Zarada po mjesecima</p>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
           width={500}
@@ -51,8 +51,8 @@ export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
           }}
         >
           <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="name" fontSize={13} interval={0} />
-          <YAxis fontSize={13} />
+          <XAxis dataKey="name" fontSize={12} interval={0} />
+          <YAxis fontSize={12} />
           <Tooltip labelClassName="dark:text-black" />
           <Bar dataKey="pay" fill="#0a77aa" name="Zarada" />
         </BarChart>

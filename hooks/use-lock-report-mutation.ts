@@ -1,8 +1,5 @@
-import {
-  useMutation,
-  UseMutationOptions,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/utils/query-keys';
 
 function lockReport(id: string) {
   return fetch(`/api/reports/${id}/lock`, {
@@ -10,19 +7,17 @@ function lockReport(id: string) {
   });
 }
 
-export function useLockReportMutation(
-  id: string,
-  options?: UseMutationOptions,
-) {
+export function useLockReportMutation(id: string, options?: UseMutationOptions) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => lockReport(id),
-    onSuccess: (...args) => {
+    ...options,
+    onSuccess: async (...args) => {
       options?.onSuccess?.(...args);
 
-      void queryClient.invalidateQueries({ queryKey: ['reports', id] });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.reports });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.gigs });
     },
-    ...options,
   });
 }

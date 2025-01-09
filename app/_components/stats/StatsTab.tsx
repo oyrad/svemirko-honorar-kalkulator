@@ -26,6 +26,10 @@ export function StatsTab() {
       <GigsPerMonth gigs={gigs.filter((gig) => gig.isPaidOut)} />
       <RoyaltiesPerMonth reports={reports} gigs={gigs} />
       <RoyaltiesPerPerson reports={reports} gigs={gigs} />
+
+      {/*<hr />*/}
+
+      {/*<RoyaltiesPerYear reports={reports} />*/}
     </>
   );
 }

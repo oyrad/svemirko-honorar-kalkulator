@@ -48,8 +48,8 @@ export function GigsPerMonth({ gigs }: GigsPerMonthProps) {
           }}
         >
           <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="name" fontSize={13} interval={0} />
-          <YAxis fontSize={13} />
+          <XAxis dataKey="name" fontSize={12} interval={0} />
+          <YAxis fontSize={12} />
           <Tooltip labelClassName="dark:text-black" />
           <Bar dataKey="gigs" fill="#349e77" name="Svirke" />
         </BarChart>

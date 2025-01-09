@@ -14,9 +14,12 @@ async function handleLogin({ username, password }: LoginFormData) {
   }
 }
 
-export function useLoginMutation(options?: UseMutationOptions<Response, Error, LoginFormData>) {
+export function useLoginMutation(
+  options?: Omit<UseMutationOptions<Response, Error, LoginFormData>, 'mutationFn'>,
+) {
   return useMutation({
     mutationFn: handleLogin,
+    ...options,
     onSuccess: (...args) => {
       options?.onSuccess?.(...args);
 

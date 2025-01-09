@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { LockClosedIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { MoonLoader } from 'react-spinners';
 import { getMembers } from '@/utils/get-members';
@@ -21,7 +21,13 @@ interface ReportDetailsProps {
 export function ReportDetails({ report }: ReportDetailsProps) {
   const from = useSearchParams().get('from');
 
-  const { mutate: deleteReport, isPending: isDeleteLoading } = useDeleteReportMutation(report._id);
+  const { push } = useRouter();
+
+  const { mutate: deleteReport, isPending: isDeleteLoading } = useDeleteReportMutation({
+    onSuccess: () => {
+      push('/');
+    },
+  });
 
   const { mutate: lockReport, isPending: isLockLoading } = useLockReportMutation(report._id);
 
@@ -61,7 +67,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
 
             <Button
               className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-500 px-2 py-1.5 hover:opacity-75"
-              onClick={() => deleteReport()}
+              onClick={() => deleteReport(report._id)}
             >
               {isDeleteLoading ? (
                 <MoonLoader size={16} />

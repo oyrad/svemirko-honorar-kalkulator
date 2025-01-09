@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { Gig } from '@/types/types';
+import { queryKeys } from '@/utils/query-keys';
 
 async function getGigById(id: string): Promise<Gig> {
   const res = await fetch(`/api/gigs/${id}`);
@@ -11,11 +12,15 @@ async function getGigById(id: string): Promise<Gig> {
   }
 }
 
-export function useGigByIdQuery(id: string) {
+export function useGigByIdQuery(
+  id: string,
+  options?: Omit<UseQueryOptions<Gig, Error>, 'queryKey' | 'queryFn'>,
+) {
   return useQuery({
-    queryKey: ['gigs', id],
+    queryKey: queryKeys.gigById(id),
     queryFn: () => getGigById(id),
     enabled: !!id,
     retry: false,
+    ...options,
   });
 }
