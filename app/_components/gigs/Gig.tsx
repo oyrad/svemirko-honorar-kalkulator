@@ -12,6 +12,7 @@ export function Gig({ gig, isPast, className }: GigProps) {
   return (
     <Card
       className={cn(
+        'p-3',
         isPast &&
           gig.isPaidOut &&
           'border-2 border-green-500 bg-green-50 dark:bg-green-200 dark:text-black',

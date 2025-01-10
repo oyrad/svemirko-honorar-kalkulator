@@ -27,7 +27,7 @@ export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
     const associatedGig = gigs.find((gig) => gig._id === report.gigIds[0]);
     if (associatedGig) {
       const month = parseInt(associatedGig.date.split('-')[1], 10) - 1;
-      acc[month] = (acc[month] ?? 0) + (report.netRoyalties ?? 0);
+      acc[month] = (acc[month] ?? 0) + report.netRoyalties;
     }
     return acc;
   }, Array(12).fill(0));
@@ -39,7 +39,7 @@ export function RoyaltiesPerMonth({ reports, gigs }: RoyaltiesPerMonthProps) {
 
   return (
     <Card className="dark:bg-white">
-      <p className="mb-2 text-center dark:text-black">Zarada po mjesecima</p>
+      <p className="mb-2 text-center dark:text-black">Zarada</p>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
           width={500}

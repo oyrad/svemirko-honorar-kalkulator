@@ -43,7 +43,7 @@ export function GigsTab() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3 mb-4">
+              <div className="flex flex-col gap-2 mb-4">
                 {upcomingGigs.map((gig) => (
                   <Gig key={gig._id} gig={gig} isPast={false} />
                 ))}
@@ -53,7 +53,7 @@ export function GigsTab() {
             </>
           )}
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2">
             {pastGigs.map((gig) => (
               <Link
                 key={gig._id}
