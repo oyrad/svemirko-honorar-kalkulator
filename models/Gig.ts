@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface IGig extends Document {
   city: string;
@@ -23,6 +23,6 @@ const gigSchema = new Schema<IGig>(
   },
 );
 
-const Gig = mongoose.models.Gig || mongoose.model('Gig', gigSchema);
+const Gig: Model<IGig> = mongoose.models.Gig || mongoose.model('Gig', gigSchema);
 
 export default Gig;
