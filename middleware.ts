@@ -1,13 +1,10 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
-import connectToDatabase from '@/libs/db';
 
 const protectedRoutes = ['/', '/report', '/gigs'];
 
 export async function middleware(req: NextRequest) {
-  await connectToDatabase();
-
   const { pathname } = req.nextUrl;
 
   // If the user is trying to access /login, check if they are already authenticated

@@ -1,3 +1,5 @@
+'use client';
+
 import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
 import { cn } from '@/utils/cn';
 
