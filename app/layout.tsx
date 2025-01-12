@@ -5,7 +5,6 @@ import { ReactNode, Suspense } from 'react';
 import NextTopLoader from 'nextjs-toploader';
 import { Providers } from '@/ui/components/Providers';
 import { Loader } from '@/ui/atoms/Loader';
-import connectToDatabase from '@/libs/db';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,13 +16,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  await connectToDatabase();
-
   return (
     <html lang="en">
       <body className={inter.className}>
