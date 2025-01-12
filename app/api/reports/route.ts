@@ -1,18 +1,15 @@
 import Report from '@/models/Report';
 import { NextRequest } from 'next/server';
-import connect from '@/libs/db';
 import Gig from '@/models/Gig';
 import { getNetRoyalties, getNetRoyaltiesForAllMembers } from '@/utils/royalties-utils';
 
 export async function GET() {
-  await connect();
   const reports = await Report.find().sort({ createdAt: -1 });
 
   return Response.json(reports, { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
-  await connect();
   const { name, grossRoyalties, isThereBookingFee, split, expenses, isLocked, gigIds } =
     await request.json();
 

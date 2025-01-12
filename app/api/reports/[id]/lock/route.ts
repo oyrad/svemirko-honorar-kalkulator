@@ -1,4 +1,3 @@
-import connect from '@/libs/db';
 import { NextRequest } from 'next/server';
 import mongoose from 'mongoose';
 import Report from '@/models/Report';
@@ -7,8 +6,6 @@ import { getNetRoyalties } from '@/utils/royalties-utils';
 import { sendReportEmails } from '@/emails/send-report-emails';
 
 export async function PUT(request: NextRequest, context: any) {
-  await connect();
-
   const { id } = context.params;
 
   const isIdValid = mongoose.isValidObjectId(id);
@@ -16,16 +13,21 @@ export async function PUT(request: NextRequest, context: any) {
     return Response.json({ msg: 'Invalid id' }, { status: 400 });
   }
 
-  const { name, split, expenses, grossRoyalties, isThereBookingFee, gigIds } =
-    await Report.findByIdAndUpdate(
-      id,
-      {
-        isLocked: true,
-      },
-      {
-        timestamps: false,
-      },
-    );
+  const report = await Report.findByIdAndUpdate(
+    id,
+    {
+      isLocked: true,
+    },
+    {
+      timestamps: false,
+    },
+  );
+
+  if (!report) {
+    return Response.json({ msg: 'Report not found' }, { status: 404 });
+  }
+
+  const { name, split, expenses, grossRoyalties, isThereBookingFee, gigIds } = report;
 
   for (const gigId of gigIds) {
     await Gig.findByIdAndUpdate(gigId, {

@@ -1,30 +1,51 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema } from 'mongoose';
 
-const reportSchema = new Schema(
+interface IExpense {
+  id: number;
+  name: string;
+  amount: string;
+  whoPaid: string;
+}
+
+export interface IReport extends Document {
+  name: string;
+  grossRoyalties: string;
+  netRoyalties: number;
+  netRoyaltiesPerPerson: number[];
+  isThereBookingFee: boolean;
+  split: 'deal' | 'equal';
+  expenses: IExpense[];
+  isLocked: boolean;
+  gigIds: string[];
+  year: string;
+}
+
+const reportSchema = new Schema<IReport>(
   {
-    name: String,
-    grossRoyalties: String,
-    netRoyalties: Number,
-    netRoyaltiesPerPerson: [Number],
-    isThereBookingFee: Boolean,
-    split: String,
+    name: { type: String, required: true },
+    grossRoyalties: { type: String, required: true },
+    netRoyalties: { type: Number, required: true },
+    netRoyaltiesPerPerson: { type: [Number], required: true },
+    isThereBookingFee: { type: Boolean, required: true },
+    split: { type: String, required: true },
     expenses: [
       {
-        id: Number,
-        name: String,
-        amount: Number,
-        whoPaid: String,
+        id: { type: Number, required: true },
+        name: { type: String, required: true },
+        amount: { type: Number, required: true },
+        whoPaid: { type: String, required: true },
       },
     ],
-    isLocked: Boolean,
-    gigIds: [String],
-    year: String,
+    isLocked: { type: Boolean, required: true },
+    gigIds: { type: [String], required: true },
+    year: { type: String, required: true },
   },
   {
     timestamps: true,
   },
 );
 
-const Report = mongoose.models.Report || mongoose.model('Report', reportSchema);
+const Report: Model<IReport> =
+  mongoose.models.Report || mongoose.model<IReport>('Report', reportSchema);
 
 export default Report;

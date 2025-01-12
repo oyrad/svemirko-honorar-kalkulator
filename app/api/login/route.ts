@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import connect from '@/libs/db';
 import User from '@/models/User';
 import { SignJWT } from 'jose';
 import { nanoid } from 'nanoid';
 
 export async function POST(request: NextRequest) {
-  await connect();
-
   const { username, password } = await request.json();
 
   const user = await User.findOne({ username, password });
