@@ -32,7 +32,8 @@ export async function middleware(req: NextRequest) {
 
     // If no token, redirect to /login
     if (!token) {
-      return NextResponse.redirect(new URL(`/login?redirectTo=${req.url}`, req.url));
+      const redirectPath = new URL(req.url).pathname + new URL(req.url).search;
+      return NextResponse.redirect(new URL(`/login?redirectTo=${redirectPath}`, req.url));
     }
 
     // If token exists, verify it
@@ -41,7 +42,8 @@ export async function middleware(req: NextRequest) {
       return NextResponse.next();
     } catch (error) {
       // If verification fails, redirect to /login
-      return NextResponse.redirect(new URL(`/login?redirectTo=${req.url}`, req.url));
+      const redirectPath = new URL(req.url).pathname + new URL(req.url).search;
+      return NextResponse.redirect(new URL(`/login?redirectTo=${redirectPath}`, req.url));
     }
   }
 
