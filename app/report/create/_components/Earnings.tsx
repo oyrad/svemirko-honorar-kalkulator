@@ -1,9 +1,9 @@
 import { Expense } from '@/types/types';
 import { getMembers } from '@/utils/get-members';
 import { useWatch } from 'react-hook-form';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 import { getNetRoyalties } from '@/utils/royalties-utils';
-import { PersonCard } from '@/app/_components/PersonCard';
+import { PersonCard } from '@/ui/components/PersonCard';
 import { useMemo } from 'react';
 import { ReportFormData } from '@/app/report/create/page';
 
@@ -12,8 +12,7 @@ interface EarningsProps {
 }
 
 export function Earnings({ expenses }: EarningsProps) {
-  const { isThereBookingFee, grossRoyalties, split } =
-    useWatch<ReportFormData>();
+  const { isThereBookingFee, grossRoyalties, split } = useWatch<ReportFormData>();
 
   const members = getMembers(split ?? 'deal');
 

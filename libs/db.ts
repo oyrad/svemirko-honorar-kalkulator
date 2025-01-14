@@ -1,9 +1,18 @@
 import mongoose from 'mongoose';
 
-export default async function connect() {
+let isConnected = false;
+
+export default async function connectToDatabase() {
+  if (isConnected) {
+    console.log('MongoDB is already connected');
+    return;
+  }
+
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    const db = await mongoose.connect(process.env.MONGO_URI!);
+    isConnected = db.connections[0].readyState === 1;
+    console.log('MongoDB connected successfully');
   } catch (error) {
-    console.error(error);
+    console.error('MongoDB connection failed:', error);
   }
 }

@@ -1,9 +1,5 @@
-import {
-  useMutation,
-  UseMutationOptions,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/utils/query-keys';
 
 function deleteReport(id: string) {
   return fetch(`/api/reports/${id}`, {
@@ -12,20 +8,18 @@ function deleteReport(id: string) {
 }
 
 export function useDeleteReportMutation(
-  id: string,
-  options?: UseMutationOptions,
+  options?: Omit<UseMutationOptions<Response, Error, string>, 'mutationFn'>,
 ) {
   const queryClient = useQueryClient();
-  const { push } = useRouter();
 
   return useMutation({
-    mutationFn: () => deleteReport(id),
-    onSuccess: (...args) => {
+    mutationFn: deleteReport,
+    ...options,
+    onSuccess: async (...args) => {
       options?.onSuccess?.(...args);
 
-      void queryClient.invalidateQueries({ queryKey: ['reports'] });
-      push('/');
+      await queryClient.invalidateQueries({ queryKey: queryKeys.reports });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.gigs });
     },
-    ...options,
   });
 }

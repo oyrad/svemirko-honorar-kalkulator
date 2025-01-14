@@ -1,19 +1,28 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema } from 'mongoose';
 
-const gigSchema = new Schema(
+export interface IGig extends Document {
+  city: string;
+  venue: string;
+  date: string;
+  royalties: string;
+  isPaidOut: boolean;
+  reportId: string;
+}
+
+const gigSchema = new Schema<IGig>(
   {
-    city: String,
-    venue: String,
-    date: String,
-    royalties: String,
-    isPaidOut: Boolean,
-    reportId: String,
+    city: { type: String, required: true },
+    venue: { type: String, required: true },
+    date: { type: String, required: true },
+    royalties: { type: String, required: true },
+    isPaidOut: { type: Boolean, required: true },
+    reportId: { type: String, required: true },
   },
   {
     timestamps: false,
   },
 );
 
-const Gig = mongoose.models.Gig || mongoose.model('Gig', gigSchema);
+const Gig: Model<IGig> = mongoose.models.Gig || mongoose.model('Gig', gigSchema);
 
 export default Gig;

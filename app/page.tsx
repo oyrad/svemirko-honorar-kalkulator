@@ -1,14 +1,17 @@
-import { GigsButton } from '@/app/_components/GigsButton';
-import { NewReportButton } from '@/app/_components/NewReportButton';
-import { Reports } from '@/app/_components/Reports';
+import { YearSelect } from '@/app/_components/YearSelect';
+import { Tabs } from '@/app/_components/Tabs';
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="flex flex-col gap-4">
-      <GigsButton />
-      <hr />
-      <NewReportButton />
-      <Reports />
+      <div className="flex justify-between items-center">
+        <p className="uppercase font-bold font-mono text-2xl text-slate-700 dark:text-slate-100">
+          svmrk_kalkulator
+        </p>
+        <YearSelect />
+      </div>
+
+      <Tabs />
     </div>
   );
 }

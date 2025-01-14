@@ -1,9 +1,9 @@
-import { GigDB } from '@/types/types';
-import { Card } from '@/app/_atoms/Card';
+import { Gig as GigType } from '@/types/types';
+import { Card } from '@/ui/atoms/Card';
 import { cn } from '@/utils/cn';
 
 interface GigProps {
-  gig: GigDB;
+  gig: GigType;
   isPast: boolean;
   className?: string;
 }
@@ -12,6 +12,7 @@ export function Gig({ gig, isPast, className }: GigProps) {
   return (
     <Card
       className={cn(
+        'p-3',
         isPast &&
           gig.isPaidOut &&
           'border-2 border-green-500 bg-green-50 dark:bg-green-200 dark:text-black',
@@ -23,8 +24,7 @@ export function Gig({ gig, isPast, className }: GigProps) {
           !gig.isPaidOut &&
           !gig.reportId &&
           'border-2 border-red-400 bg-red-50 dark:bg-red-200 dark:text-black',
-        !isPast &&
-          'border-2 border-blue-500 bg-blue-50 dark:bg-blue-200 dark:text-black',
+        !isPast && 'border-2 border-blue-500 bg-blue-50 dark:bg-blue-200 dark:text-black',
         className,
       )}
     >

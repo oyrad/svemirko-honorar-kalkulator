@@ -1,6 +1,6 @@
 import { Expense as ExpenseType } from '@/types/types';
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import { Input } from '@/app/_atoms/Input';
+import { Input } from '@/ui/atoms/Input';
 
 interface ExpenseProps {
   index: number;
@@ -9,12 +9,7 @@ interface ExpenseProps {
   removeExpense: (id: number) => void;
 }
 
-export function Expense({
-  index,
-  expense,
-  updateExpense,
-  removeExpense,
-}: ExpenseProps) {
+export function Expense({ index, expense, updateExpense, removeExpense }: ExpenseProps) {
   return (
     <div className="flex space-x-2 items-end">
       <div className="flex flex-col space-y-1 text-xs text-gray-700 grow-1">

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Card } from '@/app/_atoms/Card';
+import { Card } from '@/ui/atoms/Card';
 import { ArrowLeft } from '@/app/_icons/ArrowLeft';
 
 interface NotFoundProps {

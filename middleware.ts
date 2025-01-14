@@ -14,10 +14,7 @@ export async function middleware(req: NextRequest) {
     // If the token is valid, redirect to home ('/')
     if (token) {
       try {
-        await jwtVerify(
-          token.value,
-          new TextEncoder().encode(process.env.JWT_SECRET),
-        );
+        await jwtVerify(token.value, new TextEncoder().encode(process.env.JWT_SECRET));
         return NextResponse.redirect(new URL('/', req.url));
       } catch (error) {
         // If token verification fails, allow them to proceed to /login
@@ -35,23 +32,16 @@ export async function middleware(req: NextRequest) {
 
     // If no token, redirect to /login
     if (!token) {
-      return NextResponse.redirect(
-        new URL(`/login?redirectTo=${req.url}`, req.url),
-      );
+      return NextResponse.redirect(new URL(`/login?redirectTo=${req.url}`, req.url));
     }
 
     // If token exists, verify it
     try {
-      await jwtVerify(
-        token.value,
-        new TextEncoder().encode(process.env.JWT_SECRET),
-      );
+      await jwtVerify(token.value, new TextEncoder().encode(process.env.JWT_SECRET));
       return NextResponse.next();
     } catch (error) {
       // If verification fails, redirect to /login
-      return NextResponse.redirect(
-        new URL(`/login?redirectTo=${req.url}`, req.url),
-      );
+      return NextResponse.redirect(new URL(`/login?redirectTo=${req.url}`, req.url));
     }
   }
 

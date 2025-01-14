@@ -2,18 +2,19 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
-import { Expense, SelectedGig, Split } from '@/types/types';
+import { Expense, Split } from '@/types/types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useCreateReportMutation } from '@/hooks/use-create-report-mutation';
-import { ReportForm } from '@/app/_components/ReportForm';
-import { Loader } from '@/app/_atoms/Loader';
+import { ReportForm } from '@/ui/components/ReportForm';
+import { Loader } from '@/ui/atoms/Loader';
+import { tabSearchString } from '@/hooks/use-selected-tab-query-param';
 
 export interface ReportFormData {
   name: string;
   grossRoyalties: string;
   isThereBookingFee: boolean;
   split: Split;
-  selectedGigs: Array<SelectedGig>;
+  gigIds: Array<string>;
   isLocked: boolean;
 }
 
@@ -22,7 +23,7 @@ const REPORT_FORM_DEFAULTS: ReportFormData = {
   grossRoyalties: '',
   isThereBookingFee: false,
   split: 'deal',
-  selectedGigs: [],
+  gigIds: [],
   isLocked: false,
 };
 
@@ -48,16 +49,14 @@ export default function CreateReport() {
     <Suspense fallback={<Loader />}>
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit((data) =>
-            createReport({ ...data, expenses }),
-          )}
+          onSubmit={methods.handleSubmit((data) => createReport({ ...data, expenses }))}
           className="flex flex-col gap-4"
         >
           <ReportForm
             expenses={expenses}
             setExpenses={setExpenses}
             isSubmitLoading={isPending}
-            backLink={from === 'gigs' ? '/gigs' : '/'}
+            backLink={from === 'gigs' ? `/?${tabSearchString}=gigs` : '/'}
           />
         </form>
       </FormProvider>

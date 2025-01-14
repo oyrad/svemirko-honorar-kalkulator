@@ -2,9 +2,10 @@
 
 import { useParams } from 'next/navigation';
 import { useReportByIdQuery } from '@/hooks/use-report-by-id-query';
-import { Loader } from '@/app/_atoms/Loader';
+import { Loader } from '@/ui/atoms/Loader';
 import { ReportDetails } from '@/app/report/[id]/_components/ReportDetails';
-import { NotFound } from '@/app/_components/NotFound';
+import { NotFound } from '@/ui/components/NotFound';
+import { Suspense } from 'react';
 
 export default function ReportDetailsPage() {
   const { id } = useParams();
@@ -18,5 +19,9 @@ export default function ReportDetailsPage() {
     return <NotFound backLink="/" text="Izračun ne postoji." />;
   }
 
-  return <ReportDetails report={report} />;
+  return (
+    <Suspense fallback={<Loader />}>
+      <ReportDetails report={report} />
+    </Suspense>
+  );
 }

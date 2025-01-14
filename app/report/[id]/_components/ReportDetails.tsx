@@ -1,53 +1,50 @@
 import Link from 'next/link';
-import { ReportDB } from '@/types/types';
-import { useSearchParams } from 'next/navigation';
-import {
-  LockClosedIcon,
-  PencilSquareIcon,
-  TrashIcon,
-} from '@heroicons/react/24/outline';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { LockClosedIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { MoonLoader } from 'react-spinners';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { getMembers } from '@/utils/get-members';
 import { useDeleteReportMutation } from '@/hooks/use-delete-report-mutation';
 import { useLockReportMutation } from '@/hooks/use-lock-report-mutation';
-import { Button } from '@/app/_atoms/Button';
-import { Card } from '@/app/_atoms/Card';
-import { PersonCard } from '@/app/_components/PersonCard';
+import { Button } from '@/ui/atoms/Button';
+import { Card } from '@/ui/atoms/Card';
+import { PersonCard } from '@/ui/components/PersonCard';
 import { getNetRoyalties, getTotalExpenses } from '@/utils/royalties-utils';
 import { OverviewItem } from '@/app/report/[id]/_components/OverviewItem';
+import { BackButton } from '@/ui/components/BackButton';
+import { tabSearchString } from '@/hooks/use-selected-tab-query-param';
+import { Report } from '@/types/types';
 
 interface ReportDetailsProps {
-  report: ReportDB;
+  report: Report;
 }
 
 export function ReportDetails({ report }: ReportDetailsProps) {
   const from = useSearchParams().get('from');
 
-  const { mutate: deleteReport, isPending: isDeleteLoading } =
-    useDeleteReportMutation(report._id);
+  const { push } = useRouter();
 
-  const { mutate: lockReport, isPending: isLockLoading } =
-    useLockReportMutation(report._id);
+  const { mutate: deleteReport, isPending: isDeleteLoading } = useDeleteReportMutation({
+    onSuccess: () => {
+      push('/');
+    },
+  });
+
+  const { mutate: lockReport, isPending: isLockLoading } = useLockReportMutation(report._id);
 
   const members = getMembers(report?.split ?? 'deal');
 
   const netRoyalties = getNetRoyalties(
-    report?.grossRoyalties ?? '',
-    report?.isThereBookingFee ?? false,
-    report?.expenses ?? [],
+    report.grossRoyalties ?? '',
+    report.isThereBookingFee ?? false,
+    report.expenses ?? [],
   );
 
   return (
     <>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <Link href={from === 'gigs' ? '/gigs' : '/'}>
-            <Button className="border border-gray-500 bg-white dark:bg-gray-800 px-2 py-1.5 hover:opacity-75">
-              <ArrowLeftIcon className="size-5 text-gray-700 dark:text-gray-100" />
-            </Button>
-          </Link>
-          <p className="font-semibold text-xl dark:text-white">{report.name}</p>
+          <BackButton link={from === 'gigs' ? `/?${tabSearchString}=gigs` : '/'} />
+          <p className="font-semibold text-xl dark:text-white text-ellipsis">{report.name}</p>
         </div>
         {!report.isLocked && (
           <div className="flex gap-2 items-center">
@@ -70,7 +67,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
 
             <Button
               className="border border-red-400 dark:border-red-800 bg-white dark:bg-red-500 px-2 py-1.5 hover:opacity-75"
-              onClick={() => deleteReport()}
+              onClick={() => deleteReport(report._id)}
             >
               {isDeleteLoading ? (
                 <MoonLoader size={16} />
@@ -93,9 +90,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
           <OverviewItem
             label="booking fee"
             value={
-              report.isThereBookingFee
-                ? (parseFloat(report.grossRoyalties) * 0.1).toFixed(2)
-                : '-'
+              report.isThereBookingFee ? (parseFloat(report.grossRoyalties) * 0.1).toFixed(2) : '-'
             }
           />
           <OverviewItem
@@ -104,11 +99,7 @@ export function ReportDetails({ report }: ReportDetailsProps) {
           />
           <OverviewItem
             label="troškovi"
-            value={
-              report.expenses.length > 0
-                ? getTotalExpenses(report.expenses).toFixed(2)
-                : '-'
-            }
+            value={report.expenses.length > 0 ? getTotalExpenses(report.expenses).toFixed(2) : '-'}
           />
           <OverviewItem label="zarada" value={netRoyalties.toFixed(2)} />
         </div>

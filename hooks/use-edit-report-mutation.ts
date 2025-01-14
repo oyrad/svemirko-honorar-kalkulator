@@ -1,8 +1,14 @@
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { Report } from '@/types/types';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
+import { Expense } from '@/types/types';
 import { formatReportFormData } from '@/utils/format-report-form-data';
+import { ReportFormData } from '@/app/report/create/page';
+import { queryKeys } from '@/utils/query-keys';
 
-function editReport(id: string, data: Report) {
+interface EditReportData extends ReportFormData {
+  expenses: Array<Expense>;
+}
+
+function editReport(id: string, data: EditReportData) {
   return fetch(`/api/reports/${id}`, {
     method: 'PUT',
     body: JSON.stringify(formatReportFormData(data)),
@@ -11,10 +17,18 @@ function editReport(id: string, data: Report) {
 
 export function useEditReportMutation(
   id: string,
-  options?: UseMutationOptions<Response, Error, Report>,
+  options?: Omit<UseMutationOptions<Response, Error, EditReportData>, 'mutationFn'>,
 ) {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data) => editReport(id, data),
+    mutationFn: async (data) => editReport(id, data),
     ...options,
+    onSuccess: async (...args) => {
+      options?.onSuccess?.(...args);
+
+      await queryClient.invalidateQueries({ queryKey: queryKeys.reports });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.gigs });
+    },
   });
 }

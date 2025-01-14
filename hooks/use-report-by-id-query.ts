@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { ReportDB } from '@/types/types';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { Report } from '@/types/types';
 
-async function getReportById(id: string): Promise<ReportDB> {
+async function getReportById(id: string): Promise<Report> {
   const res = await fetch(`/api/reports/${id}`);
 
   if (res.status === 200) {
@@ -11,11 +11,15 @@ async function getReportById(id: string): Promise<ReportDB> {
   }
 }
 
-export function useReportByIdQuery(id: string) {
+export function useReportByIdQuery(
+  id: string,
+  options?: Omit<UseQueryOptions<Report, Error>, 'queryKey' | 'queryFn'>,
+) {
   return useQuery({
     queryKey: ['reports', id],
     queryFn: () => getReportById(id),
     enabled: !!id,
     retry: false,
+    ...options,
   });
 }
