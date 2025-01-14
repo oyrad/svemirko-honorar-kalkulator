@@ -40,7 +40,7 @@ export async function PUT(request: NextRequest, context: any) {
 
   const { name, grossRoyalties, isThereBookingFee, split, expenses, gigIds } = await request.json();
 
-  const { date: gigDate } = await Gig.findById(gigIds[0]);
+  const gig = await Gig.findById(gigIds[0]);
 
   const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
   const netRoyaltiesPerPerson = getNetRoyaltiesForAllMembers(netRoyalties, expenses);
@@ -54,7 +54,7 @@ export async function PUT(request: NextRequest, context: any) {
     split,
     expenses,
     gigIds,
-    year: gigDate.split('-')[0] ?? new Date().getFullYear().toString(),
+    year: gig?.date.split('-')[0] ?? new Date().getFullYear().toString(),
   });
 
   const report = await Report.findById(context.params.id);
