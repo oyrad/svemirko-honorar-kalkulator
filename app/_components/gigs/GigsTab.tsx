@@ -34,7 +34,7 @@ export function GigsTab() {
         <Card>Nema svirki za odabranu godinu.</Card>
       ) : (
         <div>
-          {selectedYear === new Date().getFullYear().toString() && (
+          {upcomingGigs.length > 0 && (
             <>
               <div className="flex gap-2 items-center mb-2">
                 <p className="dark:text-white">Nadolazeće</p>
@@ -48,10 +48,10 @@ export function GigsTab() {
                   <Gig key={gig._id} gig={gig} isPast={false} />
                 ))}
               </div>
-
-              <hr className="mb-4" />
             </>
           )}
+
+          {pastGigs.length !== 0 && upcomingGigs.length !== 0 && <hr className="mb-4" />}
 
           <div className="flex flex-col gap-2">
             {pastGigs.map((gig) => (
