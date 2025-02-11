@@ -2,11 +2,11 @@ import NewReport from '@/emails/NewReport';
 import { getGrossRoyaltiesForAllMembers } from '@/utils/royalties-utils';
 import { Resend } from 'resend';
 import { Expense, Split } from '@/types/types';
-import { id } from 'postcss-selector-parser';
 
 const resend = new Resend(process.env.RESEND_KEY);
 
 interface SendReportEmailsParams {
+  reportId: string;
   reportName: string;
   netRoyalties: number;
   expenses: Array<Expense>;
@@ -14,6 +14,7 @@ interface SendReportEmailsParams {
 }
 
 export async function sendReportEmails({
+  reportId,
   reportName,
   netRoyalties,
   expenses,
@@ -32,7 +33,7 @@ export async function sendReportEmails({
 
   const staticEmailTemplateOptions = {
     name: reportName,
-    url: `${process.env.CLIENT_URL}/report/${id}`,
+    url: `${process.env.CLIENT_URL}/report/${reportId}`,
   };
 
   await resend.emails.send({

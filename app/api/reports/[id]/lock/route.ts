@@ -37,8 +37,11 @@ export async function PUT(request: NextRequest, context: any) {
 
   const netRoyalties = getNetRoyalties(grossRoyalties, isThereBookingFee, expenses);
 
+  `${process.env.CLIENT_URL}/report/${id}`;
+
   if (process.env.EMAILS === 'true') {
     void sendReportEmails({
+      reportId: id,
       reportName: name,
       netRoyalties,
       expenses,
