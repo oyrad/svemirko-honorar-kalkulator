@@ -9,7 +9,7 @@ type SelectedYearStore = {
 export const useSelectedYearStore = create<SelectedYearStore>()(
   persist(
     (set) => ({
-      selectedYear: '2024',
+      selectedYear: new Date().getFullYear().toString(),
       setSelectedYear: (year) => set({ selectedYear: year }),
     }),
     {
