@@ -5,7 +5,7 @@ import { Card } from '@/ui/atoms/Card';
 
 export default function Login() {
   return (
-    <Card className="p-6">
+    <Card className="p-6 mt-4">
       <Image src="/logo.png" alt="logo" width={800} height={200} className="mb-8 p-4" priority />
       <Suspense>
         <LoginForm />

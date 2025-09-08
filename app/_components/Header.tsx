@@ -31,8 +31,7 @@ export function Header() {
     <header
       className={cn(
         'sticky top-0 pt-8 z-10 -mx-6 md:-mx-[12rem] lg:-mx-[18rem] xl:-mx-[24rem] px-6 md:px-[12rem] lg:px-[18rem] xl:px-[24rem]',
-        'bg-[linear-gradient(90deg,rgb(253,255,251)_0%,rgb(245,249,255)_100%)]',
-        'dark:bg-[rgba(0,0,0,0.95)]',
+        'bg-gradient-to-r from-[rgb(253,255,251)] to-[rgb(245,249,255)]  dark:from-[rgb(13,13,13)] dark:to-[rgb(13,13,13)]',
       )}
     >
       <div className="flex justify-between items-center mb-2">
