@@ -1,17 +1,21 @@
-import { YearSelect } from '@/app/_components/YearSelect';
-import { Tabs } from '@/app/_components/Tabs';
+'use client';
+
+import { Header } from '@/app/_components/Header';
+import { TABS, useSelectedTabQueryParam } from '@/hooks/use-selected-tab-query-param';
+import { ReportsTab } from '@/app/_components/reports/ReportsTab';
+import { GigsTab } from '@/app/_components/gigs/GigsTab';
+import { StatsTab } from '@/app/_components/stats/StatsTab';
 
 export default function Home() {
+  const [selectedTabQueryParam] = useSelectedTabQueryParam();
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <p className="uppercase font-bold font-mono text-2xl text-slate-700 dark:text-slate-100">
-          svmrk_kalkulator
-        </p>
-        <YearSelect />
-      </div>
+      <Header />
 
-      <Tabs />
+      {selectedTabQueryParam === TABS.REPORTS && <ReportsTab />}
+      {selectedTabQueryParam === TABS.GIGS && <GigsTab />}
+      {selectedTabQueryParam === TABS.STATS && <StatsTab />}
     </div>
   );
 }

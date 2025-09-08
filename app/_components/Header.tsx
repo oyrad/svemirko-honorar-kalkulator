@@ -1,14 +1,12 @@
 'use client';
 
+import { YearSelect } from '@/app/_components/YearSelect';
 import { TABS, useSelectedTabQueryParam } from '@/hooks/use-selected-tab-query-param';
-import { ReportsTab } from '@/app/_components/reports/ReportsTab';
-import { GigsTab } from '@/app/_components/gigs/GigsTab';
-import { StatsTab } from '@/app/_components/stats/StatsTab';
 import { cn } from '@/utils/cn';
 
 interface TabProps {
   title: string;
-  onClick: () => void;
+  onClick: VoidFunction;
   className?: string;
 }
 
@@ -26,12 +24,26 @@ function Tab({ title, onClick, className = '' }: TabProps) {
   );
 }
 
-export function Tabs() {
+export function Header() {
   const [selectedTabQueryParam, setSelectedTabQueryParam] = useSelectedTabQueryParam();
 
   return (
-    <>
-      <div className="bg-gray-200 grid grid-cols-3 place-items-center uppercase text-xs rounded-lg dark:bg-gray-800">
+    <header
+      className={cn(
+        'sticky top-0 pt-8 z-10 -mx-6 md:-mx-[12rem] lg:-mx-[18rem] xl:-mx-[24rem] px-6 md:px-[12rem] lg:px-[18rem] xl:px-[24rem]',
+        'bg-[linear-gradient(90deg,rgb(253,255,251)_0%,rgb(245,249,255)_100%)]',
+        'dark:bg-[rgba(0,0,0,0.95)]',
+      )}
+    >
+      <div className="flex justify-between items-center mb-2">
+        <p className="uppercase font-bold font-mono text-2xl text-slate-700 dark:text-slate-100">
+          svmrk_kalkulator
+        </p>
+
+        <YearSelect />
+      </div>
+
+      <div className="bg-gray-200 grid grid-cols-3 place-items-center uppercase text-xs rounded-lg dark:bg-gray-800 mb-4">
         <Tab
           title="Izračuni"
           onClick={() => setSelectedTabQueryParam(TABS.REPORTS)}
@@ -62,10 +74,6 @@ export function Tabs() {
       </div>
 
       <hr />
-
-      {selectedTabQueryParam === TABS.REPORTS && <ReportsTab />}
-      {selectedTabQueryParam === TABS.GIGS && <GigsTab />}
-      {selectedTabQueryParam === TABS.STATS && <StatsTab />}
-    </>
+    </header>
   );
 }
