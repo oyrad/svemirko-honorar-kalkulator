@@ -1,5 +1,6 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { Report } from '@/types/types';
+import { queryKeys } from '@/utils/query-keys';
 
 async function getReportById(id: string): Promise<Report> {
   const res = await fetch(`/api/reports/${id}`);
@@ -16,7 +17,7 @@ export function useReportByIdQuery(
   options?: Omit<UseQueryOptions<Report, Error>, 'queryKey' | 'queryFn'>,
 ) {
   return useQuery({
-    queryKey: ['reports', id],
+    queryKey: queryKeys.reportById(id),
     queryFn: () => getReportById(id),
     enabled: !!id,
     retry: false,
