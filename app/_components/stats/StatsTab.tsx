@@ -1,4 +1,4 @@
-import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
+import { useSelectedYearQueryParam } from '@/hooks/use-selected-year-query-param';
 import { useReportsQuery } from '@/hooks/use-reports-query';
 import { useGigsQuery } from '@/hooks/use-gigs-query';
 import { Loader } from '@/ui/atoms/Loader';
@@ -9,7 +9,7 @@ import { Card } from '@/ui/atoms/Card';
 import { OverviewItem } from '@/app/report/[id]/_components/OverviewItem';
 
 export function StatsTab() {
-  const { selectedYear } = useSelectedYearStore();
+  const [selectedYear] = useSelectedYearQueryParam();
 
   const { data: reports } = useReportsQuery({
     select: (data) => data.filter((report) => report.year === selectedYear && report.isLocked),

@@ -7,10 +7,10 @@ import { Loader } from '@/ui/atoms/Loader';
 import { Card } from '@/ui/atoms/Card';
 import { Button } from '@/ui/atoms/Button';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
+import { useSelectedYearQueryParam } from '@/hooks/use-selected-year-query-param';
 
 export function ReportsTab() {
-  const { selectedYear } = useSelectedYearStore();
+  const [selectedYear] = useSelectedYearQueryParam();
 
   const { data: reports, isPending } = useReportsQuery({
     select: (data) => data.filter((report) => report.year === selectedYear),

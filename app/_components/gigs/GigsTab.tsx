@@ -2,11 +2,11 @@ import { useGigsQuery } from '@/hooks/use-gigs-query';
 import { Loader } from '@/ui/atoms/Loader';
 import Link from 'next/link';
 import { Gig } from '@/app/_components/gigs/Gig';
-import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
+import { useSelectedYearQueryParam } from '@/hooks/use-selected-year-query-param';
 import { Card } from '@/ui/atoms/Card';
 
 export function GigsTab() {
-  const { selectedYear } = useSelectedYearStore();
+  const [selectedYear] = useSelectedYearQueryParam();
 
   const { data: gigs, isPending } = useGigsQuery({
     select: (data) => data.filter((gig) => gig.date.split('-')[0] === selectedYear),

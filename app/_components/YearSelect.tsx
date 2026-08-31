@@ -1,6 +1,6 @@
 'use client';
 
-import { useSelectedYearStore } from '@/app/stores/use-selected-year-store';
+import { useSelectedYearQueryParam } from '@/hooks/use-selected-year-query-param';
 import { cn } from '@/utils/cn';
 
 interface YearSelectProps {
@@ -8,7 +8,7 @@ interface YearSelectProps {
 }
 
 export function YearSelect({ className = '' }: YearSelectProps) {
-  const { selectedYear, setSelectedYear } = useSelectedYearStore();
+  const [selectedYear, setSelectedYear] = useSelectedYearQueryParam();
 
   return (
     <select
